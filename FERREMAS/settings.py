@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
+from pathlib import Path, os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,13 +31,22 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core.apps.CoreConfig',
+    'colorfield',
+    'crispy_forms',
+    'rest_framework',
+    'paypalcheckoutsdk',
 ]
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,13 +82,25 @@ WSGI_APPLICATION = 'FERREMAS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+"""
 
+DATABASES = {
+    'default' : {
+        'ENGINE':'django.db.backends.mysql',
+        'NAME':'FERREMAS',
+        'HOST':'localhost',
+        'PORT':'3306',
+        'USER':'root',
+        'PASSWORD':'',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -103,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'UTC'
 
@@ -118,3 +139,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CONFIGURANDO LA CARPETA PARA LAS IMAGENES
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# CONFIGURA EL SISTEMA DE MENSAJERIA DJANGO
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
+
+#CONFIGURANDO LAS RUTAS DEL LOGIN
+LOGIN_REDIRECT_URL='/'
+LOGOUT_REDIRECT_URL='/'
