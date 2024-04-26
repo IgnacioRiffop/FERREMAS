@@ -11,5 +11,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     #RUTAS
     path('', index, name="index"),
+    path('nosotros', nosotros, name="nosotros"),
   
 ]

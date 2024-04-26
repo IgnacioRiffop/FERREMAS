@@ -1,0 +1,101 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+
+<style>
+
+    .container {
+        display: flex;
+        align-items: flex-start; /* Alinear elementos al inicio */
+        justify-content: space-between;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .image {
+        flex: 0 0 30%; /* 30% width */
+        margin-right: 20px; /* Espaciado entre imagen y texto */
+    }
+
+    .image img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    .text {
+        flex: 0 0 70%; /* 70% width */
+    }
+
+    h1 {
+        font-size: 2em;
+        color: #333;
+    }
+
+    p {
+        font-size: 1.2em;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 10px; /* Separación inferior entre párrafos */
+    }
+
+    .btn {
+        font-size: 1.2em;
+        padding: 15px 20px; /* Aumentar padding para que el botón esté más abajo */
+        border-radius: 8px;
+        border: 2px solid #333;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-top: 10px; /* Espacio superior para separar el botón */
+    }
+
+    .btn:hover {
+        background-color: #333;
+        color: #fff;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+
+        .image {
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+
+        .text {
+            flex: 0 0 100%;
+        }
+    }
+</style>
+
+
+
+<div class="container">
+    <div class="image">
+        <img src="https://th.bing.com/th/id/OIP.06jL_LFtARcwHtpHd4prGwHaK_?rs=1&pid=ImgDetMain" alt="Imagen Sobre Nosotros">
+    </div>
+    <div class="text">
+        <h1><strong>Sobre Nosotros</strong></h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae et magnam optio, qui quis necessitatibus id debitis, minima rerum voluptatem aliquid ad hic. Vel nesciunt similique quas ab harum rem dolorum praesentium nemo accusamus ducimus! Fugiat libero pariatur recusandae quisquam ab omnis sit ex, ullam aliquid deleniti! Error cumque quis enim architecto dignissimos animi, adipisci voluptate porro optio harum sit?</p>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente aut est possimus repellat explicabo iste a fugiat labore. Libero totam, dolor molestiae officia temporibus debitis quibusdam accusamus atque mollitia! Id iste veritatis atque provident voluptates sed repudiandae minus, quidem porro dignissimos numquam non eveniet maiores, dolorum aut asperiores eos. Recusandae modi voluptate fuga consectetur ab doloribus enim molestias eligendi laboriosam</p>
+        <button type="button" class="btn btn-outline-dark">Comprar</button>
+    </div>
+</div>
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}
