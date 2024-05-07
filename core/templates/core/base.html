@@ -44,6 +44,15 @@
         <a class="nav-link" href="{% url 'nosotros' %}">Sobre nosotros</a>
         <a class="nav-link" href="#">Pricing</a>
         <a class="nav-link disabled" href="#">Disabled</a>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesíon</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Iniciar Sesíon</a>
+        </li>
+        {% endif %}
       </div>
     </div>
   </div>
