@@ -8,6 +8,58 @@
 <!-- INICIO CONTENIDO-->
 {% block contenido %}
 
+<div class="container mt-4 mb-4 rounded text-center" style="background-color: rgb(232, 232, 232);">
+  <br>
+  <h1 style="color: rgb(60, 60, 60);">¡Te da la bienvenida FERREMAS!</h1>
+  <h4 style="color: rgb(60, 60, 60);">Encuentra aquí la variedad de productos que estás buscando.</h4>
+  <br>
+</div>
+
+
+<!-- CARRUSEL -->
+<div class="container mt-4 mb-4">
+  <section class="carrusel">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'core/img/index.png' %}" class="d-block w-100 rounded" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'core/img/index2.jpg' %}" class="d-block w-100 rounded" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'core/img/index3.jpg' %}" class="d-block w-100 rounded" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>  
+</div>
+<!-- FIN CARRUSEL -->
+
+
+<div class="container mt-4 mb-4 rounded text-center">
+  <button type="button" class="btn btn-lg btn-outline-dark">Comprar</button>
+</div>
+
+
+
+
+
+
+
 {% endblock %}
 <!-- FIN CONTENIDO -->
 {% block js %}
