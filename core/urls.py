@@ -12,5 +12,6 @@ urlpatterns = [
     #RUTAS
     path('', index, name="index"),
     path('nosotros', nosotros, name="nosotros"),
+    path('registro/', registro, name="registro"),
   
 ]
