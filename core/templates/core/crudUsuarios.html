@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+
+<div class="container mt-4 mb-4 rounded text-center" style="background-color: rgb(232, 232, 232);">
+  <br>
+  <h1 style="color: rgb(60, 60, 60);">Usuarios</h1>
+  <br>
+</div>
+
+<div class="container mt-4 mb-4 rounded text-center">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <h5 class="card-header">Clientes</h5>
+                <div class="card-body">
+                <a href="{% url 'crudClientes' %}" class="btn btn-primary">Ver clientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <h5 class="card-header">Vendedores</h5>
+                <div class="card-body">
+                <a href="#" class="btn btn-primary">Ver Vendedores</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <h5 class="card-header">Bodegueros</h5>
+                <div class="card-body">
+                <a href="#" class="btn btn-primary">Ver Bodegueros</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <h5 class="card-header">Contadores</h5>
+                <div class="card-body">
+                <a href="#" class="btn btn-primary">Ver Contadores</a>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

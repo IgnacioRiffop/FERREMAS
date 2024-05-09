@@ -12,6 +12,15 @@ def index(request):
 def nosotros(request):
     return render(request,'core/nosotros.html')
 
+def administracion(request):
+    return render(request,'core/administracion.html')
+
+def crudUsuarios(request):
+    return render(request,'core/crudUsuarios.html')
+
+def crudClientes(request):
+    return render(request,'core/crudClientes.html')
+
 def registro(request):
     data = {
         'form': RegistroForm()
