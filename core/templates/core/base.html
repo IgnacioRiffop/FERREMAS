@@ -41,9 +41,6 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="{% url 'nosotros' %}">Sobre nosotros</a>
-        <a class="nav-link" href="#">Pricing</a>
-        <a class="nav-link disabled" href="#">Disabled</a>
         {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'logout' %}">Cerrar Sesíon</a>
@@ -53,6 +50,11 @@
           <a class="nav-link" href="{% url 'login' %}">Iniciar Sesíon</a>
         </li>
         {% endif %}
+        <a class="nav-link" href="{% url 'producto' %}">Productos</a>
+        <a class="nav-link" href="{% url 'carrito' %}">Carrito</a>
+        <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+        <a class="nav-link" href="{% url 'perfil' %}">Perfil</a>
+        <a class="nav-link" href="{% url 'nosotros' %}">Sobre nosotros</a>
       </div>
     </div>
   </div>

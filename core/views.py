@@ -38,3 +38,21 @@ def registro(request):
             return redirect(to="index")
         data["form"]=formulario
     return render(request, 'core/registro.html', data)
+
+def contacto(request):
+    return render(request,'core/contacto.html')
+
+def perfil(request):
+    return render(request,'core/perfil.html')
+
+def formularioDespacho(request):
+    return render(request,'core/formularioDespacho.html')
+
+def producto(request):
+    return render(request,'core/producto.html')
+
+def detalleProducto(request):
+    return render(request,'core/detalleProducto.html')
+
+def carrito(request):
+    return render(request,'core/carrito.html')

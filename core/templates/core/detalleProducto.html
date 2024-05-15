@@ -1,0 +1,53 @@
+
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+
+<div class="text-center">
+    <h5 class="my-3 display-4">
+      ¡Aprovecha!<br />
+      <h1><span class="text-primary">¡En todas tus compras el envío es gratis!</span></h1>
+    </h5>
+  </div>
+
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="row producto">
+          <div class="card shadow-sm" style="width: auto;">
+            <img src="https://herramientas-cl.s3.us-east-2.amazonaws.com/imagenes/productos/1306275111_93.jpg" class="img-fluid" width="500" height="500" >
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-sm-6 my-5">
+          <div class="col-6">
+            <h1>Martillo de thor</h1>
+            <p class="fs-5 my-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+            <p class="fs-6 my-1"></p>
+            <p class="fs-6 my-1"></p>
+            <p class="fs-4 fw-bold"><strong>$5.990</strong></p>
+          </div>
+          <div class="col-12">
+            <div class="col-12">
+              <button type="button" class="btn btn-outline-dark">Agregar al carrito</button>
+            </div>
+          </div>
+      </div>
+    </div>
+   </div>
+
+
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

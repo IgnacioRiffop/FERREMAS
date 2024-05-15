@@ -1,0 +1,233 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #eee;
+    }
+
+    .container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card2 {
+        width: 80%;
+        max-width: 1200px;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .row2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 30px;
+    }
+
+    .products2 {
+        flex: 1;
+        margin-right: 20px;
+    }
+
+    .product2 {
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .product img {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+        margin-right: 20px;
+    }
+
+    .product-details2 {
+        flex: 1;
+    }
+
+    .subtotal2 {
+        margin-top: 20px;
+    }
+
+    .subtotal p {
+        margin: 0;
+    }
+
+    .checkout-btn {
+        width: 100%;
+        padding: 15px;
+        border: 15%;
+        color: #000000;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .checkout-btn:hover {
+        background-color: #b3bcc7;
+    }
+
+    .card-details2 {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .card-details2 h2 {
+        margin-top: 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .product-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+    }
+
+    .quantity-input {
+        width: 50px;
+    }
+
+    .delete-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .delete-btn:hover {
+        color: red;
+    }
+
+    .checkout-btn-wrapper {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .checkout-btn-wrapper .checkout-btn {
+        width: calc(50% - 10px);
+    }
+</style>
+</head>
+<body>
+
+<section class="container">
+<div class="card2">
+    <div class="row2">
+        <div class="products2">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th></th>
+                        <th>Cantidad</th>
+                        <th>Precio Unidad</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="https://www.ferrisariato.com/wp-content/uploads/2020/07/40312909_01-768x768.jpg" alt="Producto 1" class="product-img">
+                            
+                        </td>
+                        <td>
+                            <span>Bauker</span>
+                            <p>Martilo carpintero con mango de fibra</p>
+                            <p>SKU: 91021</p>
+                        </td>
+                        <td>
+                            <input type="number" class="quantity-input" value="6" min="1">
+                        </td>
+                        <td>$1.490</td>
+                        <td>
+                            <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <!-- Otros productos aquí -->
+                    <tr>
+                        <td>
+                            <img src="https://http2.mlstatic.com/kit-taladro-inalambrico-recargable-y-controlador-li-ion-20v-D_NQ_NP_612120-MLM30000431171_042019-F.jpg" alt="Producto 1" class="product-img">
+                            
+                        </td>
+                        <td>
+                            <span>DeWalt</span>
+                            <p>Taladro</p>
+                            <p>SKU: 91031</p>
+                        </td>
+                        <td>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </td>
+                        <td>$14.490</td>
+                        <td>
+                            <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="details2">
+            <div class="card-details2">
+                <h2>Carrito de compras</h2>
+                <div class="subtotal2">
+                    <div class="row2">
+                        <p>Martillo carpintero x6</p>
+                        <strong>$3.490</strong>
+                    </div>
+                    <div class="row2">
+                        <p>Taladro x1</p>
+                        <strong>$14.490</strong>
+                    </div>
+                    <div class="row2">
+                        <p>Total</p>
+                        <strong>$17.980</strong>
+                    </div>  
+                </div>
+                <div class="checkout-btn-wrapper">
+                    <button class="checkout-btn">Retiro</button >
+                    <button class="checkout-btn">Despacho</button>
+                </div>
+                <div class="checkout-btn">
+                    
+                </div>
+                <button class="checkout-btn">Pagar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

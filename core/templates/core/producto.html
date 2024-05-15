@@ -1,0 +1,125 @@
+
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .productos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .producto {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: 250px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .producto:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .producto img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ccc;
+        }
+        .producto-info {
+            padding: 15px;
+        }
+        .producto h3 {
+            margin-top: 0;
+        }
+        .producto p {
+            margin: 10px 0;
+        }
+        .btn-ver-mas {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-ver-mas:hover {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+<section class="productos">
+    <div class="producto">
+        <img src="https://herramientas-cl.s3.us-east-2.amazonaws.com/imagenes/productos/1306275111_93.jpg" alt="Producto 1">
+        <div class="producto-info">
+            <h3>Martillo de thor</h3>
+            <p>Precio: $4.990</p>
+            <a href="{% url 'detalleProducto' %}" class="btn btn-ver-mas">Ver más</a>
+        </div>
+    </div>
+    <div class="producto">
+        <img src="https://herramientas-cl.s3.us-east-2.amazonaws.com/imagenes/productos/3004064806_67.jpg" alt="Producto 2">
+        <div class="producto-info">
+            <h3>Tornillo</h3>
+            <p>Precio: $3.490</p>
+            <button class="btn-ver-mas">Ver más</button>
+        </div>
+    </div>
+    <div class="producto">
+        <img src="https://herramientas-cl.s3.us-east-2.amazonaws.com/imagenes/productos/1211081508_80.jpg" alt="Producto 2">
+        <div class="producto-info">
+            <h3>Destornillador</h3>
+            <p>Precio: $1.990</p>
+            <button class="btn-ver-mas">Ver más</button>
+        </div>
+    </div>
+    <div class="producto">
+        <img src="https://herramientas-cl.s3.us-east-2.amazonaws.com/imagenes/productos/1203593204_30.jpg" alt="Producto 2">
+        <div class="producto-info">
+            <h3>Taladro</h3>
+            <p>Precio: $29.990</p>
+            <button class="btn-ver-mas">Ver más</button>
+        </div>
+    </div>
+    <div class="producto">
+        <img src="https://herramientas-cl.s3.us-east-2.amazonaws.com/imagenes/productos/Tht281005.png" alt="Producto 2">
+        <div class="producto-info">
+            <h3>Alicate</h3>
+            <p>Precio: $8.590</p>
+            <button class="btn-ver-mas">Ver más</button>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

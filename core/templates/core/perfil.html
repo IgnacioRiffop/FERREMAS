@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+
+<div class="container">
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col-8 my-5">
+        <div class="card" style="width: 25rem;">
+            <div class="card-body">
+              <h1 class="card-title text-center">Perfil</h1>
+              <ul class="list-group">
+                <li class="list-group-item">Nombre: Fabian Bravo</li>
+                <li class="list-group-item">Correo: fabiangay@gmai.com</li>
+                <li class="list-group-item">Telefono: +56 9 456 654</li>
+                <li class="list-group-item">Fecha Nacimiento: 24/12/2004</li>
+              </ul>
+          </div>
+        </div>
+      <div class="col">
+        
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

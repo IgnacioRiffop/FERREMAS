@@ -16,5 +16,11 @@ urlpatterns = [
     path('administracion/', administracion, name="administracion"),
     path('crudUsuarios/', crudUsuarios, name="crudUsuarios"),
     path('crudClientes/', crudClientes, name="crudClientes"),
+    path('contacto', contacto, name="contacto"),
+    path('perfil', perfil, name="perfil"),
+    path('formularioDespacho', formularioDespacho, name="formularioDespacho"),
+    path('producto', producto, name="producto"),
+    path('detalleProducto', detalleProducto, name="detalleProducto"),
+    path('carrito', carrito, name="carrito"),
 
 ]
