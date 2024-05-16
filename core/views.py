@@ -60,15 +60,28 @@ def carrito(request):
 
 
 #views del API
-"""
-def peticion_get():
-    productos = requests.get("http://127.0.0.1:5000/productos")
-    print(productos)
-    return productos
 
+def peticion_get(request):
+    url = "http://127.0.0.1:5000/productos"
+    productos = requests.get(url)
+    for p in productos.json():
+        print(p['id_producto'])
+    return render(request,'core/index.html')
+
+def peticion_get_producto(request, id_producto):
+    url = f"http://127.0.0.1:5000/productos/{id_producto}"
+    producto = requests.get(url)
+    producto = producto.json()
+    print(producto['nombre'])  # Puedes acceder a los atributos del producto si es necesario
+    return render(request, 'core/index.html')
+
+
+
+
+"""
 def peticion_post():
     producto = {
         "id_producto" : 4
     }
-    requests.get("http://127.0.0.1:5000/productos", producto)
+    requests.post("http://127.0.0.1:5000/productos", producto)
 """
