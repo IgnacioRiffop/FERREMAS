@@ -3,6 +3,7 @@ from .models import *
 from .forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User,Group
+import requests
 
 
 # Create your views here.
@@ -56,3 +57,18 @@ def detalleProducto(request):
 
 def carrito(request):
     return render(request,'core/carrito.html')
+
+
+#views del API
+"""
+def peticion_get():
+    productos = requests.get("http://127.0.0.1:5000/productos")
+    print(productos)
+    return productos
+
+def peticion_post():
+    producto = {
+        "id_producto" : 4
+    }
+    requests.get("http://127.0.0.1:5000/productos", producto)
+"""
