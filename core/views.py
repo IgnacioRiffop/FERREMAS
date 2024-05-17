@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User,Group
 import json
 import requests
+from django.core.paginator import Paginator
 
 
 
@@ -52,7 +53,25 @@ def formularioDespacho(request):
     return render(request,'core/formularioDespacho.html')
 
 def producto(request):
-    return render(request,'core/producto.html')
+    url = "http://127.0.0.1:5000/productos"
+    productos = requests.get(url).json()
+
+    page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
+    
+    try:
+        paginator = Paginator(productos, 9)
+        productos = paginator.page(page)
+    except:
+        raise Http404
+
+    data = {
+        'listado': productos,
+        'paginator': paginator
+    }
+    
+    # Renderiza el template 'productos.html' y pasa la lista de productos como contexto
+    return render(request, 'core/producto.html', data)
+
 
 def detalleProducto(request):
     return render(request,'core/detalleProducto.html')
