@@ -3,7 +3,9 @@ from .models import *
 from .forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User,Group
+import json
 import requests
+
 
 
 # Create your views here.
@@ -76,12 +78,73 @@ def peticion_get_producto(request, id_producto):
     return render(request, 'core/index.html')
 
 
-
-
-"""
-def peticion_post():
+def peticion_post(request):
     producto = {
-        "id_producto" : 4
+        "id_producto": 4,
+        "nombre": "Pintura",
+        "id_marca": 1,
+        "nombre_marca": "bosch",
+        "precio": 10000,
+        "stock": 6
     }
-    requests.post("http://127.0.0.1:5000/productos", producto)
-"""
+    url = "http://127.0.0.1:5000/productos"
+    headers = {'Content-Type': 'application/json'}  # Especifica el tipo de contenido JSON
+    
+    # Convierte el diccionario producto a JSON y realiza la solicitud POST
+    response = requests.post(url, data=json.dumps(producto), headers=headers)
+    
+    return render(request, 'core/index.html')
+
+
+def peticion_put(request, id_producto):
+    # Datos del producto actualizado
+    producto_actualizado = {
+        "nombre": "Pintura metalica",
+        "id_marca": 1,
+        "nombre_marca": "bosch",
+        "precio": 15000,
+        "stock": 10
+    }
+    
+    url = f"http://127.0.0.1:5000/productos/{id_producto}"
+    headers = {'Content-Type': 'application/json'}  # Especifica el tipo de contenido JSON
+    
+    # Convierte el diccionario producto_actualizado a JSON y realiza la solicitud PUT
+    response = requests.put(url, data=json.dumps(producto_actualizado), headers=headers)
+    
+    return render(request, 'core/index.html')
+
+
+def peticion_delete(request, id_producto):
+    url = f"http://127.0.0.1:5000/productos/{id_producto}"
+    
+    # Realiza la solicitud DELETE
+    response = requests.delete(url)
+    
+    if response.status_code == 200:
+        # Si la solicitud DELETE se realizó con éxito, muestra un mensaje de éxito
+        print("Producto eliminado correctamente")
+    else:
+        # Si la solicitud DELETE no se realizó con éxito, muestra un mensaje de error
+        print("Error al eliminar el producto")
+    
+    return render(request, 'core/index.html')
+
+
+def peticion_patch(request, id_producto):
+    # Datos del producto actualizado
+    producto_actualizado = {
+        "nombre": "Escalera",
+        "id_marca": 1,
+        "nombre_marca": "bosch",
+        "precio": 200000,
+        "stock": 8
+    }
+    
+    url = f"http://127.0.0.1:5000/productos/{id_producto}"
+    headers = {'Content-Type': 'application/json'}  # Especifica el tipo de contenido JSON
+    
+    # Convierte el diccionario producto_actualizado a JSON y realiza la solicitud PATCH
+    response = requests.patch(url, data=json.dumps(producto_actualizado), headers=headers)
+    
+    return render(request, 'core/index.html')

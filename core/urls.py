@@ -24,6 +24,9 @@ urlpatterns = [
     path('carrito', carrito, name="carrito"),
     path('peticion_get', peticion_get, name="peticion_get"),
     path('peticion_get_producto/<id_producto>', peticion_get_producto, name="peticion_get_producto"),
-
+    path('peticion_post', peticion_post, name="peticion_post"),
+    path('peticion_put/<id_producto>', peticion_put, name="peticion_put"),
+    path('peticion_delete/<id_producto>', peticion_delete, name="peticion_delete"),
+    path('peticion_patch/<id_producto>', peticion_patch, name="peticion_patch"),
 
 ]

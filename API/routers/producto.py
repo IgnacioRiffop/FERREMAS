@@ -116,7 +116,7 @@ async def delete_producto(id_producto:int):
 
 
 @router.patch("/productos/{id_producto}")
-async def path_producto(id_producto:int, producto:Producto):
+async def patch_producto(id_producto:int, producto:Producto):
     try:
         cursor = cone.cursor()
         out = cursor.var(int)

@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from routers.producto import router as ruta_libros
+from routers.producto import router as ruta_productos
 
 app = FastAPI()
-app.include_router(ruta_libros)
+app.include_router(ruta_productos)
 
 @app.get("/")
 def mensaje_inicial():
-    return {"mensaje": "hola mundo"}
+    return {"mensaje": "API PRODUCTOS FERREMAS"}
