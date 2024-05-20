@@ -56,6 +56,9 @@ def producto(request):
     url = "http://127.0.0.1:5000/productos"
     productos = requests.get(url).json()
 
+    respuesta = requests.get('https://mindicador.cl/api/dolar').json()
+    valor_usd = respuesta['serie'][0]['valor']
+
     page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
     
     try:
@@ -66,7 +69,8 @@ def producto(request):
 
     data = {
         'listado': productos,
-        'paginator': paginator
+        'paginator': paginator,
+        'valorusd' : valor_usd
     }
     
     # Renderiza el template 'productos.html' y pasa la lista de productos como contexto
