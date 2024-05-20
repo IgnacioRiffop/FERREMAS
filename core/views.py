@@ -79,9 +79,47 @@ def detalleProducto(request):
 def carrito(request):
     return render(request,'core/carrito.html')
 
+def datosTransferencia(request):
+    return render(request,'core/datosTransferencia.html')
+
+def misPedidos(request):
+    return render(request,'core/misPedidos.html')
+
+def bodega(request):
+    return render(request,'core/bodega.html')
+
+def formularioDespacho(request):
+    return render(request,'core/formularioDespacho.html')
+
+
+
+
+#CRUD
+     #AGREGAR
+def agregarBodeguero(request):
+    return render(request,'core/agregarBodeguero.html')
+def agregarContador(request):
+    return render(request,'core/agregarContador.html')
+def agregarProducto(request):
+    return render(request,'core/agregarProducto.html')
+def agregarVendedor(request):
+    return render(request,'core/agregarVendedor.html')
+
+
+    #MODIFICAR
+def modificarBodeguero(request):
+    return render(request,'core/modificarBodeguero.html')
+def modificarContador(request):
+    return render(request,'core/modificarContador.html')
+def modificarProducto(request):
+    return render(request,'core/modificarProducto.html')
+def modificarVendedor(request):
+    return render(request,'core/modificarVendedor.html')
+
+
+
 
 #views del API
-
 def peticion_get(request):
     url = "http://127.0.0.1:5000/productos"
     productos = requests.get(url)

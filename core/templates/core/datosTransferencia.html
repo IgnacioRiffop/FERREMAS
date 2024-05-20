@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+
+<div class="container">
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col-8 my-5">
+        <div class="card" style="width: 25rem;">
+            <div class="card-body">
+              <h1 class="card-title text-center">Datos Transferencia</h1>
+              <ul class="list-group">
+                <li class="list-group-item">Nombre: Ignacio Galvez</li>
+                <li class="list-group-item">Correo: Ignasioooooooo@gmai.com</li>
+                <li class="list-group-item">Rut empresa: 26.345.654-9</li>
+                <li class="list-group-item">Cuenta: Corriente</li>
+              </ul>
+          </div>
+        </div>
+      <div class="col">
+
+      </div>
+    </div>
+
+
+  </div>
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

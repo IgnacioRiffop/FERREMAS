@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<body>
+    <div style="text-align: center;">
+        <h1>Bodega</h1>
+        
+        <h2>Productos</h2>
+        <table border="1" style="margin: 0 auto; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="padding: 10px 20px;">ID del Producto</th>
+                    <th style="padding: 10px 20px;">Nombre del Producto</th>
+                    <th style="padding: 10px 20px;">Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 10px 20px;">SKU: 91898</td>
+                    <td style="padding: 10px 20px;">Martillos A</td>
+                    <td style="padding: 10px 20px;">16</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px 20px;">SKU: 9148</td>
+                    <td style="padding: 10px 20px;">Clavos</td>
+                    <td style="padding: 10px 20px;">67</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px 20px;">SKU: 91432</td>
+                    <td style="padding: 10px 20px;">Serrucho Electrico</td>
+                    <td style="padding: 10px 20px;">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

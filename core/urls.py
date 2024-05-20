@@ -28,5 +28,21 @@ urlpatterns = [
     path('peticion_put/<id_producto>', peticion_put, name="peticion_put"),
     path('peticion_delete/<id_producto>', peticion_delete, name="peticion_delete"),
     path('peticion_patch/<id_producto>', peticion_patch, name="peticion_patch"),
+    path('bodega', bodega, name="bodega"),
+    path('datosTransferencia', datosTransferencia, name="datosTransferencia"),
+
+
+    #CRUD
+    #AGREGAR
+    path('agregarBodeguero', agregarBodeguero, name="agregarBodeguero"),
+    path('agregarContador', agregarContador, name="agregarContador"),
+    path('agregarProducto', agregarProducto, name="agregarProducto"),
+    path('agregarVendedor', agregarVendedor, name="agregarVendedor"),
+    
+    #MODIFICAR
+    path('modificarBodeguero', modificarBodeguero, name="modificarBodeguero"),
+    path('modificarContador', modificarContador, name="modificarContador"),
+    path('modificarProducto', modificarProducto, name="modificarProducto"),
+    path('modificarVendedor', modificarVendedor, name="modificarVendedor"),
 
 ]

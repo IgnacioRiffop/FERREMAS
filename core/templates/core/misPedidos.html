@@ -1,0 +1,59 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+
+<body>
+    <div style="text-align: center;">
+        <h1>Mis Pedidos</h1>
+        <table border="1" style="margin: 0 auto; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="padding: 10px 20px;">ID del Pedido</th>
+                    <th style="padding: 10px 20px;">Fecha</th>
+                    <th style="padding: 10px 20px;">Productos</th>
+                    <th style="padding: 10px 20px;">Total</th>
+                    <th style="padding: 10px 20px;">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 10px 20px;">SKU: 91021</td>
+                    <td style="padding: 10px 20px;">2024-05-01</td>
+                    <td style="padding: 10px 20px;">
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li>Martillo de thor</li>
+                            <li>Serrucho Electrico</li>
+                        </ul>
+                    </td>
+                    <td style="padding: 10px 20px;">$96.500</td>
+                    <td style="padding: 10px 20px;">Enviado</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px 20px;">SKU: 91898</td>
+                    <td style="padding: 10px 20px;">2024-05-02</td>
+                    <td style="padding: 10px 20px;">
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li>Alicate</li>
+                        </ul>
+                    </td>
+                    <td style="padding: 10px 20px;">$5.590</td>
+                    <td style="padding: 10px 20px;">Pendiente</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}
