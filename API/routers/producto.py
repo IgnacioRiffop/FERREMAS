@@ -28,6 +28,7 @@ async def get_productos():
                 json['nombre_marca'] = fila[3]
                 json['precio'] = fila[4]
                 json['stock'] = fila[5]
+                json['imagen'] = fila[6]
                 lista.append(json)
             return lista
     except Exception as e:
@@ -53,6 +54,7 @@ async def get_producto(id_producto:int):
                     json['nombre_marca'] = fila[3]
                     json['precio'] = fila[4]
                     json['stock'] = fila[5]
+                    json['imagen'] = fila[6]
                     break
             return json
     except Exception as e:
@@ -71,6 +73,7 @@ async def post_producto(producto: Producto):
                                           producto.id_marca,
                                           producto.precio,
                                           producto.stock,
+                                          producto.imagen,
                                           out])
         if out.getvalue()==1:
             cone.commit()
@@ -91,6 +94,7 @@ async def put_producto(id_producto:int, producto:Producto):
                                           producto.id_marca,
                                           producto.precio,
                                           producto.stock,
+                                          producto.imagen,
                                           out])
         if out.getvalue()==1:
             cone.commit()
@@ -125,6 +129,7 @@ async def patch_producto(id_producto:int, producto:Producto):
                                           producto.id_marca,
                                           producto.precio,
                                           producto.stock,
+                                          producto.imagen,
                                           out])
         if out.getvalue()==1:
             cone.commit()

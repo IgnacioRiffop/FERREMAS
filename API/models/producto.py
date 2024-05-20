@@ -10,3 +10,4 @@ class Producto(BaseModel):
     nombre_marca: Optional[str]
     precio: int = Field(gt=0)
     stock: int = Field(gt=0)
+    imagen: Optional[str]
