@@ -60,7 +60,7 @@ def producto(request):
     valor_usd = respuesta['serie'][0]['valor']
 
     for producto in productos:
-        producto['preciousd'] = producto['precio']/valor_usd
+        producto['preciousd'] = round(producto['precio'] / valor_usd, 2)
 
     page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
     
@@ -80,8 +80,50 @@ def producto(request):
     return render(request, 'core/producto.html', data)
 
 
-def detalleProducto(request):
-    return render(request,'core/detalleProducto.html')
+def detalleProducto(request,id_producto):
+    url = f"http://127.0.0.1:5000/productos/{id_producto}"
+    producto = requests.get(url)
+    producto = producto.json()
+
+    respuesta = requests.get('https://mindicador.cl/api/dolar').json()
+    valor_usd = respuesta['serie'][0]['valor']
+    producto['preciousd'] = round(producto['precio'] / valor_usd, 2)
+
+    try:
+        cliente = User.objects.get(username=request.user.username)
+    except User.DoesNotExist:
+        cliente = None
+    
+    data = {
+        'producto': producto,
+        'usuario': request.user.username,
+        'form' : CantidadForm(initial={'cantidad': 1})
+    }
+    """
+    if request.method == 'POST':
+        formulario = CantidadForm(request.POST, files=request.FILES) # OBTIENE LA DATA DEL FORMULARIO
+        if formulario.is_valid():
+            try:
+                CarritoCP = Carrito.objects.get(cliente=cliente,producto=producto,vigente=True)
+                cantidadstock = CarritoCP.cantidad+producto.stock
+                CarritoCP.cantidad = CarritoCP.cantidad + int(formulario.data["cantidad"])
+                if CarritoCP.cantidad > cantidadstock:
+                    CarritoCP.cantidad = cantidadstock
+                    CarritoCP.save()
+                    producto.stock = 0
+                else:
+                    CarritoCP.save()
+                    producto.stock = producto.stock-int(formulario.data["cantidad"])
+            except Carrito.DoesNotExist:
+                if int(formulario.data["cantidad"]) > producto.stock:
+                    carrito = Carrito.objects.create(cliente=cliente,producto=producto,cantidad=producto.stock,vigente=True)
+                    producto.stock = 0
+                else:
+                    carrito = Carrito.objects.create(cliente=cliente,producto=producto,cantidad=int(formulario.data["cantidad"]),vigente=True)
+                    producto.stock = producto.stock-int(formulario.data["cantidad"])
+    producto.save()
+    """
+    return render(request,'core/detalleProducto.html', data)
 
 def carrito(request):
     return render(request,'core/carrito.html')

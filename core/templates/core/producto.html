@@ -36,11 +36,11 @@
                 <img src="{% static 'core/img/'|add:prod.imagen %}" class="responsive" width="100%" height="225">
                 <div class="card-body">
                   <p class="card-text">{{ prod.nombre }}</p>
-                  <p class="card-text fw-bold">${{ prod.precio }}</p>
-                  <p class="card-text fw-bold">${{ prod.preciousd }}</p>
+                  <p class="card-text fw-bold">${{ prod.precio }} CLP</p>
+                  <p class="card-text fw-bold">${{ prod.preciousd }} USD</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <a href="" class="btn btn-verde">Ver Más</a>
+                      <a href="{% url 'detalleProducto' prod.id_producto %}" class="btn btn-lg btn-outline-dark">Ver Más</a>
                     </div>
                     <small class="text-muted">Stock: {{ prod.stock }}</small>
                   </div>
