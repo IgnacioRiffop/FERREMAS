@@ -6,7 +6,8 @@ CREATE TABLE producto(
     nombre VARCHAR2(100) NOT NULL,
     id_marca NUMBER NOT NULL,
     precio NUMBER NOT NULL,
-    stock NUMBER NOT NULL
+    stock NUMBER NOT NULL,
+    imagen VARCHAR2(255)
 );
 
 CREATE TABLE marca(
@@ -22,9 +23,18 @@ ALTER TABLE producto ADD(
 INSERT INTO marca VALUES(1,'Bosch');
 
 --insertar 3 libros:
-INSERT INTO producto VALUES(1,'martillo',1,30000,100);
-INSERT INTO producto VALUES(2,'llave',1,20000,12);
-INSERT INTO producto VALUES(3,'taladro',1,30000,30);
+INSERT INTO producto VALUES(1,'Martillo',1,30000,100,'martillo.jpg');
+INSERT INTO producto VALUES(2,'LLave',1,20000,12,'llave.jpg');
+INSERT INTO producto VALUES(3,'Taladro Percutor',1,30000,30,'taladro.jpg');
+INSERT INTO producto VALUES(4,'Caja de Herramientas',1,30000,30,'caja.jpg');
+INSERT INTO producto VALUES(5,'Escalera',1,30000,30,'escalera.png');
+INSERT INTO producto VALUES(6,'Esmeril Angular',1,30000,30,'esmeril.jpg');
+INSERT INTO producto VALUES(7,'Pala Punta Huevo',1,30000,30,'pala.jpg');
+INSERT INTO producto VALUES(8,'Sierra Circular',1,30000,30,'sierra.jpg');
+INSERT INTO producto VALUES(9,'Set de brocas',1,30000,30,'brocas.jpg');
+INSERT INTO producto VALUES(10,'Escuadra carpintero',1,30000,30,'escuadra.jpg');
+INSERT INTO producto VALUES(11,'LLave punta corona',1,30000,30,'llavepc.jpg');
+INSERT INTO producto VALUES(12,'Atornillador',1,30000,30,'atornillador.jpg');
 
 COMMIT;
 /
@@ -37,7 +47,8 @@ BEGIN
                            p.id_marca,
                            (SELECT nombre_marca FROM marca m WHERE p.id_marca = m.id_marca) AS marca,
                            p.precio,
-                           p.stock
+                           p.stock,
+                           p.imagen
                       FROM producto p;
     p_out := 1;
     
@@ -54,7 +65,8 @@ BEGIN
                            p.id_marca,
                            (SELECT nombre_marca FROM marca m WHERE p.id_marca = m.id_marca) AS marca,
                            p.precio,
-                           p.stock
+                           p.stock,
+                           p.imagen
                       FROM producto p
                       WHERE p.id_producto = p_id;
     p_out := 1;
@@ -65,11 +77,11 @@ BEGIN
 END sp_get_producto;
 /
 CREATE OR REPLACE PROCEDURE sp_post_producto(p_id NUMBER, p_nombre VARCHAR2, p_id_marca NUMBER,
-                                           p_precio NUMBER, p_stock NUMBER,
+                                           p_precio NUMBER, p_stock NUMBER, p_imagen VARCHAR2,
                                           p_out OUT NUMBER)
 IS
 BEGIN
-    INSERT INTO producto VALUES(p_id, p_nombre, p_id_marca, p_precio, p_stock);
+    INSERT INTO producto VALUES(p_id, p_nombre, p_id_marca, p_precio, p_stock, p_imagen);
     p_out := 1;
     
     EXCEPTION
@@ -78,7 +90,7 @@ BEGIN
 END sp_post_producto;
 /
 CREATE OR REPLACE PROCEDURE sp_put_producto(p_id NUMBER, p_nombre VARCHAR2, p_id_marca NUMBER,
-                                         p_precio NUMBER, p_stock NUMBER,
+                                         p_precio NUMBER, p_stock NUMBER, p_imagen VARCHAR2,
                                          p_out OUT NUMBER)
 IS
 BEGIN
@@ -86,7 +98,8 @@ BEGIN
     SET nombre = p_nombre,
         id_marca = p_id_marca,
         precio = p_precio,
-        stock = p_stock
+        stock = p_stock,
+        imagen = p_imagen
     WHERE id_producto = p_id;
     p_out := 1;
     
@@ -108,11 +121,11 @@ BEGIN
 END sp_delete_producto;
 /
 CREATE OR REPLACE PROCEDURE sp_patch_producto(p_id NUMBER, p_nombre VARCHAR2, p_id_marca NUMBER,
-                                          p_precio NUMBER, p_stock NUMBER,
+                                          p_precio NUMBER, p_stock NUMBER, p_imagen VARCHAR2,
                                           p_out OUT NUMBER)
 IS
 BEGIN
-    INSERT INTO producto VALUES(p_id, p_nombre, p_id_marca, p_precio, p_stock);
+    INSERT INTO producto VALUES(p_id, p_nombre, p_id_marca, p_precio, p_stock, p_imagen);
     p_out := 1;
     
     EXCEPTION
@@ -121,7 +134,8 @@ BEGIN
         SET nombre = p_nombre,
             id_marca = p_id_marca,
             precio = p_precio,
-            stock = p_stock
+            stock = p_stock,
+            imagen = p_imagen
         WHERE id_producto = p_id;
         p_out := 1;
     WHEN OTHERS THEN

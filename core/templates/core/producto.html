@@ -8,6 +8,17 @@
 
 <!-- INICIO CONTENIDO-->
 {% block contenido %}
+<style>
+.responsive{
+    width: 100%;
+    max-width: 225px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+
 <div class="p-3 pb-md-4 mx-auto text-center">
     <h1 class="display-4 fw-normal">Tienda</h1>
     <p class="fs-5 text-muted">Encuentra todos los productos que buscas!</p>
@@ -49,5 +60,4 @@
 <!-- FIN CONTENIDO -->
 {% block js %}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
 {% endblock %}
