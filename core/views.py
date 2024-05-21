@@ -59,6 +59,9 @@ def producto(request):
     respuesta = requests.get('https://mindicador.cl/api/dolar').json()
     valor_usd = respuesta['serie'][0]['valor']
 
+    for producto in productos:
+        producto['preciousd'] = producto['precio']/valor_usd
+
     page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
     
     try:
@@ -95,9 +98,6 @@ def bodega(request):
 def formularioDespacho(request):
     return render(request,'core/formularioDespacho.html')
 
-
-
-
 #CRUD
      #AGREGAR
 def agregarBodeguero(request):
@@ -108,7 +108,6 @@ def agregarProducto(request):
     return render(request,'core/agregarProducto.html')
 def agregarVendedor(request):
     return render(request,'core/agregarVendedor.html')
-
 
     #MODIFICAR
 def modificarBodeguero(request):
