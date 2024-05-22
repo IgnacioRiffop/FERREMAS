@@ -233,10 +233,17 @@
                             <p class="product-infox">{{ prod.nombre }} x {{ prod.cantidad }}</p>
                             <div class="pricex text-end">
                                 <span>{{ prod.subtotal }} CLP</span>
-                                <span>${{ prod.subtotalusd }} USD</span>
+                                <span>{{ prod.subtotalusd }} USD</span>
                             </div>
                         </div>
                     {% endfor %}
+                    <div class="row2x d-flex justify-content-between align-items-center">
+                        <p class="product-infox">Total</p>
+                        <div class="pricex text-end">
+                            <span>{{ total }} CLP</span>
+                            <span>{{ totalusd }} USD</span>
+                        </div>
+                    </div>
                 </div>
 
                 <form method="POST" action="{% url 'agregarCompra' %}" name="formulario" id="formulario">
@@ -329,7 +336,7 @@
               return actions.payment.create({
                   transactions: [{
                       amount: { 
-                          total: '{{ 1 }}',
+                          total: '{{ totalusd }}',
                           currency: 'USD'
                       }
                   }]

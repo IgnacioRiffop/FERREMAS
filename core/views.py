@@ -268,7 +268,7 @@ def formularioDespacho(request):
     return render(request,'core/formularioDespacho.html')
 
 #CRUD
-     #AGREGAR
+#AGREGAR
 def agregarBodeguero(request):
     return render(request,'core/agregarBodeguero.html')
 def agregarContador(request):
