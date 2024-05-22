@@ -218,14 +218,41 @@ def agregarCompra(request):
             if delivery_option == 'retiro':
                 sucursal_id = request.POST.get('sucursal')
                 sucursal = Sucursal.objects.get(id=sucursal_id)
-                Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=True, sucursal=sucursal, direccion="", contacto="", fecha = datetime.datetime.now())
+                Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=True, sucursal=sucursal, direccion="", fecha = datetime.datetime.now())
             elif delivery_option == 'despacho':
                 calle = request.POST.get('calle')
-                Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=False, sucursal=None, direccion=calle, contacto="", fecha = datetime.datetime.now())
+                Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=False, sucursal=None, direccion=calle, fecha = datetime.datetime.now())
             carrito.vigente = False
             carrito.save()
         Boleta.objects.create(codigo=codigo,total=total)
     return redirect(to='/')
+
+def deleteCarrito(request, id_producto):
+    cliente = User.objects.get(username=request.user.username)
+    itemCarrito = Carrito.objects.filter(cliente=cliente, producto=id_producto, vigente=True)[0]
+
+    url = f"http://127.0.0.1:5000/productos/{id_producto}"
+    producto = requests.get(url).json()
+
+    nuevostock=producto['stock']+itemCarrito.cantidad
+
+    # Actualizando stock
+    producto_actualizado = {
+        "id_producto": producto['id_producto'],
+        "nombre": producto['nombre'],
+        "id_marca": producto['id_marca'],
+        "nombre_marca": producto['nombre_marca'],
+        "precio": producto['precio'],
+        "stock": nuevostock,
+        "imagen": producto['imagen']
+    }
+    url_put = f"http://127.0.0.1:5000/productos/{id_producto}"
+    headers = {'Content-Type': 'application/json'}  # Especifica el tipo de contenido JSON
+    # Convierte el diccionario producto_actualizado a JSON y realiza la solicitud PUT
+    response = requests.put(url_put, data=json.dumps(producto_actualizado), headers=headers)
+
+    itemCarrito.delete()
+    return redirect(to='carrito')
 
 
 def datosTransferencia(request):

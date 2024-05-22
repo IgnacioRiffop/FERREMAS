@@ -23,18 +23,19 @@ ALTER TABLE producto ADD(
 INSERT INTO marca VALUES(1,'Bosch');
 
 --insertar 3 libros:
-INSERT INTO producto VALUES(1,'Martillo',1,30000,100,'martillo.jpg');
-INSERT INTO producto VALUES(2,'LLave',1,20000,12,'llave.jpg');
-INSERT INTO producto VALUES(3,'Taladro Percutor',1,30000,30,'taladro.jpg');
-INSERT INTO producto VALUES(4,'Caja de Herramientas',1,30000,30,'caja.jpg');
-INSERT INTO producto VALUES(5,'Escalera',1,30000,30,'escalera.png');
-INSERT INTO producto VALUES(6,'Esmeril Angular',1,30000,30,'esmeril.jpg');
-INSERT INTO producto VALUES(7,'Pala Punta Huevo',1,30000,30,'pala.jpg');
-INSERT INTO producto VALUES(8,'Sierra Circular',1,30000,30,'sierra.jpg');
-INSERT INTO producto VALUES(9,'Set de brocas',1,30000,30,'brocas.jpg');
-INSERT INTO producto VALUES(10,'Escuadra carpintero',1,30000,30,'escuadra.jpg');
-INSERT INTO producto VALUES(11,'LLave punta corona',1,30000,30,'llavepc.jpg');
-INSERT INTO producto VALUES(12,'Atornillador',1,30000,30,'atornillador.jpg');
+INSERT INTO producto VALUES(1,'Martillo',1,1990,17,'martillo.jpg');
+INSERT INTO producto VALUES(2,'LLave',1,990,12,'llave.jpg');
+INSERT INTO producto VALUES(3,'Taladro Percutor',1,21990,6,'taladro.jpg');
+INSERT INTO producto VALUES(4,'Caja de Herramientas',1,14990,5,'caja.jpg');
+INSERT INTO producto VALUES(7,'Pala Punta Huevo',1,5990,9,'pala.jpg');
+INSERT INTO producto VALUES(8,'Sierra Circular',1,18990,13,'sierra.jpg');
+INSERT INTO producto VALUES(10,'Escuadra Carpintero',1,1290,20,'escuadra.jpg');
+INSERT INTO producto VALUES(11,'LLave Punta Corona',1,890,10,'llavepc.jpg');
+INSERT INTO producto VALUES(12,'Atornillador',1,1590,19,'atornillador.jpg');
+INSERT INTO producto VALUES(9,'Set de brocas',1,7990,2,'brocas.jpg');
+INSERT INTO producto VALUES(5,'Escalera',1,12990,11,'escalera.png');
+INSERT INTO producto VALUES(6,'Esmeril Angular',1,16990,21,'esmeril.jpg');
+
 
 COMMIT;
 /

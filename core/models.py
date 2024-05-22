@@ -23,7 +23,6 @@ class Compra(models.Model):
     retiro = models.BooleanField()
     sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE, blank=True, null=True)
     direccion = models.CharField(max_length=200, blank=True)
-    contacto = models.CharField(max_length=50, blank=True)
     fecha = models.DateField()
 
     def __str__(self):
