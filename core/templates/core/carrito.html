@@ -16,7 +16,7 @@
     }
 
     .container {
-        height: 100vh;
+        height: 90vh;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -126,6 +126,40 @@
         color: red;
     }
 
+    .subtotal2x {
+    margin: 20px 0; /* Ajusta el margen según sea necesario */
+    }
+
+    .row2x {
+        display: flex;
+        justify-content: space-between; /* Distribuye espacio entre elementos */
+        align-items: center; /* Centra verticalmente los elementos */
+        margin-bottom: 10px; /* Espacio entre cada producto */
+    }
+
+    .product-infox {
+        flex: 1; /* Toma todo el espacio disponible a la izquierda */
+    }
+
+    .pricex {
+        display: flex;
+        flex-direction: column; /* Coloca los elementos en columna */
+        align-items: flex-end; /* Alinea los precios a la derecha */
+    }
+
+    .pricex span {
+        display: block;
+        margin-top: 5px; /* Espacio entre los precios en dólares y USD */
+    }
+
+    .checkout-btn-wrapper {
+    display: flex;
+    gap: 10px; /* Ajusta el valor según sea necesario */
+    }
+
+    .hidden {
+            display: none;
+    }
 </style>
 </head>
 <body>
@@ -137,51 +171,33 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Producto</th>
-                        <th></th>
-                        <th>Cantidad</th>
-                        <th>Precio Unidad</th>
-                        <th></th>
+                        <th class="text-center">Producto</th>
+                        <th class="text-center"></th>
+                        <th class="text-center">Cantidad</th>
+                        <th class="text-center">Precio Unidad</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for prod in listado %}
                     <tr>
-                        <td>
-                            <img src="https://www.ferrisariato.com/wp-content/uploads/2020/07/40312909_01-768x768.jpg" alt="Producto 1" class="product-img">
+                        <td class="text-center">
+                            <img src="{% static 'core/img/'|add:prod.imagen %}" class="product-img">
                             
                         </td>
-                        <td>
-                            <span>Bauker</span>
-                            <p>Martilo carpintero con mango de fibra</p>
-                            <p>SKU: 91021</p>
+                        <td class="text-center">
+                            <span>{{ prod.nombre }}</span>
                         </td>
-                        <td>
-                            <input type="number" class="quantity-input" value="6" min="1">
+                        <td class="text-center">{{ prod.cantidad }}</td>
+                        <td class="text-center">
+                            <span>{{ prod.precio }}CLP</span>
+                            <span>{{ prod.preciousd }}USD</span>
                         </td>
-                        <td>$1.490</td>
                         <td>
                             <button class="delete-btn"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
-                    <!-- Otros productos aquí -->
-                    <tr>
-                        <td>
-                            <img src="https://http2.mlstatic.com/kit-taladro-inalambrico-recargable-y-controlador-li-ion-20v-D_NQ_NP_612120-MLM30000431171_042019-F.jpg" alt="Producto 1" class="product-img">
-                            
-                        </td>
-                        <td>
-                            <span>DeWalt</span>
-                            <p>Taladro</p>
-                            <p>SKU: 91031</p>
-                        </td>
-                        <td>
-                            <input type="number" class="quantity-input" value="1" min="1">
-                        </td>
-                        <td>$14.490</td>
-                        <td>
-                            <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -189,28 +205,77 @@
         <div class="details2">
             <div class="card-details2">
                 <h2>Carrito de compras</h2>
-                <div class="subtotal2">
-                    <div class="row2">
-                        <p>Martillo carpintero x6</p>
-                        <strong>$3.490</strong>
+                <div class="subtotal2x">
+                    {% for prod in listado %}
+                        <div class="row2x d-flex justify-content-between align-items-center">
+                            <p class="product-infox">{{ prod.nombre }} x {{ prod.cantidad }}</p>
+                            <div class="pricex text-end">
+                                <span>{{ prod.subtotal }} CLP</span>
+                                <span>${{ prod.subtotalusd }} USD</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <form method="POST" action="{% url 'agregarCompra' %}" name="formulario" id="formulario">
+                    {% csrf_token %}
+                    <div class="checkout-btn-wrapper">
+                        <input type="radio" id="retiro" name="delivery" value="retiro" class="btn-check" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary checkout-btn" for="retiro">Retiro</label>
+        
+                        <input type="radio" id="despacho" name="delivery" value="despacho" class="btn-check" autocomplete="off">
+                        <label class="btn btn-outline-primary checkout-btn" for="despacho">Despacho</label>
                     </div>
-                    <div class="row2">
-                        <p>Taladro x1</p>
-                        <strong>$14.490</strong>
+        
+                    <div id="sucursal-form" class="mt-4">
+                        <h3>Seleccione una Sucursal</h3>
+                        <select name="sucursal" class="form-select">
+                            {% for sucursal in sucursales %}
+                                <option value="{{ sucursal.id }}">{{ sucursal.nombre }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <div class="row2">
-                        <p>Total</p>
-                        <strong>$17.980</strong>
-                    </div>  
-                </div>
-                <div class="checkout-btn-wrapper">
-                    <button class="checkout-btn">Retiro</button >
-                    <button class="checkout-btn">Despacho</button>
-                </div>
-                <div class="checkout-btn">
-                    
-                </div>
-                
+        
+                    <div id="direccion-form" class="hidden mt-4">
+                        <h3>Dirección de Envío</h3>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="calle" name="calle">
+                        </div>
+                    </div>
+        
+                    <input type="submit" style="visibility: hidden;" value="submit">
+                </form>
+            </div>
+        
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const retiroBtn = document.getElementById('retiro');
+                    const despachoBtn = document.getElementById('despacho');
+                    const sucursalForm = document.getElementById('sucursal-form');
+                    const direccionForm = document.getElementById('direccion-form');
+        
+                    const calleInput = document.getElementById('calle');
+        
+                    retiroBtn.addEventListener('change', toggleForm);
+                    despachoBtn.addEventListener('change', toggleForm);
+        
+                    function toggleForm() {
+                        if (despachoBtn.checked) {
+                            direccionForm.classList.remove('hidden');
+                            sucursalForm.classList.add('hidden');
+                            setRequired(true);
+                        } else {
+                            direccionForm.classList.add('hidden');
+                            sucursalForm.classList.remove('hidden');
+                            setRequired(false);
+                        }
+                    }
+        
+                    function setRequired(isRequired) {
+                        calleInput.required = isRequired;
+                    }
+                });
+            </script>
 
                 <p><div id="btnPaypal"></div></p>
 								

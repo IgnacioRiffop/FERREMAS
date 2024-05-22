@@ -6,6 +6,9 @@ from django.contrib.auth.models import User,Group
 import json
 import requests
 from django.core.paginator import Paginator
+import uuid
+import datetime
+
 
 
 
@@ -150,17 +153,80 @@ def detalleProducto(request, id_producto):
         # Convierte el diccionario producto_actualizado a JSON y realiza la solicitud PUT
         response = requests.put(url_put, data=json.dumps(producto_actualizado), headers=headers)
 
-        print("PRODUCTO ACTUALIZADO")
-        print(producto_actualizado)
-        print("")
-
-    print("PRODUCTO DATA")
-    print(data['producto'])
-
     return render(request,'core/detalleProducto.html', data)
 
 def carrito(request):
-    return render(request,'core/carrito.html')
+    cliente = User.objects.get(username=request.user.username)
+    CarritoCliente = Carrito.objects.filter(cliente=cliente, vigente=True)
+    existe = CarritoCliente.exists()
+    respuesta = requests.get('https://mindicador.cl/api/dolar').json()
+    valor_usd = respuesta['serie'][0]['valor']
+
+    #Subtotal Carrito
+    productos = list()
+    total = 0
+    for carrito in CarritoCliente:
+        id_producto = carrito.producto
+        url = f"http://127.0.0.1:5000/productos/{id_producto}"
+        producto = requests.get(url).json()
+        total+= producto['precio']*carrito.cantidad
+        producto['cantidad'] = carrito.cantidad
+        producto['subtotal'] = producto['precio']*carrito.cantidad
+        producto['subtotalusd'] = round(producto['subtotal']/valor_usd, 2)
+        producto['preciousd'] = round(producto['precio']/valor_usd, 2)
+        productos.append(producto)
+    total_usd = round(total/valor_usd, 2)
+
+    # Obtener las sucursales desde la base de datos
+    sucursales = Sucursal.objects.all()
+
+    data = {
+        'listado': productos,
+        'valorusd': valor_usd,
+        'totalusd': total_usd,
+        'total': total,
+        'existe': existe,
+        'sucursales': sucursales  # Añadir sucursales al contexto
+        #'form': envioForm()
+    }
+    return render(request, 'core/carrito.html', data)
+
+
+def generar_id_random():
+    id_random = str(uuid.uuid4())[:5]
+    while Compra.objects.filter(codigo=id_random).exists():
+        id_random = str(uuid.uuid4())[:5]
+    return id_random
+
+
+def agregarCompra(request):
+    cliente = User.objects.get(username=request.user.username)
+    carritoCliente = Carrito.objects.filter(cliente=cliente, vigente=True)
+
+    #Subtotal Carrito
+    total = 0
+    for carrito in carritoCliente:
+        id_producto = carrito.producto
+        url = f"http://127.0.0.1:5000/productos/{id_producto}"
+        producto = requests.get(url).json()
+        total+= producto['precio']*carrito.cantidad
+
+    if request.method == 'POST':
+        delivery_option = request.POST.get('delivery')
+        codigo = generar_id_random()
+        for carrito in carritoCliente:
+            if delivery_option == 'retiro':
+                sucursal_id = request.POST.get('sucursal')
+                sucursal = Sucursal.objects.get(id=sucursal_id)
+                Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=True, sucursal=sucursal, direccion="", contacto="", fecha = datetime.datetime.now())
+            elif delivery_option == 'despacho':
+                calle = request.POST.get('calle')
+                Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=False, sucursal=None, direccion=calle, contacto="", fecha = datetime.datetime.now())
+            carrito.vigente = False
+            carrito.save()
+        Boleta.objects.create(codigo=codigo,total=total)
+    return redirect(to='/')
+
 
 def datosTransferencia(request):
     return render(request,'core/datosTransferencia.html')

@@ -30,6 +30,7 @@ urlpatterns = [
     path('peticion_patch/<id_producto>', peticion_patch, name="peticion_patch"),
     path('bodega', bodega, name="bodega"),
     path('datosTransferencia', datosTransferencia, name="datosTransferencia"),
+    path('agregarCompra', agregarCompra, name="agregarCompra"),
 
 
     #CRUD

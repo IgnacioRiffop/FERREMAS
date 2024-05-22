@@ -11,14 +11,27 @@ class Carrito(models.Model):
     def __str__(self):
         return self.cliente.username
     
-class Compras(models.Model):
+class Sucursal(models.Model):
+    nombre = models.CharField(max_length=60)
+    def __str__(self):
+        return self.nombre
+    
+class Compra(models.Model):
     codigo = models.CharField(max_length=20)
     cliente = models.ForeignKey(User, on_delete=models.CASCADE)
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
-    direccion = models.CharField(max_length=50)
-    contacto = models.CharField(max_length=50)
+    retiro = models.BooleanField()
+    sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE, blank=True, null=True)
+    direccion = models.CharField(max_length=200, blank=True)
+    contacto = models.CharField(max_length=50, blank=True)
     fecha = models.DateField()
 
+    def __str__(self):
+        return self.codigo
+    
+class Boleta(models.Model):
+    codigo = models.CharField(max_length=20)
+    total = models.IntegerField()
     def __str__(self):
         return self.codigo
     

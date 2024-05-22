@@ -50,7 +50,9 @@
         </li>
         {% endif %}
         <a class="nav-link" href="{% url 'producto' %}">Productos</a>
+        {% if user.is_authenticated %}
         <a class="nav-link" href="{% url 'carrito' %}">Carrito</a>
+        {% endif %}
         <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
         <a class="nav-link" href="{% url 'perfil' %}">Perfil</a>
         <a class="nav-link" href="{% url 'nosotros' %}">Sobre nosotros</a>
