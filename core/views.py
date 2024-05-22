@@ -80,49 +80,83 @@ def producto(request):
     return render(request, 'core/producto.html', data)
 
 
-def detalleProducto(request,id_producto):
-    url = f"http://127.0.0.1:5000/productos/{id_producto}"
-    producto = requests.get(url)
-    producto = producto.json()
+import requests
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from .models import Carrito
+from .forms import CantidadForm
+import json
 
+def detalleProducto(request, id_producto):
+    # Obtener producto desde la API
+    url = f"http://127.0.0.1:5000/productos/{id_producto}"
+    producto = requests.get(url).json()
+
+    # Obtener el valor del USD
     respuesta = requests.get('https://mindicador.cl/api/dolar').json()
     valor_usd = respuesta['serie'][0]['valor']
     producto['preciousd'] = round(producto['precio'] / valor_usd, 2)
 
+    # Obtener el cliente actual
     try:
         cliente = User.objects.get(username=request.user.username)
     except User.DoesNotExist:
         cliente = None
-    
+
+    # Datos a pasar al contexto
     data = {
         'producto': producto,
         'usuario': request.user.username,
-        'form' : CantidadForm(initial={'cantidad': 1})
+        'form': CantidadForm(initial={'cantidad': 1})
     }
-    """
+
     if request.method == 'POST':
-        formulario = CantidadForm(request.POST, files=request.FILES) # OBTIENE LA DATA DEL FORMULARIO
+        formulario = CantidadForm(request.POST, files=request.FILES)  # Obtener la data del formulario
         if formulario.is_valid():
+            cantidad = int(formulario.cleaned_data["cantidad"])
             try:
-                CarritoCP = Carrito.objects.get(cliente=cliente,producto=producto,vigente=True)
-                cantidadstock = CarritoCP.cantidad+producto.stock
-                CarritoCP.cantidad = CarritoCP.cantidad + int(formulario.data["cantidad"])
+                CarritoCP = Carrito.objects.get(cliente=cliente, producto=id_producto, vigente=True)
+                cantidadstock = CarritoCP.cantidad + producto['stock']
+                CarritoCP.cantidad += cantidad
+
                 if CarritoCP.cantidad > cantidadstock:
                     CarritoCP.cantidad = cantidadstock
                     CarritoCP.save()
-                    producto.stock = 0
+                    producto['stock'] = 0
                 else:
                     CarritoCP.save()
-                    producto.stock = producto.stock-int(formulario.data["cantidad"])
+                    producto['stock'] -= cantidad
             except Carrito.DoesNotExist:
-                if int(formulario.data["cantidad"]) > producto.stock:
-                    carrito = Carrito.objects.create(cliente=cliente,producto=producto,cantidad=producto.stock,vigente=True)
-                    producto.stock = 0
+                if cantidad > producto['stock']:
+                    # Crear el carrito con la cantidad máxima disponible
+                    carrito = Carrito.objects.create(cliente=cliente, producto=id_producto, cantidad=producto['stock'], vigente=True)
+                    producto['stock'] = 0
                 else:
-                    carrito = Carrito.objects.create(cliente=cliente,producto=producto,cantidad=int(formulario.data["cantidad"]),vigente=True)
-                    producto.stock = producto.stock-int(formulario.data["cantidad"])
-    producto.save()
-    """
+                    carrito = Carrito.objects.create(cliente=cliente, producto=id_producto, cantidad=cantidad, vigente=True)
+                    producto['stock'] -= cantidad
+        
+        # Actualizando stock
+        producto_actualizado = {
+            "id_producto": producto['id_producto'],
+            "nombre": producto['nombre'],
+            "id_marca": producto['id_marca'],
+            "nombre_marca": producto['nombre_marca'],
+            "precio": producto['precio'],
+            "stock": producto['stock'],
+            "imagen": producto['imagen']
+        }
+        url_put = f"http://127.0.0.1:5000/productos/{id_producto}"
+        headers = {'Content-Type': 'application/json'}  # Especifica el tipo de contenido JSON
+        # Convierte el diccionario producto_actualizado a JSON y realiza la solicitud PUT
+        response = requests.put(url_put, data=json.dumps(producto_actualizado), headers=headers)
+
+        print("PRODUCTO ACTUALIZADO")
+        print(producto_actualizado)
+        print("")
+
+    print("PRODUCTO DATA")
+    print(data['producto'])
+
     return render(request,'core/detalleProducto.html', data)
 
 def carrito(request):
