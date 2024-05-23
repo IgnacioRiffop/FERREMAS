@@ -306,7 +306,16 @@
                 });
             </script>
 
-                <p><div id="btnPaypal"></div></p>
+            <input type="hidden" id="totalVenta" value="{{ total }}">
+
+            <h3 class="text-center">Método de pago</h3>
+            <!-- Botón de transferencia -->
+            <div id="transferButtonWrapper" class="text-center">
+                <button id="transferButton" class="btn btn-success btn-lg">Transferencia</button>
+            </div>
+
+
+            <p><div id="btnPaypal"></div></p>
 								
             </div>
         </div>
@@ -316,9 +325,16 @@
 {% endblock %}
 <!-- FIN CONTENIDO -->
 {% block js %}
+    //SWEETALERT
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  //PAYPAL API
   <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+  //PAYPAL BOTON
   <script>
+    const totalVentaElement = document.getElementById('totalVenta');
+    const totalVenta = parseFloat(totalVentaElement.value);
+
+    if (totalVenta > 0) {
       paypal.Button.render({
           env: 'sandbox',
           client: {
@@ -381,7 +397,22 @@
           }
 
       }, '#btnPaypal');
+    } else {
+            // Muestra un mensaje o realiza alguna acción cuando el total es 0
+            document.getElementById('btnPaypal').innerHTML = '<p class="text-center">No tienes productos agregados a tu carrito.</p>';
+    }
   </script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  //TRANSFERENCIA BOTON
+  <script>
+    // Obtener el botón de transferencia
+    const transferButtonWrapper = document.getElementById('transferButtonWrapper');
+
+    // Mostrar u ocultar el botón según el valor total
+    if (totalVenta > 0) {
+        transferButtonWrapper.style.display = 'block';
+    } else {
+        transferButtonWrapper.style.display = 'none';
+    }
+  </script>
 
 {% endblock %}
