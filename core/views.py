@@ -254,6 +254,9 @@ def deleteCarrito(request, id_producto):
     itemCarrito.delete()
     return redirect(to='carrito')
 
+def compras(request):
+    return render(request,'core/compras.html')
+
 
 def datosTransferencia(request):
     return render(request,'core/datosTransferencia.html')

@@ -52,6 +52,7 @@
         <a class="nav-link" href="{% url 'producto' %}">Productos</a>
         {% if user.is_authenticated %}
         <a class="nav-link" href="{% url 'carrito' %}">Carrito</a>
+        <a class="nav-link" href="{% url 'compras' %}">Compras</a>
         {% endif %}
         <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
         <a class="nav-link" href="{% url 'perfil' %}">Perfil</a>
