@@ -224,7 +224,7 @@ def agregarCompra(request):
                 Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=False, sucursal=None, direccion=calle, fecha = datetime.datetime.now())
             carrito.vigente = False
             carrito.save()
-        Boleta.objects.create(codigo=codigo,total=total)
+        Boleta.objects.create(codigo=codigo,total=total,transferencia=False,validacion=False,imagen=None)
     return redirect(to='/')
 
 def deleteCarrito(request, id_producto):
@@ -259,6 +259,31 @@ def compras(request):
 
 
 def datosTransferencia(request):
+    cliente = User.objects.get(username=request.user.username)
+    carritoCliente = Carrito.objects.filter(cliente=cliente, vigente=True)
+
+    #Subtotal Carrito
+    total = 0
+    for carrito in carritoCliente:
+        id_producto = carrito.producto
+        url = f"http://127.0.0.1:5000/productos/{id_producto}"
+        producto = requests.get(url).json()
+        total+= producto['precio']*carrito.cantidad
+
+    if request.method == 'POST':
+        delivery_option = request.POST.get('delivery')
+        codigo = generar_id_random()
+        for carrito in carritoCliente:
+            if delivery_option == 'retiro':
+                sucursal_id = request.POST.get('sucursal')
+                sucursal = Sucursal.objects.get(id=sucursal_id)
+                Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=True, sucursal=sucursal, direccion="", fecha = datetime.datetime.now())
+            elif delivery_option == 'despacho':
+                calle = request.POST.get('calle')
+                Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=False, sucursal=None, direccion=calle, fecha = datetime.datetime.now())
+            carrito.vigente = False
+            carrito.save()
+        Boleta.objects.create(codigo=codigo,total=total,transferencia=True,validacion=False,imagen=None)
     return render(request,'core/datosTransferencia.html')
 
 def misPedidos(request):

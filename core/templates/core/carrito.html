@@ -313,6 +313,13 @@
             <div id="transferButtonWrapper" class="text-center">
                 <button id="transferButton" class="btn btn-success btn-lg">Transferencia</button>
             </div>
+            <script>
+                // Transferencia button handler
+                document.getElementById('transferButton').addEventListener('click', function () {
+                    document.getElementById('formulario').action = "{% url 'datosTransferencia' %}";
+                    document.getElementById('formulario').submit();
+                });
+            </script>
 
 
             <p><div id="btnPaypal"></div></p>

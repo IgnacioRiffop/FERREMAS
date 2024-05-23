@@ -31,8 +31,10 @@ class Compra(models.Model):
 class Boleta(models.Model):
     codigo = models.CharField(max_length=20)
     total = models.IntegerField()
-    transferencia = models.BooleanField()
-    
+    transferencia = models.BooleanField(default=False)
+    validacion = models.BooleanField(blank=True, null=True,default=False)
+    imagen = models.ImageField(null=True, blank=True,default=None)
+
     def __str__(self):
         return self.codigo
     
