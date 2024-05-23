@@ -271,8 +271,8 @@ def compras(request):
     listadocp = list(zip(comprasCliente, productos))
 
     try:
-        paginator = Paginator(comprasCliente, 3)
-        comprasCliente = paginator.page(page)
+        paginator = Paginator(listadocp, 3)
+        listadocp = paginator.page(page)
     except:
         raise Http404
 
