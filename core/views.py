@@ -255,7 +255,35 @@ def deleteCarrito(request, id_producto):
     return redirect(to='carrito')
 
 def compras(request):
-    return render(request,'core/compras.html')
+    cliente = User.objects.get(username=request.user.username)
+    comprasCliente = Compra.objects.filter(cliente=cliente).order_by('-id')
+    existe = comprasCliente.exists()
+
+    page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
+
+    productos = list()
+    for compra in comprasCliente:
+        id_producto = compra.carrito.producto
+        url = f"http://127.0.0.1:5000/productos/{id_producto}"
+        producto = requests.get(url).json()
+        productos.append(producto)
+
+    listadocp = list(zip(comprasCliente, productos))
+
+    try:
+        paginator = Paginator(comprasCliente, 3)
+        comprasCliente = paginator.page(page)
+    except:
+        raise Http404
+
+    data = {
+        'listadocp' : listadocp,
+        'productos': productos,
+        'listado': comprasCliente,
+        'existe': existe,
+        'paginator': paginator
+    }
+    return render(request,'core/compras.html', data)
 
 
 def datosTransferencia(request):
