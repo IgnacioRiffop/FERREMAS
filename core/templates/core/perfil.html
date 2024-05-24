@@ -100,10 +100,9 @@
         <div class="perfil-card-body">
             <h1 class="perfil-card-title">Mi Perfil <img class="perfil-title-image" src="{% static 'core/img/perfil2.png' %}" alt="imagen"></h1>
             <ul class="perfil-list-group">
-                <li class="perfil-list-group-item">Nombre: Fabian Bravo</li>
-                <li class="perfil-list-group-item">Rut: 12.456.755-k</li>
-                <li class="perfil-list-group-item">Correo: FabianBravo@gmail.com</li>
-                <li class="perfil-list-group-item">Fecha Nacimiento: 25/12/2006</li>
+                <li class="perfil-list-group-item">Nombre: {{cliente.first_name}}</li>
+                <li class="perfil-list-group-item">Apellido: {{cliente.last_name}}</li>
+                <li class="perfil-list-group-item">Correo: {{cliente.email}}</li>
             </ul>
         </div>
     </div>

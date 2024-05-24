@@ -102,7 +102,12 @@ def contacto(request):
     return render(request, 'core/contacto.html', {'form': form})
 
 def perfil(request):
-    return render(request,'core/perfil.html')
+    cliente = User.objects.get(username=request.user.username)
+
+    data = {
+        'cliente': cliente
+    }
+    return render(request,'core/perfil.html', data)
 
 def formularioDespacho(request):
     return render(request,'core/formularioDespacho.html')
