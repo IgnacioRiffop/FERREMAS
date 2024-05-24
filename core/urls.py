@@ -52,12 +52,11 @@ urlpatterns = [
     path('agregarClientes', agregarClientes, name="agregarClientes"),
     
     #MODIFICAR
-    path('modificarBodeguero', modificarBodeguero, name="modificarBodeguero"),
-    path('modificarContador', modificarContador, name="modificarContador"),
+    path('modificarBodeguero/<int:id>/', views.modificarBodeguero, name='modificarBodeguero'),
+    path('modificarContador/<int:id>/', views.modificarContador, name='modificarContador'),
     path('modificarProducto', modificarProducto, name="modificarProducto"),
     path('modificarVendedor/<int:id>/', views.modificarVendedor, name='modificarVendedor'),
+    path('modificarCliente/<int:id>/', views.modificarCliente, name='modificarCliente'),
 
-    #Visualizar
-    path('lista_vendedores/', views.lista_vendedores, name='lista_vendedores')
 
 ]

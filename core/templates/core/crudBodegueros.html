@@ -138,32 +138,22 @@
     </div>
 
     <ul class="cuentas-list">
+        {% for bodeguero in bodegueros %}
         <li class="cuentas-item">
             <div class="cuentas-item-header">Bodeguero</div>
             <div class="cuentas-item-content">
-                <p>Usuario: dav.riffo</p>
-                <p>Nombre: David Riffo</p>
-                <p>Email: D.riffo@gmail.com</p>
-
+                <p>Usuario: {{ bodeguero.username }}</p>
+                <p>Nombre: {{ bodeguero.first_name }}</p>
+                <p>Apellido: {{ bodeguero.last_name }}</p>
+                <p>Email: {{ bodeguero.email }}</p>
             </div>
             <div class="cuentas-item-actions">
-                <a href="{% url 'modificarBodeguero' %}" class="cuentas-item-action editar-link">Modificar</a>
-                <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
+                <a href="{% url 'modificarBodeguero' id=bodeguero.id %}" class="btn btn-primary">Modificar</a>
+                <a href="" class="btn btn-danger">Eliminar</a>
             </div>
         </li>
-        <li class="cuentas-item">
-            <div class="cuentas-item-header">Bodeguero</div>
-            <div class="cuentas-item-content">
-                <p>Usuario: Ig.Galvez</p>
-                <p>Nombre: Ignacio Galvez</p>
-                <p>Email: ignaGal@gmail.com</p>
-            </div>
-            <div class="cuentas-item-actions">
-                <a href="{% url 'modificarBodeguero' %}" class="cuentas-item-action editar-link">Modificar</a>
-                <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
-            </div>
-        </li>
+        {% endfor %}
     </ul>
 </div>
-
 {% endblock %}
+
