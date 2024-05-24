@@ -33,6 +33,7 @@ urlpatterns = [
     path('agregarCompra', agregarCompra, name="agregarCompra"),
     path('deleteCarrito/<id_producto>', deleteCarrito, name="deleteCarrito"),
     path('compras', compras, name="compras"),
+    path('compra/<codigo>', compra, name="compra"),
 
 
     #CRUD

@@ -10,7 +10,7 @@
       padding: 0;
   }
 
-  .datos-transferencia-container {
+  .comprobante-container {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -18,7 +18,7 @@
       margin-top: -50px; /* Ajuste para centrar más arriba */
   }
 
-  .datos-transferencia-card {
+  .comprobante-card {
       width: 600px; /* Aumenta el ancho de la tarjeta */
       background-color: #f9f9f9; /* Fondo blanco */
       border-radius: 10px;
@@ -27,12 +27,12 @@
       position: relative; /* Para posicionar el botón relativo a la carta */
   }
 
-  .datos-transferencia-card-body {
+  .comprobante-card-body {
       padding: 20px;
       margin-bottom: 50px; /* Margen inferior para separar del botón */
   }
 
-  .datos-transferencia-card-title {
+  .comprobante-card-title {
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 20px;
@@ -40,48 +40,48 @@
       text-align: center; /* Centra horizontalmente */
   }
 
-  .datos-transferencia-list-group {
+  .comprobante-list-group {
       padding: 0;
       margin: 0;
       list-style-type: none;
   }
 
-  .datos-transferencia-list-group-item {
+  .comprobante-list-group-item {
       background-color: #ffffff; /* Fondo gris claro */
       border-bottom: 1px solid #e0e0e0; /* Borde gris claro */
       padding: 15px 20px; /* Aumenta el espacio alrededor del texto */
       color: #666666; /* Texto gris */
   }
 
-  .datos-transferencia-list-group-item:last-child {
+  .comprobante-list-group-item:last-child {
       border-bottom: none;
   }
 
-  .datos-transferencia-list-group-item-first {
+  .comprobante-list-group-item-first {
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
   }
 
-  .datos-transferencia-list-group-item-last {
+  .comprobante-list-group-item-last {
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
   }
 
-  .datos-transferencia-title-image {
+  .comprobante-title-image {
       margin-left: 10px; /* Ajusta el margen */
       width: 70px;
       height: 70px;
       vertical-align: middle; /* Alinea verticalmente */
   }
 
-  .datos-transferencia-button-container {
+  .comprobante-button-container {
       position: absolute; /* Posiciona absolutamente el contenedor */
       bottom: 20px; /* Margen inferior */
       width: 100%; /* Ocupa todo el ancho de la carta */
       text-align: center; /* Centra horizontalmente */
   }
 
-  .datos-transferencia-button {
+  .comprobante-button {
       padding: 10px 20px;
       background-color: #333333; /* Fondo negro */
       color: #ffffff; /* Texto blanco */
@@ -95,19 +95,16 @@
 
 <!-- INICIO CONTENIDO-->
 {% block contenido %}
-<div class="datos-transferencia-container">
-    <div class="datos-transferencia-card">
-        <div class="datos-transferencia-card-body">
-            <h1 class="datos-transferencia-card-title">Datos de Transferencia <img class="datos-transferencia-title-image" src="{% static 'core/img/transferencia2.png' %}" alt="imagen"></h1>
-            <ul class="datos-transferencia-list-group">
-                <li class="datos-transferencia-list-group-item">Banco: Santander</li>
-                <li class="datos-transferencia-list-group-item">Número de cuenta: 97639762</li>
-                <li class="datos-transferencia-list-group-item">Nombre: Fabian Bravo</li>
-                <li class="datos-transferencia-list-group-item">RUT: 12.345.678-9</li>
+<div class="comprobante-container">
+    <div class="comprobante-card">
+        <div class="comprobante-card-body">
+            <h1 class="comprobante-card-title">Comprobante</h1>
+            <ul class="comprobante-list-group">
+                <li class="comprobante-list-group-item">Compra: Serruchos</li>
+                <li class="comprobante-list-group-item">Total: 738892 miles</li>
+                <li class="comprobante-list-group-item">Método de pago: Paypal</li>
+                <li class="comprobante-list-group-item">Estado: Recibido</li>
             </ul>
-        </div>
-        <div class="datos-transferencia-button-container">
-            <button class="datos-transferencia-button">Subir Comprobante</button>
         </div>
     </div>
 </div>

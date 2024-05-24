@@ -27,7 +27,7 @@
             <h5 class="card-title">{{producto.nombre}} x {{compra.carrito.cantidad}}</h5>
             <p class="card-text">Compra: {{compra.codigo}}</p>
             <p class="card-text"><small class="text-body-secondary">Fecha: {{compra.fecha}}</small></p>
-            <a href="" class="btn btn-primary">Ver Más</a>
+            <a href="{% url 'compra' compra.codigo %}" class="btn btn-primary">Ver Más</a>
           </div>
         </div>
       </div>

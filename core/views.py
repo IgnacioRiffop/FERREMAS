@@ -8,8 +8,13 @@ import requests
 from django.core.paginator import Paginator
 import uuid
 import datetime
-
-
+from django.core.exceptions import MultipleObjectsReturned
+import requests
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from .models import Carrito
+from .forms import CantidadForm
+import json
 
 
 # Create your views here.
@@ -83,12 +88,6 @@ def producto(request):
     return render(request, 'core/producto.html', data)
 
 
-import requests
-from django.shortcuts import render
-from django.contrib.auth.models import User
-from .models import Carrito
-from .forms import CantidadForm
-import json
 
 def detalleProducto(request, id_producto):
     # Obtener producto desde la API
@@ -224,7 +223,7 @@ def agregarCompra(request):
                 Compra.objects.create(codigo=codigo,cliente=cliente, carrito=carrito, retiro=False, sucursal=None, direccion=calle, fecha = datetime.datetime.now())
             carrito.vigente = False
             carrito.save()
-        Boleta.objects.create(codigo=codigo,total=total,transferencia=False,validacion=False,imagen=None)
+        Boleta.objects.create(codigo=codigo,total=total,transferencia=False,validacion=True,imagen=None)
     return redirect(to='/')
 
 def deleteCarrito(request, id_producto):
@@ -253,6 +252,22 @@ def deleteCarrito(request, id_producto):
 
     itemCarrito.delete()
     return redirect(to='carrito')
+
+def compra(request,codigo):
+    try:
+        compra = Compra.objects.get(codigo=codigo)
+    except MultipleObjectsReturned:
+        compra = Compra.objects.filter(codigo=codigo).first()
+    except Compra.DoesNotExist:
+        compra = None
+    boleta = Boleta.objects.get(codigo=codigo)
+
+    data = {
+        'compra' : compra,
+        'boleta' : boleta
+    }
+    return render(request,'core/compra.html', data)
+
 
 def compras(request):
     cliente = User.objects.get(username=request.user.username)

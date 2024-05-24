@@ -1,0 +1,76 @@
+
+{% extends 'core/base.html' %}
+{% load static%}
+{% load crispy_forms_tags %}
+
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<div class="container mt-5">
+    <h1>Detalle de la Compra</h1>
+    <table class="table table-striped mt-3">
+        <tbody>
+            <tr>
+                <th>Código</th>
+                <td id="codigo">{{compra.codigo}}</td>
+            </tr>
+            <tr>
+                <th>Sucursal</th>
+                {% if compra.direccion != None %}
+                    <td id="sucursal">{{compra.sucursal}}</td>
+                {% else %}
+                    <td id="metodo">No aplica</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Dirección</th>
+                {% if compra.direccion != "" %}
+                    <td id="direccion">{{compra.direccion}}</td>
+                {% else %}
+                    <td id="metodo">No aplica</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td id="fecha">{{compra.fecha}}</td>
+            </tr>
+            <tr>
+                <th>Monto Total</th>
+                <td id="monto">{{boleta.total}}</td>
+            </tr>
+            <tr>
+                <th>Método de Pago</th>
+                {% if boleta.transferencia == True %}
+                    <td id="metodo">Transferencia</td>
+                {% else %}
+                    <td id="metodo">Paypal</td>
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Estado del Pago</th>
+                {% if boleta.validacion == True %}
+                    <td id="metodo">Aprobada</td>
+                {% else %}
+                    <td id="metodo">En espera de revisión</td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <form>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Comprobante Transferencia</label>
+            <input class="form-control" type="file" id="formFile">
+        </div>
+        <button type="submit" class="btn btn-primary">Subir</button>
+    </form>
+</div>
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}
