@@ -1,7 +1,6 @@
 from django.urls import path, include
 from.views import *
 from rest_framework import routers
-
 # CREAMOS LAS RUTAS DEL API
 router = routers.DefaultRouter()
 
@@ -39,6 +38,8 @@ urlpatterns = [
     path('deleteCarrito/<id_producto>', deleteCarrito, name="deleteCarrito"),
     path('compras', compras, name="compras"),
     path('compra/<codigo>', compra, name="compra"),
+    path('generate_pdf', generate_pdf, name="generate_pdf"),
+    path('generate_excel', generate_excel, name='generate_excel'),
 
 
 

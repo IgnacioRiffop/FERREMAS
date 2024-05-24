@@ -125,7 +125,10 @@
                     </tr>
                 </tbody>
             </table>
-            <a class="informes-item-download" href="#">Descargar</a>
+            <!-- Enlace para descargar el informe en formato PDF -->
+            <a class="informes-item-download" href="{% url 'generate_pdf' %}" target="_blank">Descargar PDF</a>
+            <a class="informes-item-download" href="{% url 'generate_excel' %}" target="_blank">Descargar Excel</a>
+        </li>
     </ul>
 
 </div>
