@@ -1,6 +1,7 @@
 from django.urls import path, include
 from.views import *
 from rest_framework import routers
+from . import views
 # CREAMOS LAS RUTAS DEL API
 router = routers.DefaultRouter()
 
@@ -13,7 +14,7 @@ urlpatterns = [
     path('nosotros', nosotros, name="nosotros"),
     path('registro/', registro, name="registro"),
     path('administracion/', administracion, name="administracion"),
-    path('crudUsuarios/', crudUsuarios, name="crudUsuarios"),
+    path('crudUsuarios', crudUsuarios, name="crudUsuarios"),
     path('crudClientes/', crudClientes, name="crudClientes"),
     path('crudVendedores', crudVendedores, name="crudVendedores"),
     path('crudBodegueros', crudBodegueros, name="crudBodegueros"),
@@ -51,11 +52,15 @@ urlpatterns = [
     path('agregarContador', agregarContador, name="agregarContador"),
     path('agregarProducto', agregarProducto, name="agregarProducto"),
     path('agregarVendedor', agregarVendedor, name="agregarVendedor"),
+    path('agregarClientes', agregarClientes, name="agregarClientes"),
     
     #MODIFICAR
     path('modificarBodeguero', modificarBodeguero, name="modificarBodeguero"),
     path('modificarContador', modificarContador, name="modificarContador"),
     path('modificarProducto', modificarProducto, name="modificarProducto"),
-    path('modificarVendedor', modificarVendedor, name="modificarVendedor"),
+    path('modificarVendedor/<int:id>/', views.modificarVendedor, name='modificarVendedor'),
+
+    #Visualizar
+    path('lista_vendedores/', views.lista_vendedores, name='lista_vendedores')
 
 ]

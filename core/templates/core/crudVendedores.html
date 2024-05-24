@@ -138,32 +138,20 @@
     </div>
 
     <ul class="cuentas-list">
+        {% for vendedor in vendedores %}
         <li class="cuentas-item">
             <div class="cuentas-item-header">Vendedor</div>
             <div class="cuentas-item-content">
-                <p>Usuario: dav.riffo</p>
-                <p>Nombre: David Riffo</p>
-                <p>Email: D.riffo@gmail.com</p>
-
+                <p>Usuario: {{ vendedor.first_name }}</p>
+                <p>Nombre: {{ vendedor.first_name }}</p>
+                <p>Email: {{ vendedor.email }}</p>
             </div>
             <div class="cuentas-item-actions">
-                <a href="{% url 'modificarVendedor' %}" class="cuentas-item-action editar-link">Modificar</a>
+                <a href="{% url 'modificarVendedor' id=vendedor.id %}">Modificar</a>
                 <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
             </div>
         </li>
-        <li class="cuentas-item">
-            <div class="cuentas-item-header">Vendedor</div>
-            <div class="cuentas-item-content">
-                <p>Usuario: Ig.Galvez</p>
-                <p>Nombre: Ignacio Galvez</p>
-                <p>Email: ignaGal@gmail.com</p>
-            </div>
-            <div class="cuentas-item-actions">
-                <a href="{% url 'modificarVendedor' %}" class="cuentas-item-action editar-link">Modificar</a>
-                <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
-            </div>
-        </li>
+    {% endfor %}
     </ul>
 </div>
-
 {% endblock %}

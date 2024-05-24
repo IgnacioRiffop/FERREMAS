@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,  get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib.auth import authenticate, login
@@ -24,6 +24,7 @@ from reportlab.platypus import SimpleDocTemplate, Table
 import io
 import pandas as pd
 from django.http import HttpResponse
+from django.contrib.auth.models import User, Group
 
 # Create your views here.
 def index(request):
@@ -420,6 +421,8 @@ def agregarProducto(request):
     return render(request,'core/agregarProducto.html')
 def agregarVendedor(request):
     return render(request,'core/agregarVendedor.html')
+def agregarClientes(request):
+    return render(request,'core/agregarClientes.html')
 
     #MODIFICAR
 def modificarBodeguero(request):
@@ -593,3 +596,104 @@ def generate_excel(request):
     response.write(excel_file.getvalue())
 
     return response
+
+
+def agregarVendedor(request):
+    data = {
+        'form': RegistroForm()
+    }
+
+    if request.method == 'POST':
+        formulario = RegistroForm(data=request.POST) # OBTIENE LA DATA DEL FORMULARIO
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(username = formulario.cleaned_data["username"], password = formulario.cleaned_data["password1"])
+            login(request, user)
+            grupo = Group.objects.get(name='vendedor')
+            user.groups.add(grupo)
+            #redirigir al home
+            return redirect(to="index")
+        data["form"]=formulario
+    return render(request, 'core/agregarVendedor.html', data)
+
+def agregarContador(request):
+    data = {
+        'form': RegistroForm()
+    }
+
+    if request.method == 'POST':
+        formulario = RegistroForm(data=request.POST) # OBTIENE LA DATA DEL FORMULARIO
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(username = formulario.cleaned_data["username"], password = formulario.cleaned_data["password1"])
+            login(request, user)
+            grupo = Group.objects.get(name='contador')
+            user.groups.add(grupo)
+            #redirigir al home
+            return redirect(to="index")
+        data["form"]=formulario
+    return render(request, 'core/agregarContador.html', data)
+
+def agregarBodeguero(request):
+    data = {
+        'form': RegistroForm()
+    }
+
+    if request.method == 'POST':
+        formulario = RegistroForm(data=request.POST) # OBTIENE LA DATA DEL FORMULARIO
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(username = formulario.cleaned_data["username"], password = formulario.cleaned_data["password1"])
+            login(request, user)
+            grupo = Group.objects.get(name='bodeguero')
+            user.groups.add(grupo)
+            #redirigir al home
+            return redirect(to="index")
+        data["form"]=formulario
+    return render(request, 'core/agregarBodeguero.html', data)
+
+def agregarClientes(request):
+    data = {
+        'form': RegistroForm()
+    }
+
+    if request.method == 'POST':
+        formulario = RegistroForm(data=request.POST) # OBTIENE LA DATA DEL FORMULARIO
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(username = formulario.cleaned_data["username"], password = formulario.cleaned_data["password1"])
+            login(request, user)
+            grupo = Group.objects.get(name='cliente')
+            user.groups.add(grupo)
+            #redirigir al home
+            return redirect(to="index")
+        data["form"]=formulario
+    return render(request, 'core/agregarClientes.html', data)
+
+
+def modificarVendedor(request, id):
+    vendedor = get_object_or_404(User, id=id)
+
+    if request.method == 'POST':
+        form = RegistroForm(request.POST, instance=vendedor)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = RegistroForm(instance=vendedor)
+    
+    return render(request, 'core/modificarVendedor.html', {'form': form})
+
+def lista_vendedores(request):
+    # Obtener el grupo "vendedor"
+    grupo_vendedor = Group.objects.get(name='vendedor')
+
+    # Obtener todos los usuarios que pertenecen al grupo "vendedor"
+    vendedores = User.objects.filter(groups__in=[grupo_vendedor])
+
+    # Imprimir para verificar en la consola
+    print(vendedores)
+
+    return render(request, 'crudVendedores.html', {'vendedores': vendedores})
+
+
