@@ -142,13 +142,14 @@
         <li class="cuentas-item">
             <div class="cuentas-item-header">Vendedor</div>
             <div class="cuentas-item-content">
-                <p>Usuario: {{ vendedor.first_name }}</p>
+                <p>Usuario: {{ vendedor.username }}</p>
                 <p>Nombre: {{ vendedor.first_name }}</p>
+                <p>Nombre: {{ vendedor.last_name }}</p>
                 <p>Email: {{ vendedor.email }}</p>
             </div>
             <div class="cuentas-item-actions">
-                <a href="{% url 'modificarVendedor' id=vendedor.id %}">Modificar</a>
-                <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
+                <a href="{% url 'modificarVendedor' id=vendedor.id %}" class="btn btn-primary">Modificar</a>
+                <a href="" class="btn btn-danger">Eliminar</a>
             </div>
         </li>
     {% endfor %}

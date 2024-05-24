@@ -43,7 +43,14 @@ def crudClientes(request):
     return render(request,'core/crudClientes.html')
 
 def crudVendedores(request):
-    return render(request,'core/crudVendedores.html')
+    # Obtener el grupo "vendedor"
+    grupo_vendedor = Group.objects.get(name='vendedor')
+
+    # Obtener todos los usuarios que pertenecen al grupo "vendedor"
+    vendedores = User.objects.filter(groups__in=[grupo_vendedor])
+
+    # Imprimir para verificar en la consola
+    return render(request,'core/crudVendedores.html',{'vendedores': vendedores})
 
 def crudBodegueros(request):
     return render(request,'core/crudBodegueros.html') 
@@ -413,16 +420,9 @@ def formularioDespacho(request):
 
 #CRUD
 #AGREGAR
-def agregarBodeguero(request):
-    return render(request,'core/agregarBodeguero.html')
-def agregarContador(request):
-    return render(request,'core/agregarContador.html')
 def agregarProducto(request):
     return render(request,'core/agregarProducto.html')
-def agregarVendedor(request):
-    return render(request,'core/agregarVendedor.html')
-def agregarClientes(request):
-    return render(request,'core/agregarClientes.html')
+
 
     #MODIFICAR
 def modificarBodeguero(request):
@@ -431,8 +431,16 @@ def modificarContador(request):
     return render(request,'core/modificarContador.html')
 def modificarProducto(request):
     return render(request,'core/modificarProducto.html')
+
 def modificarVendedor(request):
-    return render(request,'core/modificarVendedor.html')
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('crudVendedores')
+    else:
+        form = UserForm(instance=request.user)
+    return render(request,'core/modificarVendedor.html', {'form': form})
 
 
 

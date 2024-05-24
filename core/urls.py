@@ -43,9 +43,6 @@ urlpatterns = [
     path('generate_excel', generate_excel, name='generate_excel'),
     path('perfilEditar', perfilEditar, name='perfilEditar'),
 
-
-
-
     #CRUD
     #AGREGAR
     path('agregarBodeguero', agregarBodeguero, name="agregarBodeguero"),

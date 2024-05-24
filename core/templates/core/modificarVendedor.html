@@ -1,20 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Vendedor</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h2>Modificar Vendedor</h2>
-        <form method="post">
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% load crispy_forms_tags %}
+
+{% block css %}
+  
+{% endblock %}
+
+{% block contenido %}
+
+<br><br>
+<div class="container-fluid d-flex justify-content-center align-items-center" style="margin-bottom: 120px;">
+    <div class="p-5 rounded-5 text-dark shadow" style="width: 25rem; background-color: rgb(236, 236, 236);">
+        <form action="" method="post" class="mt-4 mb-4">
+            <div class="text-center fs-1 fw-bold">Editar Vendedor</div>
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="button-register">Guardar Cambios</button>
+            {{ form | crispy }}
+            <br>
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
+            <a href="{% url 'crudVendedores' %}" class="btn btn-primary">Volver</a>
         </form>
-        <a href="{% url 'index' %}" class="bottom-right">Volver</a>
+
     </div>
-</body>
-</html>
+</div>
+
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  
+{% endblock %}
