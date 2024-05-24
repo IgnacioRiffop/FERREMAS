@@ -2,8 +2,6 @@
 {% load static %}
 
 {% block css %}
-
-
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -67,7 +65,7 @@
     }
 
     .cuentas-item-action {
-        padding: 5px 10px;
+        padding: 10px 20px; /* Mismo padding que el botón eliminar */
         background-color: #000000; /* Fondo verde por defecto */
         color: #ffffff; /* Texto blanco */
         border: none;
@@ -115,6 +113,16 @@
     .agregar-cuenta-btn:hover {
         color: #ffffff; /* Color de texto blanco */
     }
+
+    /* Estilos para el enlace de editar */
+    .editar-link {
+        color: #ffffff; /* Color de texto blanco */
+        text-decoration: none; /* No subrayar el texto */
+    }
+
+    .editar-link:hover {
+        color: #ffffff; /* Mantener el color de texto blanco al pasar el ratón */
+    }
 </style>
 {% endblock %}
 
@@ -128,7 +136,7 @@
     <div class="agregar-cuenta">
         <a href="{% url 'agregarVendedor' %}" class="agregar-cuenta-btn"><i class="fas fa-plus"></i> Agregar Vendedor</a>
     </div>
-    
+
     <ul class="cuentas-list">
         <li class="cuentas-item">
             <div class="cuentas-item-header">Vendedor</div>
@@ -139,7 +147,7 @@
 
             </div>
             <div class="cuentas-item-actions">
-                <button class="cuentas-item-action">Editar</button>
+                <a href="{% url 'modificarVendedor' %}" class="cuentas-item-action editar-link">Modificar</a>
                 <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
             </div>
         </li>
@@ -151,7 +159,7 @@
                 <p>Email: ignaGal@gmail.com</p>
             </div>
             <div class="cuentas-item-actions">
-                <button class="cuentas-item-action">Editar</button>
+                <a href="{% url 'modificarVendedor' %}" class="cuentas-item-action editar-link">Modificar</a>
                 <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
             </div>
         </li>

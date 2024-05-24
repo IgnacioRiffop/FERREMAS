@@ -16,7 +16,7 @@
   {% block css %}
 
   {% endblock %}
-  <title>Home</title>
+  <title>Ferremas</title>
   <style>
     .navbar {
       height: 80px; /* Ajusta la altura según sea necesario */
@@ -45,11 +45,11 @@
       <div class="navbar-nav ms-auto">
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link {% if request.path == '/logout' %}active{% endif %}" href="{% url 'logout' %}">Cerrar Sesíon</a>
+          <a class="nav-link {% if request.path == '/logout' %}active{% endif %}" href="{% url 'logout' %}">Cerrar Sesión</a>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link {% if request.path == '/login' %}active{% endif %}" href="{% url 'login' %}">Iniciar Sesíon</a>
+          <a class="nav-link {% if request.path == '/login' %}active{% endif %}" href="{% url 'login' %}">Iniciar Sesión</a>
         </li>
         {% endif %}
         <a class="nav-link {% if '/nosotros' in request.path %}active{% endif %}" href="{% url 'nosotros' %}">Sobre nosotros</a>

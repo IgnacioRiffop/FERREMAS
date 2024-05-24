@@ -85,7 +85,7 @@ def contacto(request):
                 'Nuevo mensaje de contacto',
                 mensaje_email,
                 correo, 
-                ['droguettbastias1@gmail.com'],  
+                ['ferremas2024@gmail.com'],  
                 fail_silently=False,
             )
             
