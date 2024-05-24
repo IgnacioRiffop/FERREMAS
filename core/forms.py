@@ -6,7 +6,7 @@ from .models import *
 class RegistroForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username','email','password1','password2']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 class CantidadForm (ModelForm):
     cantidad = forms.IntegerField(min_value=1 ,widget=forms.NumberInput(attrs={"placeholder":"Ingrese Cantidad"}))

@@ -80,22 +80,22 @@ def contacto(request):
         form = MensajeContactoForm(request.POST)
         if form.is_valid():
             form.save()
-            
+
             nombre = form.cleaned_data['nombre']
             correo = form.cleaned_data['correo']
             telefono = form.cleaned_data['telefono']
             asunto = form.cleaned_data['asunto']
             mensaje = form.cleaned_data['mensaje']
-            
+
             mensaje_email = f"Nombre: {nombre}\nCorreo: {correo}\nTeléfono: {telefono}\nAsunto: {asunto}\nMensaje: {mensaje}"
             send_mail(
-                'Nuevo mensaje de contacto Ferremas',
+                'Nuevo mensaje de contacto',
                 mensaje_email,
-                ['fr.verag@duocuc.cl'], 
-                ['ferremas2024@gmail.com'],  
+                correo, 
+                ['fr.verag@duocuc.cl'],
                 fail_silently=False,
             )
-            
+
             return redirect('index') 
     else:
         form = MensajeContactoForm()
