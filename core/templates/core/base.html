@@ -44,6 +44,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ms-auto">
         {% if user.is_authenticated %}
+        <a href="#"class= "nav-link">Bienvenido: {{ user.username }}</a>
         <li class="nav-item">
           <a class="nav-link {% if request.path == '/logout' %}active{% endif %}" href="{% url 'logout' %}">Cerrar Sesión</a>
         </li>
@@ -58,8 +59,12 @@
         <a class="nav-link {% if '/perfil' in request.path %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
         {% endif %}
         <a class="nav-link {% if '/contacto' in request.path %}active{% endif %}" href="{% url 'contacto' %}">Contacto</a>
+        <a class="nav-link {% if '/bodega' in request.path %}active{% endif %}" href="{% url 'bodega' %}">Bodega</a>
+        {% if user.is_superuser %}
         <a class="nav-link {% if '/crudUsuarios' in request.path %}active{% endif %}" href="{% url 'crudUsuarios' %}">CrudCuentas</a>
+        {% endif %}
         <a class="nav-link {% if '/nosotros' in request.path %}active{% endif %}" href="{% url 'nosotros' %}">Sobre nosotros</a>
+
       </div>
     </div>
   </div>
