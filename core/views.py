@@ -9,7 +9,6 @@ from django.core.paginator import Paginator
 import uuid
 import datetime
 from django.core.exceptions import MultipleObjectsReturned
-import requests
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from .models import Carrito
@@ -17,6 +16,14 @@ from .forms import CantidadForm
 import json
 from django.urls import reverse
 from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import render
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table
+import io
+import pandas as pd
+from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
@@ -498,3 +505,76 @@ def peticion_patch(request, id_producto):
     response = requests.patch(url, data=json.dumps(producto_actualizado), headers=headers)
     
     return render(request, 'core/index.html')
+
+def generate_pdf(request):
+    # Aquí deberías obtener los datos reales de ventas de tu base de datos o cualquier otra fuente
+    # Por simplicidad, aquí se proporcionan datos de ejemplo
+    sales_data = [
+        {"producto": "Martillo", "cantidad": 10, "precio": "$15"},
+        {"producto": "Destornillador", "cantidad": 20, "precio": "$10"},
+        {"producto": "Sierra", "cantidad": 5, "precio": "$30"}
+    ]
+
+    # Crear el objeto PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="informe_ventas.pdf"'
+    pdf = SimpleDocTemplate(response, pagesize=letter)
+    
+    # Crear la tabla para los datos de ventas
+    table_data = [["Producto", "Cantidad", "Precio"]]
+    for sale in sales_data:
+        table_data.append([sale["producto"], sale["cantidad"], sale["precio"]])
+
+    table = Table(table_data)
+
+    # Estilo de la tabla
+    style = [('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+             ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+             ('GRID', (0, 0), (-1, -1), 1, colors.black)]
+
+    table.setStyle(style)
+
+    # Construir el PDF y devolverlo como una respuesta HTTP
+    pdf.build([table])
+    return response
+
+def sales_report(request):
+    # Lógica para obtener los datos de ventas y mostrarlos en una plantilla HTML
+    # Aquí puedes hacer consultas a la base de datos o cualquier otra operación necesaria
+    # Por simplicidad, aquí se proporcionan datos de ejemplo
+    sales_data = [
+        {"producto": "Martillo", "cantidad": 10, "precio": "$15"},
+        {"producto": "Destornillador", "cantidad": 20, "precio": "$10"},
+        {"producto": "Sierra", "cantidad": 5, "precio": "$30"}
+    ]
+    context = {"sales_data": sales_data}
+    return render(request, 'sales_report.html', context)
+
+def generate_excel(request):
+    # Aquí deberías obtener los datos reales de ventas de tu base de datos o cualquier otra fuente
+    # Por simplicidad, aquí se proporcionan datos de ejemplo
+    sales_data = [
+        {"Mes": "Enero", "Año": 2024, "Pedidos": 10},
+        {"Mes": "Febrero", "Año": 2024, "Pedidos": 15},
+        {"Mes": "Marzo", "Año": 2024, "Pedidos": 20}
+    ]
+
+    # Crear un DataFrame de pandas con los datos de ventas
+    df = pd.DataFrame(sales_data)
+
+    # Crear un objeto BytesIO para almacenar el archivo Excel
+    excel_file = io.BytesIO()
+
+    # Escribir el DataFrame en el objeto BytesIO como un archivo Excel
+    df.to_excel(excel_file, index=False)
+
+    # Configurar la respuesta HTTP para descargar el archivo Excel
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="informe_ventas.xlsx"'
+    response.write(excel_file.getvalue())
+
+    return response

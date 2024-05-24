@@ -9,3 +9,6 @@ pymysql
 mysqlclient
 django-jazzmin
 python-dateutil
+reportlab
+pandas
+openpyxl
