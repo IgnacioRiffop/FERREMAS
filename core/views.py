@@ -92,7 +92,7 @@ def contacto(request):
                 'Nuevo mensaje de contacto',
                 mensaje_email,
                 correo, 
-                ['fr.verag@duocuc.cl'],
+                ['fvera891@gmail.com'],
                 fail_silently=False,
             )
 
