@@ -89,9 +89,9 @@ def contacto(request):
             
             mensaje_email = f"Nombre: {nombre}\nCorreo: {correo}\nTeléfono: {telefono}\nAsunto: {asunto}\nMensaje: {mensaje}"
             send_mail(
-                'Nuevo mensaje de contacto',
+                'Nuevo mensaje de contacto Ferremas',
                 mensaje_email,
-                correo, 
+                ['fr.verag@duocuc.cl'], 
                 ['ferremas2024@gmail.com'],  
                 fail_silently=False,
             )

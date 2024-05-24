@@ -52,12 +52,13 @@
           <a class="nav-link {% if request.path == '/login' %}active{% endif %}" href="{% url 'login' %}">Iniciar Sesión</a>
         </li>
         {% endif %}
-        <a class="nav-link {% if '/nosotros' in request.path %}active{% endif %}" href="{% url 'nosotros' %}">Sobre nosotros</a>
         <a class="nav-link {% if '/producto' in request.path %}active{% endif %}" href="{% url 'producto' %}">Productos</a>
-        <a class="nav-link {% if '/perfil' in request.path %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
-        <a class="nav-link {% if '/contacto' in request.path %}active{% endif %}" href="{% url 'contacto' %}">Contacto</a>
+        {% if user.is_authenticated %}
         <a class="nav-link {% if '/carrito' in request.path %}active{% endif %}" href="{% url 'carrito' %}">Carrito <i class="fas fa-shopping-cart"></i></a>
-
+        <a class="nav-link {% if '/perfil' in request.path %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
+        {% endif %}
+        <a class="nav-link {% if '/contacto' in request.path %}active{% endif %}" href="{% url 'contacto' %}">Contacto</a>
+        <a class="nav-link {% if '/nosotros' in request.path %}active{% endif %}" href="{% url 'nosotros' %}">Sobre nosotros</a>
       </div>
     </div>
   </div>
