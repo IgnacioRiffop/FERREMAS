@@ -20,10 +20,10 @@
             </tr>
             <tr>
                 <th>Sucursal</th>
-                {% if compra.direccion != None %}
-                    <td id="sucursal">{{compra.sucursal}}</td>
+                {% if compra.sucursal is None %}
+                    <td id="metodo">No aplica</td>   
                 {% else %}
-                    <td id="metodo">No aplica</td>
+                    <td id="sucursal">{{compra.sucursal}}</td>
                 {% endif %}
             </tr>
             <tr>
@@ -40,7 +40,7 @@
             </tr>
             <tr>
                 <th>Monto Total</th>
-                <td id="monto">{{boleta.total}}</td>
+                <td id="monto">{{boleta.total}} CLP</td>
             </tr>
             <tr>
                 <th>Método de Pago</th>
@@ -55,18 +55,32 @@
                 {% if boleta.validacion == True %}
                     <td id="metodo">Aprobada</td>
                 {% else %}
-                    <td id="metodo">En espera de revisión</td>
+                    {% if boleta.imagen == "" %}
+                        <td id="metodo">Comprobante no enviado</td>
+                    {% else %}
+                        <td id="metodo">En espera de revisión</td>
+                    {% endif %}
                 {% endif %}
             </tr>
         </tbody>
     </table>
-    <form>
-        <div class="mb-3">
-            <label for="formFile" class="form-label">Comprobante Transferencia</label>
-            <input class="form-control" type="file" id="formFile">
-        </div>
-        <button type="submit" class="btn btn-primary">Subir</button>
-    </form>
+    {% if boleta.transferencia %}
+        {% if boleta.validacion == False %}
+            <form method="post" enctype="multipart/form-data" action="">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Comprobante Transferencia</label>
+                    <input class="form-control" type="file" id="formFile" name="comprobante">
+                </div>
+                <button type="submit" class="btn btn-success">Subir</button>
+            </form>
+            <a href="{% url 'datosTransferencia' %}" class="btn btn-primary mt-2">Datos de Transferencia</a>
+        {% endif %}
+    {% endif %}
+
+    
+
+
 </div>
 
 {% endblock %}

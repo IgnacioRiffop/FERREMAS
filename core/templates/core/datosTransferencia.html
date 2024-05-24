@@ -14,8 +14,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin-top: -50px; /* Ajuste para centrar más arriba */
+      height: 90vh;
+      margin-top: -90px; /* Ajuste para centrar más arriba */
   }
 
   .datos-transferencia-card {
@@ -98,16 +98,19 @@
 <div class="datos-transferencia-container">
     <div class="datos-transferencia-card">
         <div class="datos-transferencia-card-body">
-            <h1 class="datos-transferencia-card-title">Datos de Transferencia <img class="datos-transferencia-title-image" src="{% static 'core/img/transferencia2.png' %}" alt="imagen"></h1>
+            <h1 class="datos-transferencia-card-title">Datos de Transferencia<img class="datos-transferencia-title-image" src="{% static 'core/img/transferencia2.png' %}" alt="imagen"></h1>
             <ul class="datos-transferencia-list-group">
-                <li class="datos-transferencia-list-group-item">Banco: Santander</li>
-                <li class="datos-transferencia-list-group-item">Número de cuenta: 97639762</li>
+                <li class="datos-transferencia-list-group-item">DEBE SUBIR SU COMPROBANTE EN LA SECCION MIS COMPRAS</li>
                 <li class="datos-transferencia-list-group-item">Nombre: Fabian Bravo</li>
                 <li class="datos-transferencia-list-group-item">RUT: 12.345.678-9</li>
+                <li class="datos-transferencia-list-group-item">Banco Santander</li>
+                <li class="datos-transferencia-list-group-item">Cuenta Corriente</li>
+                <li class="datos-transferencia-list-group-item">Número de cuenta: 97639762</li>
             </ul>
-        </div>
-        <div class="datos-transferencia-button-container">
-            <button class="datos-transferencia-button">Subir Comprobante</button>
+            <div class="text-center">
+                <a href="{% url 'compras' %}" class="btn btn-primary mt-2">Ir a Mis Compras</a>
+            </div>
+
         </div>
     </div>
 </div>

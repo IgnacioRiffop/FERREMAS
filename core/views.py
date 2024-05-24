@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 from .models import Carrito
 from .forms import CantidadForm
 import json
+from django.urls import reverse
 
 
 # Create your views here.
@@ -224,7 +225,7 @@ def agregarCompra(request):
             carrito.vigente = False
             carrito.save()
         Boleta.objects.create(codigo=codigo,total=total,transferencia=False,validacion=True,imagen=None)
-    return redirect(to='/')
+    return redirect(to='compras')
 
 def deleteCarrito(request, id_producto):
     cliente = User.objects.get(username=request.user.username)
@@ -253,7 +254,7 @@ def deleteCarrito(request, id_producto):
     itemCarrito.delete()
     return redirect(to='carrito')
 
-def compra(request,codigo):
+def compra(request, codigo):
     try:
         compra = Compra.objects.get(codigo=codigo)
     except MultipleObjectsReturned:
@@ -262,11 +263,21 @@ def compra(request,codigo):
         compra = None
     boleta = Boleta.objects.get(codigo=codigo)
 
+    if request.method == 'POST':
+        # Accede al archivo subido a través de request.FILES
+        comprobante = request.FILES.get('comprobante')
+        if comprobante:
+            # Actualiza el campo imagen de la boleta con el archivo subido
+            boleta.imagen = comprobante
+            boleta.save()
+            # Redirige al usuario a la misma página (o a donde quieras) después de subir el archivo
+            return redirect(reverse('compra', args=[codigo]))
+
     data = {
         'compra' : compra,
         'boleta' : boleta
     }
-    return render(request,'core/compra.html', data)
+    return render(request, 'core/compra.html', data)
 
 
 def compras(request):
