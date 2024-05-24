@@ -19,3 +19,8 @@ class MensajeContactoForm(forms.ModelForm):
     class Meta:
         model = MensajeContacto
         fields = ['nombre', 'correo', 'telefono', 'asunto', 'mensaje']   
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']

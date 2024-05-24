@@ -14,8 +14,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin-top: -50px; /* Ajuste para centrar más arriba */
+      height: 80vh;
+      margin-top: -80px; /* Ajuste para centrar más arriba */
   }
 
   .perfil-card {
@@ -104,6 +104,9 @@
                 <li class="perfil-list-group-item">Apellido: {{cliente.last_name}}</li>
                 <li class="perfil-list-group-item">Correo: {{cliente.email}}</li>
             </ul>
+        </div>
+        <div class="perfil-button-container">
+            <a href="{% url 'perfilEditar' %}" class="btn btn-primary">Editar perfil</a>
         </div>
     </div>
 </div>

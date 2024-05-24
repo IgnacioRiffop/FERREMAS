@@ -109,6 +109,16 @@ def perfil(request):
     }
     return render(request,'core/perfil.html', data)
 
+def perfilEditar(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('perfilEditar')
+    else:
+        form = UserForm(instance=request.user)
+    return render(request, 'core/perfilEditar.html', {'form': form})
+
 def formularioDespacho(request):
     return render(request,'core/formularioDespacho.html')
 

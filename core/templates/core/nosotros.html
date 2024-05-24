@@ -8,87 +8,20 @@
 <!-- INICIO CONTENIDO-->
 {% block contenido %}
 
-<style>
-
-    .container {
-        display: flex;
-        align-items: flex-start; /* Alinear elementos al inicio */
-        justify-content: space-between;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .image {
-        flex: 0 0 30%; /* 30% width */
-        margin-right: 20px; /* Espaciado entre imagen y texto */
-    }
-
-    .image img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-    }
-
-    .text {
-        flex: 0 0 70%; /* 70% width */
-    }
-
-    .h1-text {
-        font-size: 2em;
-        color: #333;
-    }
-
-    .p-text {
-        font-size: 22px;
-        color: #666;
-        line-height: 1.6;
-        margin-bottom: 10px; /* Separación inferior entre párrafos */
-    }
-
-    .btn {
-        font-size: 1.2em;
-        padding: 15px 20px; /* Aumentar padding para que el botón esté más abajo */
-        border-radius: 8px;
-        border: 2px solid #333;
-        color: #333;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        margin-top: 10px; /* Espacio superior para separar el botón */
-    }
-
-    .btn:hover {
-        background-color: #333;
-        color: #fff;
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            flex-direction: column;
-        }
-
-        .image {
-            margin-right: 0;
-            margin-bottom: 20px;
-        }
-
-        .text {
-            flex: 0 0 100%;
-        }
-    }
-</style>
-
-
-
-<div class="container">
-    <div class="text">
-        <h1 class="h1-text"><strong>Sobre Nosotros</strong></h1>
-        <p class="p-text">"FERREMAS" es una de estas distribuidoras, establecida en la comuna de Santiago , desde la década de los 80. Cuenta con 4
-            sucursales en la región metropolitana y 3 sucursales en regiones con planes de expansión en todo Chile.
-            En "FERREMAS", se puede encontrar una amplia gama de productos, desde herramientas manuales y eléctricas, pinturas,
-            materiales eléctricos, hasta accesorios y artículos de seguridad. Trabajan con marcas reconocidas del sector como Bosch, Makita,
-            Stanley y Sika, ofreciendo así diversidad y calidad en sus productos.</p>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-primary shadow">
+                <div class="card-body">
+                    <h1 class="h1 text-center text-primary mb-4"><strong>Sobre Nosotros</strong></h1>
+                    <p class="lead text-secondary">"FERREMAS" es una de estas distribuidoras, establecida en la comuna de Santiago , desde la década de los 80. Cuenta con 4
+                        sucursales en la región metropolitana y 3 sucursales en regiones con planes de expansión en todo Chile.
+                        En "FERREMAS", se puede encontrar una amplia gama de productos, desde herramientas manuales y eléctricas, pinturas,
+                        materiales eléctricos, hasta accesorios y artículos de seguridad. Trabajan con marcas reconocidas del sector como Bosch, Makita,
+                        Stanley y Sika, ofreciendo así diversidad y calidad en sus productos.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
