@@ -1,0 +1,134 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff; /* Fondo blanco */
+      margin: 0;
+      padding: 0;
+  }
+
+  .estado-pedido-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff; /* Fondo blanco */
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+      overflow: hidden; /* Oculta el desbordamiento horizontal */
+  }
+
+  .estado-pedido-title {
+      color: #333333; /* Título negro */
+      margin-bottom: 20px;
+      text-align: center;
+  }
+
+  .estado-pedido-table {
+      width: 100%;
+      border-collapse: collapse; /* Fusiona los bordes de la tabla */
+      margin-bottom: 20px;
+  }
+
+  .estado-pedido-table th,
+  .estado-pedido-table td {
+      padding: 10px;
+      border-bottom: 1px solid #dddddd; /* Borde inferior gris */
+      text-align: left;
+  }
+
+  .estado-pedido-table th {
+      background-color: #f2f2f2; /* Fondo gris claro para encabezados */
+  }
+
+  .estado-pedido-status-select {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease; /* Transición suave */
+  }
+
+  .estado-pedido-status-select option {
+      background-color: #ffffff; /* Fondo blanco */
+      color: #333333; /* Texto negro */
+  }
+
+  .estado-pedido-status-select:hover {
+      filter: brightness(90%); /* Reduce ligeramente el brillo al pasar el ratón */
+  }
+</style>
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<div class="estado-pedido-container">
+    <h1 class="estado-pedido-title">Estado del Pedido</h1>
+    
+    <table class="estado-pedido-table">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Código</th>
+                <th>Total</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Fabian Galvez</td>
+                <td>ID: 7369 </td>
+                <td>$67.000</td>
+                <td>
+                    <select class="estado-pedido-status-select" onchange="cambiarColor(this)">
+                        <option value="pendiente" style="background-color: #ffcccc;">Pendiente</option>
+                        <option value="en_proceso" style="background-color: #ffffcc;">En Proceso</option>
+                        <option value="enviado" style="background-color: #ccffcc;">Enviado</option>
+                        <option value="entregado" style="background-color: #ccccff;">Entregado</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Daniel Bravo</td>
+                <td>ID: 9401 </td>
+                <td>$109.000</td>
+                <td>
+                    <select class="estado-pedido-status-select" onchange="cambiarColor(this)">
+                        <option value="pendiente" style="background-color: #ffcccc;">Pendiente</option>
+                        <option value="en_proceso" style="background-color: #ffffcc;">En Proceso</option>
+                        <option value="enviado" style="background-color: #ccffcc;">Enviado</option>
+                        <option value="entregado" style="background-color: #ccccff;">Entregado</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>David Riffo</td>
+                <td>ID: 7092 </td>
+                <td>$49.000</td>
+                <td>
+                    <select class="estado-pedido-status-select" onchange="cambiarColor(this)">
+                        <option value="pendiente" style="background-color: #ffcccc;">Pendiente</option>
+                        <option value="en_proceso" style="background-color: #ffffcc;">En Proceso</option>
+                        <option value="enviado" style="background-color: #ccffcc;">Enviado</option>
+                        <option value="entregado" style="background-color: #ccccff;">Entregado</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+  function cambiarColor(select) {
+      var selectedOption = select.options[select.selectedIndex];
+      var color = selectedOption.style.backgroundColor;
+      select.style.backgroundColor = color;
+  }
+</script>
+{% endblock %}
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

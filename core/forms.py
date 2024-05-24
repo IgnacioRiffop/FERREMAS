@@ -14,3 +14,8 @@ class CantidadForm (ModelForm):
     class Meta:
         model = Carrito
         fields = ['cantidad']
+
+class MensajeContactoForm(forms.ModelForm):
+    class Meta:
+        model = MensajeContacto
+        fields = ['nombre', 'correo', 'telefono', 'asunto', 'mensaje']   

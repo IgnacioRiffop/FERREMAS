@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% load static%}
+{% load static %}
 
 {% block css %}
 <style>
@@ -65,7 +65,7 @@
     }
 
     .cuentas-item-action {
-        padding: 5px 10px;
+        padding: 10px 20px; /* Mismo padding que el botón eliminar */
         background-color: #000000; /* Fondo verde por defecto */
         color: #ffffff; /* Texto blanco */
         border: none;
@@ -113,65 +113,57 @@
     .agregar-cuenta-btn:hover {
         color: #ffffff; /* Color de texto blanco */
     }
+
+    /* Estilos para el enlace de editar */
+    .editar-link {
+        color: #ffffff; /* Color de texto blanco */
+        text-decoration: none; /* No subrayar el texto */
+    }
+
+    .editar-link:hover {
+        color: #ffffff; /* Mantener el color de texto blanco al pasar el ratón */
+    }
 </style>
 {% endblock %}
 
 <!-- INICIO CONTENIDO-->
 {% block contenido %}
-
+<!-- Agregar un botón para agregar productos -->
 <div class="cuentas-container">
-  <h1 class="cuentas-title">Cuentas Clientes</h1>
-  
-  <!-- Utiliza la rejilla de Bootstrap para alinear los elementos -->
-  <div class="row">
-      <div class="col-md-6 offset-md-3 mb-4"> <!-- Utiliza columnas para centrar y espaciar el formulario -->
-          <form action="/search/" method="get" class="text-center">
-              <input type="text" name="q" placeholder="Buscar..." class="form-control">
-              <button type="submit" class="btn btn-primary mt-2">Buscar</button> <!-- Añade margen superior -->
-          </form>
-      </div>
-      <div class="col-md-3"> <!-- Utiliza columnas para alinear el botón a la derecha -->
-        <div class="agregar-cuenta">
-            <a href="#" class="agregar-cuenta-btn"><i class="fas fa-plus"></i> Agregar Cliente</a>
-        </div>
-        
-      </div>
-  </div>
-  
-  <ul class="cuentas-list">
-      <!-- Tus elementos de lista aquí -->
-      <li class="cuentas-item">
-          <div class="cuentas-item-header">Cliente</div>
-          <div class="cuentas-item-content">
-              <p>Usuario: dav.riffo</p>
-              <p>Nombre: David Riffo</p>
-              <p>Email: D.riffo@gmail.com</p>
+    <h1 class="cuentas-title">Cuentas Contadores</h1>
 
-          </div>
-          <div class="cuentas-item-actions">
-              <button class="cuentas-item-action">Editar</button>
-              <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
-          </div>
-      </li>
-      <li class="cuentas-item">
-          <div class="cuentas-item-header">Cliente</div>
-          <div class="cuentas-item-content">
-              <p>Usuario: Ig.Galvez</p>
-              <p>Nombre: Ignacio Galvez</p>
-              <p>Email: ignaGal@gmail.com</p>
-          </div>
-          <div class="cuentas-item-actions">
-              <button class="cuentas-item-action">Editar</button>
-              <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
-          </div>
-      </li>
-  </ul>
+    <!-- Botón para agregar productos -->
+    <div class="agregar-cuenta">
+        <a href="{% url 'agregarVendedor' %}" class="agregar-cuenta-btn"><i class="fas fa-plus"></i> Agregar Contador</a>
+    </div>
+
+    <ul class="cuentas-list">
+        <li class="cuentas-item">
+            <div class="cuentas-item-header">Contador</div>
+            <div class="cuentas-item-content">
+                <p>Usuario: dav.riffo</p>
+                <p>Nombre: David Riffo</p>
+                <p>Email: D.riffo@gmail.com</p>
+
+            </div>
+            <div class="cuentas-item-actions">
+                <a href="{% url 'modificarContador' %}" class="cuentas-item-action editar-link">Modificar</a>
+                <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
+            </div>
+        </li>
+        <li class="cuentas-item">
+            <div class="cuentas-item-header">Contador</div>
+            <div class="cuentas-item-content">
+                <p>Usuario: Ig.Galvez</p>
+                <p>Nombre: Ignacio Galvez</p>
+                <p>Email: ignaGal@gmail.com</p>
+            </div>
+            <div class="cuentas-item-actions">
+                <a href="{% url 'modificarContador' %}" class="cuentas-item-action editar-link">Modificar</a>
+                <button class="cuentas-item-action cuentas-item-delete">Eliminar</button>
+            </div>
+        </li>
+    </ul>
 </div>
 
-
-{% endblock %}
-<!-- FIN CONTENIDO -->
-{% block js %}
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
 {% endblock %}

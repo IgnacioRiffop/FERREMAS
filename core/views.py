@@ -16,7 +16,7 @@ from .models import Carrito
 from .forms import CantidadForm
 import json
 from django.urls import reverse
-
+from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
@@ -33,6 +33,22 @@ def crudUsuarios(request):
 
 def crudClientes(request):
     return render(request,'core/crudClientes.html')
+
+def crudVendedores(request):
+    return render(request,'core/crudVendedores.html')
+
+def crudBodegueros(request):
+    return render(request,'core/crudBodegueros.html') 
+
+def crudContadores(request):
+    return render(request,'core/crudContadores.html') 
+
+def estadoPedido(request):
+    return render(request,'core/estadoPedido.html') 
+
+def informes(request):
+    return render(request,'core/informes.html') 
+
 
 def registro(request):
     data = {
@@ -53,7 +69,30 @@ def registro(request):
     return render(request, 'core/registro.html', data)
 
 def contacto(request):
-    return render(request,'core/contacto.html')
+    if request.method == 'POST':
+        form = MensajeContactoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            
+            nombre = form.cleaned_data['nombre']
+            correo = form.cleaned_data['correo']
+            telefono = form.cleaned_data['telefono']
+            asunto = form.cleaned_data['asunto']
+            mensaje = form.cleaned_data['mensaje']
+            
+            mensaje_email = f"Nombre: {nombre}\nCorreo: {correo}\nTeléfono: {telefono}\nAsunto: {asunto}\nMensaje: {mensaje}"
+            send_mail(
+                'Nuevo mensaje de contacto',
+                mensaje_email,
+                correo, 
+                ['droguettbastias1@gmail.com'],  
+                fail_silently=False,
+            )
+            
+            return redirect('index') 
+    else:
+        form = MensajeContactoForm()
+    return render(request, 'core/contacto.html', {'form': form})
 
 def perfil(request):
     return render(request,'core/perfil.html')

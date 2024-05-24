@@ -16,6 +16,11 @@ urlpatterns = [
     path('administracion/', administracion, name="administracion"),
     path('crudUsuarios/', crudUsuarios, name="crudUsuarios"),
     path('crudClientes/', crudClientes, name="crudClientes"),
+    path('crudVendedores', crudVendedores, name="crudVendedores"),
+    path('crudBodegueros', crudBodegueros, name="crudBodegueros"),
+    path('crudContadores', crudContadores, name="crudContadores"),
+    path('estadoPedido', estadoPedido, name="estadoPedido"),
+    path('informes', informes, name="informes"),
     path('contacto', contacto, name="contacto"),
     path('perfil', perfil, name="perfil"),
     path('formularioDespacho', formularioDespacho, name="formularioDespacho"),
@@ -34,6 +39,8 @@ urlpatterns = [
     path('deleteCarrito/<id_producto>', deleteCarrito, name="deleteCarrito"),
     path('compras', compras, name="compras"),
     path('compra/<codigo>', compra, name="compra"),
+
+
 
 
     #CRUD

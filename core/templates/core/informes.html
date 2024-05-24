@@ -1,0 +1,137 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+  }
+
+  .informes-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .informes-title {
+      color: #333333;
+      margin-bottom: 10px;
+      text-align: center;
+  }
+
+  .informes-subtitle {
+      color: #666666; 
+      margin-bottom: 20px;
+      text-align: center;
+  }
+
+  .informes-list {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 20px;
+  }
+
+  .informes-item {
+      background-color: #f2f2f2; 
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+      margin-bottom: 20px;
+      transition: transform 0.3s ease; 
+      overflow: hidden; 
+  }
+
+  .informes-item:hover {
+      transform: translateY(-5px);
+  }
+
+  .informes-item-title {
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333333;
+      border-bottom: 1px solid #dddddd; 
+      border-radius: 5px 5px 0 0;
+  }
+
+  .informes-item-download {
+      display: block;
+      padding: 15px;
+      text-decoration: none;
+      color: #ffffff; 
+      background-color: #4caf50; 
+      border-radius: 0 0 5px 5px;
+      text-align: center;
+      transition: background-color 0.3s ease; 
+  }
+
+  .informes-item-download:hover {
+      background-color: #45a049; 
+  }
+
+  .informes-table {
+      width: 100%;
+      border-collapse: collapse;
+  }
+
+  .informes-table th,
+  .informes-table td {
+      padding: 10px;
+      border-bottom: 1px solid #dddddd; 
+  }
+
+  .informes-table th {
+      background-color: #f2f2f2; 
+      color: #000000; 
+      text-align: left; 
+      font-weight: bold;
+  }
+
+  .informes-table td {
+      background-color: #ffffff;
+      color: #333333; 
+  }
+</style>
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<div class="informes-container">
+    <h1 class="informes-title">Informes</h1>
+    
+    <h2 class="informes-subtitle">Descarga tus informes aquí:</h2>
+    
+    <ul class="informes-list">
+        <li class="informes-item">
+            <h3 class="informes-item-title">Informe Mensual</h3>
+            <table class="informes-table">
+                <thead>
+                    <tr>
+                        <th>Mes</th>
+                        <th>Año</th>
+                        <th>Pedidos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Enero</td>
+                        <td>2024</td>
+                        <td>10</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="informes-item-download" href="#">Descargar</a>
+    </ul>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

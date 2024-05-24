@@ -2,42 +2,110 @@
 {% load static%}
 
 {% block css %}
-  
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff; /* Fondo blanco */
+      margin: 0;
+      padding: 0;
+  }
+
+  .perfil-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin-top: -50px; /* Ajuste para centrar más arriba */
+  }
+
+  .perfil-card {
+      width: 600px; /* Aumenta el ancho de la tarjeta */
+      background-color: #f9f9f9; /* Fondo blanco */
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+      overflow: hidden;
+      position: relative; /* Para posicionar el botón relativo a la carta */
+  }
+
+  .perfil-card-body {
+      padding: 20px;
+      margin-bottom: 50px; /* Margen inferior para separar del botón */
+  }
+
+  .perfil-card-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333333; /* Título negro */
+      text-align: center; /* Centra horizontalmente */
+  }
+
+  .perfil-list-group {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+  }
+
+  .perfil-list-group-item {
+      background-color: #ffffff; /* Fondo gris claro */
+      border-bottom: 1px solid #e0e0e0; /* Borde gris claro */
+      padding: 15px 20px; /* Aumenta el espacio alrededor del texto */
+      color: #666666; /* Texto gris */
+  }
+
+  .perfil-list-group-item:last-child {
+      border-bottom: none;
+  }
+
+  .perfil-list-group-item-first {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+  }
+
+  .perfil-list-group-item-last {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+  }
+
+  .perfil-title-image {
+      margin-left: 10px; /* Ajusta el margen */
+      width: 70px;
+      height: 70px;
+      vertical-align: middle; /* Alinea verticalmente */
+  }
+
+  .perfil-button-container {
+      position: absolute; /* Posiciona absolutamente el contenedor */
+      bottom: 20px; /* Margen inferior */
+      width: 100%; /* Ocupa todo el ancho de la carta */
+      text-align: center; /* Centra horizontalmente */
+  }
+
+  .perfil-button {
+      padding: 10px 20px;
+      background-color: #333333; /* Fondo negro */
+      color: #ffffff; /* Texto blanco */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+</style>
 {% endblock %}
 
 <!-- INICIO CONTENIDO-->
 {% block contenido %}
-
-<div class="container">
-    <div class="row">
-      <div class="col">
-      </div>
-      <div class="col-8 my-5">
-        <div class="card" style="width: 25rem;">
-            <div class="card-body">
-              <h1 class="card-title text-center">Perfil</h1>
-              <ul class="list-group">
-                <li class="list-group-item">Nombre: Fabian Bravo</li>
-                <li class="list-group-item">Correo: fabiangay@gmai.com</li>
-                <li class="list-group-item">Telefono: +56 9 456 654</li>
-                <li class="list-group-item">Fecha Nacimiento: 24/12/2004</li>
-              </ul>
-          </div>
+<div class="perfil-container">
+    <div class="perfil-card">
+        <div class="perfil-card-body">
+            <h1 class="perfil-card-title">Mi Perfil <img class="perfil-title-image" src="{% static 'core/img/perfil2.png' %}" alt="imagen"></h1>
+            <ul class="perfil-list-group">
+                <li class="perfil-list-group-item">Nombre: Fabian Bravo</li>
+                <li class="perfil-list-group-item">Rut: 12.456.755-k</li>
+                <li class="perfil-list-group-item">Correo: FabianBravo@gmail.com</li>
+                <li class="perfil-list-group-item">Fecha Nacimiento: 25/12/2006</li>
+            </ul>
         </div>
-      <div class="col">
-        
-      </div>
     </div>
-  </div>
-
-
-
-
-
-
-{% endblock %}
-<!-- FIN CONTENIDO -->
-{% block js %}
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+</div>
 {% endblock %}
