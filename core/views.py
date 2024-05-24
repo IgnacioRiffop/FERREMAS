@@ -432,17 +432,6 @@ def modificarContador(request):
 def modificarProducto(request):
     return render(request,'core/modificarProducto.html')
 
-def modificarVendedor(request):
-    if request.method == 'POST':
-        form = UserForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('crudVendedores')
-    else:
-        form = UserForm(instance=request.user)
-    return render(request,'core/modificarVendedor.html', {'form': form})
-
-
 
 
 #views del API
@@ -683,12 +672,12 @@ def modificarVendedor(request, id):
     vendedor = get_object_or_404(User, id=id)
 
     if request.method == 'POST':
-        form = RegistroForm(request.POST, instance=vendedor)
+        form = UserForm(request.POST, instance=vendedor)
         if form.is_valid():
             form.save()
             return redirect('index')
     else:
-        form = RegistroForm(instance=vendedor)
+        form = UserForm(instance=vendedor)
     
     return render(request, 'core/modificarVendedor.html', {'form': form})
 
