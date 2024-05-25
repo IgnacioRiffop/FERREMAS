@@ -13,12 +13,12 @@
 <div class="container-fluid d-flex justify-content-center align-items-center" style="margin-bottom: 120px;">
     <div class="p-5 rounded-5 text-dark shadow" style="width: 25rem; background-color: rgb(236, 236, 236);">
         <form action="" method="post" class="mt-4 mb-4">
-            <div class="text-center fs-1 fw-bold">Editar Bodeguero</div>
+            <div class="text-center fs-1 fw-bold">Editar Cliente</div>
             {% csrf_token %}
             {{ form | crispy }}
             <br>
             <button type="submit" class="btn btn-success">Guardar cambios</button>
-            <a href="{% url 'crudBodegueros' %}" class="btn btn-primary">Volver</a>
+            <a href="{% url 'crudClientes' %}" class="btn btn-primary">Volver</a>
         </form>
 
     </div>

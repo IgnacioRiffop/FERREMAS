@@ -42,23 +42,37 @@ def crudUsuarios(request):
     return render(request,'core/crudUsuarios.html')
 
 def crudClientes(request):
-    return render(request,'core/crudClientes.html')
+ 
+    grupo_cliente = Group.objects.get(name='cliente')
+
+    clientes = User.objects.filter(groups__in=[grupo_cliente])
+
+    return render(request,'core/crudClientes.html',{'clientes': clientes})
 
 def crudVendedores(request):
-    # Obtener el grupo "vendedor"
+
     grupo_vendedor = Group.objects.get(name='vendedor')
 
-    # Obtener todos los usuarios que pertenecen al grupo "vendedor"
+
     vendedores = User.objects.filter(groups__in=[grupo_vendedor])
 
-    # Imprimir para verificar en la consola
+
     return render(request,'core/crudVendedores.html',{'vendedores': vendedores})
 
 def crudBodegueros(request):
-    return render(request,'core/crudBodegueros.html') 
+    grupo_bodeguero = Group.objects.get(name='bodeguero')
+
+    bodegueros = User.objects.filter(groups__in=[grupo_bodeguero])
+
+    return render(request,'core/crudBodegueros.html',{'bodegueros': bodegueros})
 
 def crudContadores(request):
-    return render(request,'core/crudContadores.html') 
+    grupo_contador = Group.objects.get(name='contador')
+
+    contadores = User.objects.filter(groups__in=[grupo_contador])
+
+    return render(request,'core/crudContadores.html',{'contadores': contadores})
+
 
 def estadoPedido(request):
     return render(request,'core/estadoPedido.html') 
@@ -567,11 +581,6 @@ def agregarProducto(request):
     return render(request,'core/agregarProducto.html')
 
 
-    #MODIFICAR
-def modificarBodeguero(request):
-    return render(request,'core/modificarBodeguero.html')
-def modificarContador(request):
-    return render(request,'core/modificarContador.html')
 def modificarProducto(request):
     return render(request,'core/modificarProducto.html')
 
@@ -765,16 +774,43 @@ def modificarVendedor(request, id):
     
     return render(request, 'core/modificarVendedor.html', {'form': form})
 
-def lista_vendedores(request):
-    # Obtener el grupo "vendedor"
-    grupo_vendedor = Group.objects.get(name='vendedor')
+def modificarContador(request, id):
+    contador = get_object_or_404(User, id=id)
 
-    # Obtener todos los usuarios que pertenecen al grupo "vendedor"
-    vendedores = User.objects.filter(groups__in=[grupo_vendedor])
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=contador)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = UserForm(instance=contador)
+    
+    return render(request, 'core/modificarContador.html', {'form': form})
 
-    # Imprimir para verificar en la consola
-    print(vendedores)
-
-    return render(request, 'crudVendedores.html', {'vendedores': vendedores})
 
 
+def modificarBodeguero(request, id):
+    bodeguero = get_object_or_404(User, id=id)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=bodeguero)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = UserForm(instance=bodeguero)
+    
+    return render(request, 'core/modificarBodeguero.html', {'form': form})
+
+def modificarCliente(request, id):
+    cliente = get_object_or_404(User, id=id)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = UserForm(instance=cliente)
+    
+    return render(request, 'core/modificarCliente.html', {'form': form})
