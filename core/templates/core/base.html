@@ -58,7 +58,8 @@
         <a class="nav-link {% if '/perfil' in request.path %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
         {% endif %}
         <a class="nav-link {% if '/contacto' in request.path %}active{% endif %}" href="{% url 'contacto' %}">Contacto</a>
-        <a class="nav-link {% if '/crudUsuarios' in request.path %}active{% endif %}" href="{% url 'crudUsuarios' %}">CrudCuentas</a>
+        <a class="nav-link {% if '/crudUsuarios' in request.path %}active{% endif %}" href="{% url 'crudUsuarios' %}">CRUD Usuarios</a>
+        <a class="nav-link {% if '/informes' in request.path %}active{% endif %}" href="{% url 'informes' %}">Informes</a>
         <a class="nav-link {% if '/nosotros' in request.path %}active{% endif %}" href="{% url 'nosotros' %}">Sobre nosotros</a>
       </div>
     </div>

@@ -96,6 +96,40 @@
       background-color: #ffffff;
       color: #333333; 
   }
+
+  #mes, #anio {
+        width: 200px;
+        height: 40px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+</style>
+
+<style>
+    .radio-group {
+        display: flex;
+        justify-content: start;
+        margin-bottom: 1em;
+    }
+
+    .radio-group input[type="radio"] {
+        display: none;
+    }
+
+    .radio-group label {
+        padding: 0.5em 1em;
+        border: 1px solid #007bff;
+        color: #007bff;
+        border-radius: 0.25em;
+        cursor: pointer;
+        margin-right: 1em;
+    }
+
+    .radio-group input[type="radio"]:checked + label {
+        background-color: #007bff;
+        color: white;
+    }
 </style>
 {% endblock %}
 
@@ -109,27 +143,57 @@
     <ul class="informes-list">
         <li class="informes-item">
             <h3 class="informes-item-title">Informe Mensual</h3>
+            <form id="myForm" method="POST" action="{% url 'generate_pdf' %}">
+            {% csrf_token %}
             <table class="informes-table">
                 <thead>
                     <tr>
                         <th>Mes</th>
                         <th>Año</th>
-                        <th>Pedidos</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Enero</td>
-                        <td>2024</td>
-                        <td>10</td>
+                        <td>
+                            <select id="mes" name="mes" style="width: 200px; height: 40px; border-radius: 5px; border: 1px solid #ccc; padding: 5px;">
+                                {% for mes in meses %}
+                                    <option value="{{ mes }}">{{ mes }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select id="anio" name="anio" style="width: 200px; height: 40px; border-radius: 5px; border: 1px solid #ccc; padding: 5px;">
+                                {% for anio in anios %}
+                                    <option value="{{ anio }}">{{ anio }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <!-- Enlace para descargar el informe en formato PDF -->
-            <a class="informes-item-download" href="{% url 'generate_pdf' %}" target="_blank">Descargar PDF</a>
-            <a class="informes-item-download" href="{% url 'generate_excel' %}" target="_blank">Descargar Excel</a>
+
+            
+            <div class="radio-group">
+                <input type="radio" id="pdf" name="formato" value="pdf">
+                <label for="pdf">Generar PDF</label>
+                <input type="radio" id="excel" name="formato" value="excel">
+                <label for="excel">Generar Excel</label>
+            </div>
+            <input type="submit" value="Generar" class="btn btn-success">
+            </form>
+            <br>
         </li>
     </ul>
+
+    <script>
+        document.getElementById('pdf').addEventListener('change', function() {
+            document.getElementById('myForm').action = "{% url 'generate_pdf' %}";
+        });
+    
+        document.getElementById('excel').addEventListener('change', function() {
+            document.getElementById('myForm').action = "{% url 'generate_excel' %}";
+        });
+    </script>
 
 </div>
 {% endblock %}
