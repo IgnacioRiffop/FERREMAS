@@ -93,43 +93,79 @@ def informes(request):
 
 def generate_pdf(request):
     if request.method == 'POST':
-        mes = request.POST.get('mes')
-        anio = request.POST.get('anio')
-        print(mes, anio)
-    # Aquí deberías obtener los datos reales de ventas de tu base de datos o cualquier otra fuente
-    # Por simplicidad, aquí se proporcionan datos de ejemplo
-    sales_data = [
-        {"producto": "Martillo", "cantidad": 10, "precio": "$15"},
-        {"producto": "Destornillador", "cantidad": 20, "precio": "$10"},
-        {"producto": "Sierra", "cantidad": 5, "precio": "$30"}
-    ]
+        mes_nombre = request.POST.get('mes')
+        anio = int(request.POST.get('anio'))
 
-    # Crear el objeto PDF
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="informe_ventas.pdf"'
-    pdf = SimpleDocTemplate(response, pagesize=letter)
-    
-    # Crear la tabla para los datos de ventas
-    table_data = [["Producto", "Cantidad", "Precio"]]
-    for sale in sales_data:
-        table_data.append([sale["producto"], sale["cantidad"], sale["precio"]])
+        # Mapeo de nombres de meses en español a números
+        meses = {
+            'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6,
+            'julio': 7, 'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12
+        }
 
-    table = Table(table_data)
+        # Convertir el nombre del mes a un número
+        mes = meses[mes_nombre.lower()]
 
-    # Estilo de la tabla
-    style = [('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-             ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-             ('GRID', (0, 0), (-1, -1), 1, colors.black)]
+        # Filtrar las compras por mes y año
+        compras = Compra.objects.filter(
+            Q(fecha__year=anio) & Q(fecha__month=mes)
+        )
 
-    table.setStyle(style)
+        boletas_compras = list()
+        codigos_agregados = set()
+        for compra in compras:
+            boleta = Boleta.objects.get(codigo=compra.codigo)
+            if boleta.codigo not in codigos_agregados:
+                boletas_compras.append((boleta, compra))
+                codigos_agregados.add(boleta.codigo)
 
-    # Construir el PDF y devolverlo como una respuesta HTTP
-    pdf.build([table])
-    return response
+
+        sales_data = []
+        total_sum = 0
+        for boleta, compra in boletas_compras:
+            sales_data.append({
+                "Código de Compra": boleta.codigo,
+                "Retiro en Sucursal": "" if compra.sucursal is None else compra.sucursal.nombre,
+                "Envio a domicilio": "No aplica" if compra.direccion is None else compra.direccion,
+                "Metodo de Pago": "Transferencia" if boleta.transferencia else "Paypal",
+                "Total": boleta.total
+            })
+            total_sum += boleta.total
+
+        # Agregar el total al final de sales_data
+        sales_data.append({
+            "Código de Compra": "",
+            "Retiro en Sucursal": "",
+            "Envio a domicilio": "",
+            "Metodo de Pago": "",
+            "Total": total_sum
+        })
+
+        # Crear el objeto PDF
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="Informe_Ventas_{mes_nombre}_{anio}.pdf"'
+        pdf = SimpleDocTemplate(response, pagesize=letter)
+        
+        # Crear la tabla para los datos de ventas
+        table_data = [["Código de Compra", "Retiro en Sucursal", "Envio a domicilio", "Metodo de Pago", "Total"],]
+        for sale in sales_data:
+            table_data.append([sale["Código de Compra"], sale["Retiro en Sucursal"], sale["Envio a domicilio"], sale["Metodo de Pago"], sale["Total"]])
+
+        table = Table(table_data)
+
+        # Estilo de la tabla
+        style = [('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black)]
+
+        table.setStyle(style)
+
+        # Construir el PDF y devolverlo como una respuesta HTTP
+        pdf.build([table])
+        return response
 
 def generate_excel(request):
     if request.method == 'POST':
