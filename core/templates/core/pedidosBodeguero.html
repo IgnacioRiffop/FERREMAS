@@ -1,0 +1,139 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff; /* Fondo gris claro */
+      margin: 0;
+      padding: 0;
+  }
+
+  .pedidosBodeguero-container {
+      text-align: center;
+      margin-top: 50px; /* Margen superior */
+  }
+
+  .pedidosBodeguero-title {
+      color: #333333; /* Título negro */
+  }
+
+  .pedidosBodeguero-subtitle {
+      color: #666666; /* Subtítulo gris */
+  }
+
+  .pedidosBodeguero-table {
+      width: 80%;
+      margin: 20px auto; /* Margen superior e inferior */
+      border-collapse: collapse;
+      background-color: #f2f2f2;/* Fondo blanco */
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
+
+  .pedidosBodeguero-table th, .pedidosBodeguero-table td {
+      padding: 15px 20px; 
+  }
+
+  .pedidosBodeguero-table th {
+      background-color: #333333; 
+      color: #ffffff; 
+  }
+
+  .pedidosBodeguero-table td {
+      border-bottom: 1px solid #dddddd; 
+  }
+
+  .pedidosBodeguero-table tr:hover {
+      background-color: #dddddd; 
+  }
+
+  .aceptar-btn {
+      background-color: #4CAF50; /* Color de fondo verde */
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+  }
+</style>
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<div class="pedidosBodeguero-container">
+    <h1 class="pedidosBodeguero-title">Pedidos Bodeguero</h1>
+
+    <table class="pedidosBodeguero-table">
+        <thead>
+            <tr>
+                <th>Codigo del Pedido</th>
+                <th>Nombre Cliente</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0987965</td>
+                <td>Fabian Galvez</td>
+                <td>$107.000</td>
+                <td><button class="aceptar-btn" onclick="aceptarPedido('0987965')">Aceptar</button></td> 
+            </tr>
+            <tr>
+                <td>0345878</td>
+                <td>Daniel Riffo</td>
+                <td>$97.978</td>
+                <td><button class="aceptar-btn" onclick="aceptarPedido('0345878')">Aceptar</button></td> 
+            </tr>
+            <tr>
+                <td>0567897</td>
+                <td>Francisco Bravo</td>
+                <td>$89.970</td>
+                <td><button class="aceptar-btn" onclick="aceptarPedido('0567897')">Aceptar</button></td> 
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+
+<script>
+function aceptarPedido(codigoPedido) {
+    // Agrega una alerta o un console.log para verificar si la función se está llamando
+    alert('Función aceptarPedido llamada con código de pedido: ' + codigoPedido);
+    console.log('Función aceptarPedido llamada con código de pedido: ' + codigoPedido);
+
+    // Tu llamada AJAX aquí
+    $.ajax({
+        url: '/ruta/a/tu/api',  // Reemplaza esto con la URL de tu API
+        type: 'POST',  // Reemplaza esto con el tipo de solicitud que necesitas
+        data: {
+            'codigoPedido': codigoPedido
+        },
+        success: function(response) {
+            // Aquí puedes manejar la respuesta de tu API
+            console.log(response);
+        },
+        error: function(xhr, textStatus, error) {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Hubo un error al guardar el pedido aceptado. Por favor, inténtalo de nuevo.',
+                confirmButtonColor: '#d33'
+            });
+        }
+    });
+}
+</script>
+{% endblock %}

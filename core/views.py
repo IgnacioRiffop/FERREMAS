@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.shortcuts import render, redirect,  get_object_or_404
 from .models import *
 from .forms import *
@@ -25,6 +26,26 @@ import io
 import pandas as pd
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
+from .models import Boleta
+from django.http import JsonResponse
+import logging
+logger = logging.getLogger(__name__)
+from django.contrib import messages
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required
+from .models import PedidoAceptado
+
+
+
+def group_required(*group_names):
+    """Requires user membership in at least one of the groups passed in."""
+    def in_groups(u):
+        if u.is_authenticated:
+            if bool(u.groups.filter(name__in=group_names)) | u.is_superuser:
+                return True
+        raise PermissionDenied
+    return user_passes_test(in_groups)
 
 # Create your views here.
 def index(request):
@@ -54,7 +75,7 @@ def crudVendedores(request):
 
     vendedores = User.objects.filter(groups__in=[grupo_vendedor])
 
-
+    # Imprimir para verificar en la consola
     return render(request,'core/crudVendedores.html',{'vendedores': vendedores})
 
 def crudBodegueros(request):
@@ -75,6 +96,7 @@ def crudContadores(request):
 def estadoPedido(request):
     return render(request,'core/estadoPedido.html') 
 
+@group_required('contador')
 def informes(request):
     return render(request,'core/informes.html') 
 
@@ -123,6 +145,7 @@ def contacto(request):
         form = MensajeContactoForm()
     return render(request, 'core/contacto.html', {'form': form})
 
+@login_required
 def perfil(request):
     cliente = User.objects.get(username=request.user.username)
 
@@ -131,6 +154,7 @@ def perfil(request):
     }
     return render(request,'core/perfil.html', data)
 
+@login_required
 def perfilEditar(request):
     if request.method == 'POST':
         form = UserForm(request.POST, instance=request.user)
@@ -426,11 +450,33 @@ def datosTransferencia(request):
 def misPedidos(request):
     return render(request,'core/misPedidos.html')
 
+@group_required('vendedor')
 def bodega(request):
     return render(request,'core/bodega.html')
 
 def formularioDespacho(request):
     return render(request,'core/formularioDespacho.html')
+
+def crudPedidos(request):
+    return render(request,'core/crudPedidos.html')
+
+@group_required('bodeguero')
+def pedidosBodeguero(request):
+    return render(request,'core/pedidosBodeguero.html')
+
+@group_required('bodeguero')
+def pedidos_tomados(request):
+    pedidos_aceptados = PedidoAceptado.objects.all()
+    return render(request, 'core/pedidos_tomados.html', {'pedidos_aceptados': pedidos_aceptados})
+
+def crear_pedido_aceptado(request):
+    # Aquí iría el código para crear un PedidoAceptado basado en la información en request.POST
+    # Por ejemplo:
+    pedido = PedidoAceptado.objects.create(codigo_pedido=request.POST['codigo'], nombre_cliente=request.POST['nombre'], subtotal=request.POST['subtotal'], fecha=request.POST['fecha'])
+    return JsonResponse({'pedido_id': pedido.id}) 
+
+def asignarPedidos(request):
+    return render(request,'core/asignarPedidos.html')
 
 #CRUD
 #AGREGAR
@@ -684,7 +730,7 @@ def modificarVendedor(request, id):
         form = UserForm(request.POST, instance=vendedor)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('crudVendedores')
     else:
         form = UserForm(instance=vendedor)
     
@@ -697,7 +743,7 @@ def modificarContador(request, id):
         form = UserForm(request.POST, instance=contador)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('crudContadores')
     else:
         form = UserForm(instance=contador)
     
@@ -712,7 +758,7 @@ def modificarBodeguero(request, id):
         form = UserForm(request.POST, instance=bodeguero)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('crudBodegueros')
     else:
         form = UserForm(instance=bodeguero)
     
@@ -725,8 +771,73 @@ def modificarCliente(request, id):
         form = UserForm(request.POST, instance=cliente)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('crudClientes')
     else:
         form = UserForm(instance=cliente)
     
     return render(request, 'core/modificarCliente.html', {'form': form})
+
+
+def eliminarCliente(request, id):
+    cliente = get_object_or_404(User, id=id)
+    cliente.delete()
+    messages.success(request, 'Cliente eliminado correctamente')
+    return redirect('crudClientes')
+
+@group_required('contador')
+def crudPagos(request):
+    return render(request, 'core/crudPagos.html') 
+
+
+
+def guardar_cambios_en_bd(request):
+    logger.info('Llamada a la vista guardar_cambios_en_bd')
+
+    if request.method == 'POST' and request.is_ajax():
+        numero_pago = request.POST.get('numeroPago')
+        nueva_fecha = request.POST.get('nuevaFecha')
+        nuevo_monto = request.POST.get('nuevoMonto')
+        nuevo_metodo = request.POST.get('nuevoMetodo')
+
+        logger.info('Datos recibidos: número de pago=%s, nueva fecha=%s, nuevo monto=%s, nuevo método=%s', numero_pago, nueva_fecha, nuevo_monto, nuevo_metodo)
+
+        try:
+            boleta = get_object_or_404(Boleta, pk=numero_pago)
+            boleta.fecha = nueva_fecha
+            boleta.total = nuevo_monto
+            boleta.transferencia = (nuevo_metodo == 'Transferencia')
+            boleta.save()
+            logger.info('Cambios guardados correctamente')
+            return JsonResponse({'exito': True})
+        except Exception as e:
+            logger.error('Error al guardar los cambios: %s', str(e))
+            return JsonResponse({'exito': False, 'mensaje': str(e)})
+    else:
+        logger.error('Método no permitido')
+        return JsonResponse({'exito': False, 'mensaje': 'Método no permitido'})
+    
+
+
+def eliminarContador(request, id):
+    contador = get_object_or_404(User, id=id)
+    contador.delete()
+    messages.success(request, 'Contador eliminado correctamente')
+    return redirect('crudContadores')
+
+def eliminarVendedor(request, id):
+    try:
+        vendedor = get_object_or_404(User, id=id)
+    except Http404:
+        messages.error(request, 'Vendedor no encontrado')
+        return redirect('crudVendedores')
+
+    vendedor.delete()
+    messages.success(request, 'Vendedor eliminado correctamente')
+    return redirect('crudVendedores')
+
+def eliminarBodeguero(request, id):
+    contador = get_object_or_404(User, id=id)
+    contador.delete()
+    messages.success(request, 'Bodeguero eliminado correctamente')
+    return redirect('crudBodegueros')
+

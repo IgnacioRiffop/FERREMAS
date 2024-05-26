@@ -1,4 +1,4 @@
-{% load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +27,25 @@
     .navbar-nav .nav-link {
       font-size: 22px; /* Ajusta el tamaño de la fuente según sea necesario */
     }
+
+    /* Estilos para el footer */
+    .footer-container {
+      background-color: #f8f9fa; /* Blanco */
+      color: #212529; /* Negro */
+    }
+
+    .footer-container.dark {
+      background-color: #343a40; /* Gris oscuro */
+      color: #dee2e6; /* Gris claro */
+    }
+
+    .footer-links a {
+      color: inherit; /* Hereda el color del texto */
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline; /* Subraya el texto al pasar el mouse */
+    }
   </style>
 </head>
 <body>
@@ -53,18 +72,31 @@
           <a class="nav-link {% if request.path == '/login' %}active{% endif %}" href="{% url 'login' %}">Iniciar Sesión</a>
         </li>
         {% endif %}
+        <a class="nav-link {% if '/nosotros' in request.path %}active{% endif %}" href="{% url 'nosotros' %}">Sobre nosotros</a>
         <a class="nav-link {% if '/producto' in request.path %}active{% endif %}" href="{% url 'producto' %}">Productos</a>
         {% if user.is_authenticated %}
-        <a class="nav-link {% if '/carrito' in request.path %}active{% endif %}" href="{% url 'carrito' %}">Carrito <i class="fas fa-shopping-cart"></i></a>
+        {% if 'cliente' in user.groups.all|join:',' %}
+          <a class="nav-link {% if '/carrito' in request.path %}active{% endif %}" href="{% url 'carrito' %}">Carrito <i class="fas fa-shopping-cart"></i></a>
+        {% endif %}
         <a class="nav-link {% if '/perfil' in request.path %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
         {% endif %}
         <a class="nav-link {% if '/contacto' in request.path %}active{% endif %}" href="{% url 'contacto' %}">Contacto</a>
+        {% if 'vendedor' in user.groups.all|join:',' %}
         <a class="nav-link {% if '/bodega' in request.path %}active{% endif %}" href="{% url 'bodega' %}">Bodega</a>
+        {% endif %}
         {% if user.is_superuser %}
         <a class="nav-link {% if '/crudUsuarios' in request.path %}active{% endif %}" href="{% url 'crudUsuarios' %}">CrudCuentas</a>
         {% endif %}
-        <a class="nav-link {% if '/nosotros' in request.path %}active{% endif %}" href="{% url 'nosotros' %}">Sobre nosotros</a>
-
+        {% if 'contador' in user.groups.all|join:',' %}
+        <a class="nav-link {% if '/crudPagos' in request.path %}active{% endif %}" href="{% url 'crudPagos' %}">crudPagos</a>
+        {% endif %}
+        {% if user.is_superuser or 'contador' in user.groups.all|join:',' %}
+        <a class="nav-link {% if '/informes' in request.path %}active{% endif %}" href="{% url 'informes' %}">Informes</a>
+        {% endif %}
+        {% if 'bodeguero' in user.groups.all|join:',' %}
+        <a class="nav-link {% if '/pedidosBodeguero' in request.path %}active{% endif %}" href="{% url 'pedidosBodeguero' %}">Pedidos</a>
+        <a class="nav-link {% if '/pedidos_tomados' in request.path %}active{% endif %}" href="{% url 'pedidos_tomados' %}">Historial</a>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -77,8 +109,73 @@
   {% endblock %}
   <!-- FIN CONTENIDO -->
 
+
+    <!-- INICIO FOOTER -->
+    <div class="container-fluid footer-container mt-5 py-5">
+      <div class="container pt-5">
+          <div class="row g-5">
+              <div class="col-lg-3 col-md-6">
+                  <h5 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Ponerse en contacto</h5>
+                  <p class="mb-2"><i class="bi bi-geo-alt text-primary me-2"></i>DIRECCION: Avenida Concha Y Toro, Av. San Carlos 1340, Puente Alto</p>
+                  <p class="mb-2"><i class="bi bi-envelope-open text-primary me-2"></i>Ferremas2024@gmail.com</p>
+                  <p class="mb-0"><i class="bi bi-telephone text-primary me-2"></i>+56 9 7993 8717</p>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                  <h5 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Links rápidos</h5>
+                  <div class="d-flex flex-column justify-content-start">
+                      <a class="text-body mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
+                      <a class="text-body mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Sobre Nosotros</a>
+                      <a class="text-body mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contacto</a>
+                      <a class="text-body mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Nuestros Productos</a>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                  <h5 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Links populares</h5>
+                  <div class="d-flex flex-column justify-content-start">
+                      <a class="text-body mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
+                      <a class="text-body mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Contacto</a>
+                      <a class="text-body mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Nuestros Productos</a>
+                  </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                  <h5 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Redes sociales</h5>
+                  <div class="d-flex justify-content-start">
+                      <a class="btn btn-outline-primary btn-square me-2" href="#"><i class="fab fa-twitter"></i></a>
+                      <a class="btn btn-outline-primary btn-square me-2" href="#"><i class="fab fa-facebook"></i></a>
+                      <a class="btn btn-outline-primary btn-square me-2" href="#"><i class="fab fa-linkedin"></i></a>
+                      <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                  </div>
+              </div>
+              <div class="col-12 text-center text-body">
+                  <a class="text-body" href="">Términos y condiciones</a>
+                  <span class="mx-1">|</span>
+                  <a class="text-body" href="">Política de privacidad</a>
+                  <span class="mx-1">|</span>
+                  <a class="text-body" href="">Customer Support</a>
+                  <span class="mx-1">|</span>
+                  <a class="text-body" href="">Métodos de pago</a>
+                  <span class="mx-1">|</span>
+                  <a class="text-body" href="">Ayuda</a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container-fluid footer-container dark text-white-50 py-4">
+      <div class="container">
+          <div class="row g-5">
+              <div class="col-md-6 text-center text-md-start">
+                  <p class="mb-md-0">&copy; <a class="text-white" href="#">Ferremas</a>. Reservados todos los derechos.</p>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- FINAL FOOTER -->
+  
+
+
   <!-- Latest compiled JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   {% block js %}
 
   {% endblock %}

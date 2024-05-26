@@ -1,0 +1,99 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff; /* Fondo gris claro */
+      margin: 0;
+      padding: 0;
+  }
+
+  .pedidosTomados-container {
+      text-align: center;
+      margin-top: 50px; /* Margen superior */
+  }
+
+  .pedidosTomados-title {
+      color: #333333; /* Título negro */
+  }
+
+  .pedidosTomados-subtitle {
+      color: #666666; /* Subtítulo gris */
+  }
+
+  .pedidosTomados-table {
+      width: 80%;
+      margin: 20px auto; /* Margen superior e inferior */
+      border-collapse: collapse;
+      background-color: #f2f2f2;/* Fondo blanco */
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
+
+  .pedidosTomados-table th, .pedidosTomados-table td {
+      padding: 15px 20px; 
+  }
+
+  .pedidosTomados-table th {
+      background-color: #333333; 
+      color: #ffffff; 
+  }
+
+  .pedidosTomados-table td {
+      border-bottom: 1px solid #dddddd; 
+  }
+
+  .pedidosTomados-table tr:hover {
+      background-color: #dddddd; 
+  }
+
+  .aceptar-btn {
+      background-color: #4CAF50; /* Color de fondo verde */
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+  }
+</style>
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<div class="pedidosTomados-container">
+    <h1 class="pedidosTomados-title">Pedidos Tomados</h1>
+
+    <table class="pedidosTomados-table">
+        <thead>
+            <tr>
+                <th>Codigo del Pedido</th>
+                <th>Nombre Cliente</th>
+                <th>Subtotal</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos_aceptados %}
+            <tr>
+                <td>{{ pedido.codigo_pedido }}</td>
+                <td>{{ pedido.nombre_cliente }}</td>
+                <td>{{ pedido.subtotal }}</td>
+                <td>{{ pedido.fecha }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+{% endblock %}

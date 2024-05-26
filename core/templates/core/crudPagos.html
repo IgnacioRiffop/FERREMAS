@@ -1,0 +1,152 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto; /* Agregando margen superior e inferior */
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .titulo-pago {
+            text-align: center;
+            color: #333;
+        }
+
+        .pago-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .pago-info {
+            margin-bottom: 10px;
+        }
+
+        .pago-info span {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .btn-modificar {
+            display: block;
+            width: 100px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 8px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-modificar:hover {
+            background-color: #0056b3;
+        }
+
+        .formulario-edicion input[type="text"] {
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .formulario-edicion button {
+            width: calc(100% - 20px);
+            padding: 8px 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .formulario-edicion button:hover {
+            background-color: #218838;
+        }
+
+        .no-pagos {
+            text-align: center;
+            color: #666;
+        }
+    </style>
+{% endblock %}
+
+{% block contenido %}
+<body>
+
+    <div class="container">
+        <h1 class="titulo-pago">Pagos</h1>
+    
+        <div class="pago-item" id="pago-item-1">
+            <div class="pago-info">
+                <span class="pago-fecha"><strong>Fecha:</strong> 20/05/2024</span>
+                <span class="pago-monto"><strong>Monto:</strong> $50.000</span>
+                <span class="pago-metodo"><strong>Método de Pago:</strong> Transferencia</span>
+            </div>
+            <a href="#" class="btn-modificar" onclick="mostrarFormularioEdicion(1)">Modificar</a>
+            <div class="formulario-edicion" style="display: none;">
+                <input type="text" id="fecha-1" placeholder="Nueva fecha">
+                <input type="text" id="monto-1" placeholder="Nuevo monto">
+                <input type="text" id="metodo-1" placeholder="Nuevo método de pago">
+                <button onclick="guardarCambios(1)">Guardar</button>
+            </div>
+        </div>
+    
+        <div class="pago-item" id="pago-item-2">
+            <div class="pago-info">
+                <span class="pago-fecha"><strong>Fecha:</strong> 18/05/2024</span>
+                <span class="pago-monto"><strong>Monto:</strong> $30.000</span>
+                <span class="pago-metodo"><strong>Método de Pago:</strong> PayPal</span>
+            </div>
+            <a href="#" class="btn-modificar" onclick="mostrarFormularioEdicion(2)">Modificar</a>
+            <div class="formulario-edicion" style="display: none;">
+                <input type="text" id="fecha-2" placeholder="Nueva fecha">
+                <input type="text" id="monto-2" placeholder="Nuevo monto">
+                <input type="text" id="metodo-2" placeholder="Nuevo método de pago">
+                <button onclick="guardarCambios(2)">Guardar</button>
+            </div>
+        </div>
+    
+        <div class="no-pagos">No hay más pagos registrados.</div>
+    </div>
+    
+    <script>
+        function mostrarFormularioEdicion(numeroPago) {
+            var formulario = document.getElementById('pago-item-' + numeroPago).getElementsByClassName('formulario-edicion')[0];
+            formulario.style.display = 'block';
+        }
+    
+        function guardarCambios(numeroPago) {
+            var nuevaFecha = document.getElementById('fecha-' + numeroPago).value;
+            var nuevoMonto = document.getElementById('monto-' + numeroPago).value;
+            var nuevoMetodo = document.getElementById('metodo-' + numeroPago).value;
+    
+            var pagoItem = document.getElementById('pago-item-' + numeroPago);
+            var pagoInfo = pagoItem.getElementsByClassName('pago-info')[0];
+            var fechaSpan = pagoInfo.getElementsByClassName('pago-fecha')[0];
+            var montoSpan = pagoInfo.getElementsByClassName('pago-monto')[0];
+            var metodoSpan = pagoInfo.getElementsByClassName('pago-metodo')[0];
+    
+            fechaSpan.innerHTML = "<strong>Fecha:</strong> " + nuevaFecha;
+            montoSpan.innerHTML = "<strong>Monto:</strong> " + nuevoMonto;
+            metodoSpan.innerHTML = "<strong>Método de Pago:</strong> " + nuevoMetodo;
+    
+            var formulario = document.getElementById('pago-item-' + numeroPago).getElementsByClassName('formulario-edicion')[0];
+            formulario.style.display = 'none';
+        }
+    </script>
+    
+    </body>
+{% endblock %}

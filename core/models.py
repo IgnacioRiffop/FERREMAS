@@ -37,6 +37,15 @@ class Boleta(models.Model):
 
     def __str__(self):
         return self.codigo
+
+class PedidoAceptado(models.Model):
+    codigo_pedido = models.CharField(max_length=20)
+    nombre_cliente = models.CharField(max_length=100)
+    subtotal = models.IntegerField()
+    fecha = models.DateField()
+
+    def __str__(self):
+        return self.codigo_pedido
     
 class MensajeContacto(models.Model):
     nombre = models.CharField(max_length=100)
@@ -47,3 +56,11 @@ class MensajeContacto(models.Model):
 
     def __str__(self):
         return self.asunto
+    
+class cliente(models.Model):
+    rut = models.CharField(max_length=20)
+    nombre_cliente = models.CharField(max_length=100)
+    usuarios = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.cliente

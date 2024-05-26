@@ -1,0 +1,164 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff; /* Fondo gris claro */
+      margin: 0;
+      padding: 0;
+  }
+
+  .asignarPedidos-container {
+      text-align: center;
+      margin-top: 50px; /* Margen superior */
+  }
+
+  .asignarPedidos-title {
+      color: #333333; /* Título negro */
+  }
+
+  .asignarPedidos-subtitle {
+      color: #666666; /* Subtítulo gris */
+  }
+
+  .asignarPedidos-table {
+      width: 80%;
+      margin: 20px auto; /* Margen superior e inferior */
+      border-collapse: collapse;
+      background-color: #f2f2f2;/* Fondo blanco */
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
+
+  .asignarPedidos-table th, .asignarPedidos-table td {
+      padding: 15px 20px; 
+  }
+
+  .asignarPedidos-table th {
+      background-color: #333333; 
+      color: #ffffff; 
+  }
+
+  .asignarPedidos-table td {
+      border-bottom: 1px solid #dddddd; 
+  }
+
+  .asignarPedidos-table tr:hover {
+      background-color: #dddddd; 
+  }
+
+  .dropdown {
+      position: relative;
+      display: inline-block;
+  }
+
+  .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #3e8e41; /* Cambia el color del fondo del dropdown a verde */
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(23, 233, 12, 0.2);
+      z-index: 1;
+  }
+
+  .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+  }
+
+  .dropdown-content a:hover {
+      background-color: #f1f1f1;
+  }
+
+  .dropdown:hover .dropdown-content {
+      display: block;
+  }
+
+  .dropdown:hover .dropbtn {
+      background-color: #3e8e41;
+  }
+</style>
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<div class="asignarPedidos-container">
+    <h1 class="asignarPedidos-title">Asignar Pedidos</h1>
+
+    <table class="asignarPedidos-table">
+        <thead>
+            <tr>
+                <th>Codigo del Pedido</th>
+                <th>Nombre Cliente</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0987965</td>
+                <td>Fabian Galvez</td>
+                <td>$107.000</td>
+                <td class="dropdown">
+                    <div class="btn-group">
+                        <button id="dropdown-button-0987965" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Asignar
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#" onclick="asignarPedido('0987965', 'Bodeguero1')">Bodeguero1</a></li>
+                          <li><a class="dropdown-item" href="#" onclick="asignarPedido('0987965', 'Bodeguero2')">Bodeguero2</a></li>
+                          <li><a class="dropdown-item" href="#" onclick="asignarPedido('0987965', 'Bodeguero3')">Bodeguero3</a></li>
+                        </ul>
+                      </div>
+                </td> 
+            </tr>
+            <!-- Repite esta estructura para los demás pedidos -->
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+
+<script>
+    function asignarPedido(codigoPedido, bodegueroSeleccionado) {
+        $.ajax({
+            url: '/ruta/a/asignar_pedido/',
+            type: 'POST',
+            data: {
+                codigo_pedido: codigoPedido,
+                bodeguero_seleccionado: bodegueroSeleccionado
+            },
+            headers: { "X-CSRFToken": '{{ csrf_token }}' },  
+            success: function(data) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Pedido Asignado!',
+                    text: 'El pedido ' + codigoPedido + ' ha sido asignado al bodeguero ' + bodegueroSeleccionado + '.',
+                    confirmButtonColor: '#4CAF50'
+                }).then(() => {
+                    window.location.href = 'core/templates/core/asignarPedidos.html'; // Redireccionar a asignarPedidos.html
+                });
+            },
+            error: function(xhr, textStatus, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'Hubo un error al asignar el pedido ' + codigoPedido + '. Por favor, inténtalo de nuevo.',
+                    confirmButtonColor: '#d33'
+                });
+            }
+        });
+        
+        // Actualizar el texto del botón con el nombre del bodeguero seleccionado
+        var dropdownButton = document.getElementById('dropdown-button-' + codigoPedido);
+        dropdownButton.innerText = bodegueroSeleccionado;
+    }
+</script>
+{% endblock %}

@@ -2,6 +2,7 @@ from django.urls import path, include
 from.views import *
 from rest_framework import routers
 from . import views
+
 # CREAMOS LAS RUTAS DEL API
 router = routers.DefaultRouter()
 
@@ -34,6 +35,7 @@ urlpatterns = [
     path('peticion_delete/<id_producto>', peticion_delete, name="peticion_delete"),
     path('peticion_patch/<id_producto>', peticion_patch, name="peticion_patch"),
     path('bodega', bodega, name="bodega"),
+
     path('datosTransferencia', datosTransferencia, name="datosTransferencia"),
     path('agregarCompra', agregarCompra, name="agregarCompra"),
     path('deleteCarrito/<id_producto>', deleteCarrito, name="deleteCarrito"),
@@ -42,7 +44,12 @@ urlpatterns = [
     path('generate_pdf', generate_pdf, name="generate_pdf"),
     path('generate_excel', generate_excel, name='generate_excel'),
     path('perfilEditar', perfilEditar, name='perfilEditar'),
-
+    path('crudPagos', crudPagos, name='crudPagos'),
+    path('crudPedidos', crudPedidos, name='crudPedidos'),
+    path('pedidosBodeguero', pedidosBodeguero, name='pedidosBodeguero'),
+    path('pedidos_tomados', pedidos_tomados, name='pedidos_tomados'),
+    path('asignarPedidos', asignarPedidos, name='asignarPedidos'),
+    path('crear_pedido_aceptado/', views.crear_pedido_aceptado, name='crear_pedido_aceptado'),
     #CRUD
     #AGREGAR
     path('agregarBodeguero', agregarBodeguero, name="agregarBodeguero"),
@@ -57,6 +64,9 @@ urlpatterns = [
     path('modificarProducto', modificarProducto, name="modificarProducto"),
     path('modificarVendedor/<int:id>/', views.modificarVendedor, name='modificarVendedor'),
     path('modificarCliente/<int:id>/', views.modificarCliente, name='modificarCliente'),
-
-
+    #ELIMINAR
+    path('eliminarCliente/<int:id>/', eliminarCliente, name='eliminarCliente'),
+    path('eliminarContador/<int:id>/', eliminarContador, name='eliminarContador'),
+    path('eliminarVendedor/<int:id>/', eliminarVendedor, name='eliminarVendedor'),
+    path('eliminarBodeguero/<int:id>/', eliminarBodeguero, name='eliminarBodeguero'),
 ]

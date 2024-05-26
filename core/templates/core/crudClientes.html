@@ -5,7 +5,7 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #ffffff; /* Fondo blanco */
+        background-color: #ffffff;
         margin: 0;
         padding: 0;
     }
@@ -14,14 +14,14 @@
         max-width: 800px;
         margin: 50px auto;
         padding: 20px;
-        background-color: #ffffff; /* Fondo blanco */
+        background-color: #ffffff;
         border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-        overflow: hidden; /* Oculta el desbordamiento horizontal */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
     }
 
     .cuentas-title {
-        color: #333333; /* Título negro */
+        color: #333333;
         margin-bottom: 20px;
         text-align: center;
     }
@@ -31,25 +31,25 @@
         padding: 0;
         margin-top: 20px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Distribuye las columnas automáticamente con un ancho mínimo de 300px */
-        grid-gap: 20px; /* Espacio entre las tablas */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-gap: 20px;
     }
 
     .cuentas-item {
-        background-color: #f2f2f2; /* Fondo gris claro */
+        background-color: #f2f2f2;
         border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-        transition: transform 0.3s ease; /* Transición suave */
-        overflow: hidden; /* Evita que los bordes redondeados se vean mal en las tablas */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        overflow: hidden;
     }
 
     .cuentas-item:hover {
-        transform: translateY(-5px); /* Efecto de elevación al pasar el ratón */
+        transform: translateY(-5px);
     }
 
     .cuentas-item-header {
-        background-color: #333333; /* Fondo negro para encabezado */
-        color: #ffffff; /* Texto blanco */
+        background-color: #333333;
+        color: #ffffff;
         padding: 10px;
         font-weight: bold;
         border-radius: 5px 5px 0 0;
@@ -66,92 +66,106 @@
 
     .cuentas-item-action {
         padding: 5px 10px;
-        background-color: #000000; /* Fondo verde por defecto */
-        color: #ffffff; /* Texto blanco */
+        background-color: #000000;
+        color: #ffffff;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        transition: background-color 0.3s ease; /* Transición suave */
-        text-decoration: none; /* No subrayar el texto */
+        transition: background-color 0.3s ease;
+        text-decoration: none;
     }
 
     .cuentas-item-action:hover {
-        background-color: #3f3f3f; /* Cambio de color al pasar el ratón */
+        background-color: #3f3f3f;
     }
 
-    /* Cambia el color del botón eliminar a rojo */
     .cuentas-item-delete {
-        background-color: #f44336; /* Rojo */
+        background-color: #f44336;
     }
 
-    /* Cambia el color del botón eliminar a un rojo más oscuro al pasar el ratón */
     .cuentas-item-delete:hover {
-        background-color: #d32f2f; /* Rojo más oscuro */
+        background-color: #d32f2f;
     }
 
     .agregar-cuenta {
-        text-align: right; /* Alinea el botón a la derecha */
-        margin-bottom: 20px; /* Agrega un espacio debajo del botón */
+        text-align: right;
+        margin-bottom: 20px;
     }
 
     .agregar-cuenta-btn {
-        padding: 10px 20px; /* Espaciado interno del botón */
+        padding: 10px 20px;
         background-color: #4caf50;
-        color: #ffffff; /* Color de texto blanco */
-        border: none; /* Elimina el borde del botón */
-        border-radius: 5px; /* Bordes redondeados */
-        cursor: pointer; /* Cursor de puntero al pasar el ratón */
-        transition: background-color 0.3s ease; /* Transición suave */
-        text-decoration: none; /* No subrayar el texto */
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
     }
 
     .agregar-cuenta-btn:hover {
-        background-color: #45a049; /* Cambio de color al pasar el ratón */
-    }
-
-    /* Estilos adicionales para el botón de agregar */
-    .agregar-cuenta-btn:hover {
-        color: #ffffff; /* Color de texto blanco */
+        background-color: #45a049;
     }
 </style>
 {% endblock %}
 
-<!-- INICIO CONTENIDO-->
 {% block contenido %}
-<!-- Agregar un botón para agregar productos -->
 <div class="cuentas-container">
     <h1 class="cuentas-title">Cuentas clientes</h1>
-  <!-- Utiliza la rejilla de Bootstrap para alinear los elementos -->
-  <div class="row">
-    <div class="col-md-6 offset-md-3 mb-4"> <!-- Utiliza columnas para centrar y espaciar el formulario -->
-        <form action="/search/" method="get" class="text-center">
-            <input type="text" name="q" placeholder="Buscar..." class="form-control">
-            <button type="submit" class="btn btn-primary mt-2">Buscar</button> <!-- Añade margen superior -->
-        </form>
+    <div class="row">
+        <div class="col-md-6 offset-md-3 mb-4">
+            <form action="/search/" method="get" class="text-center">
+                <input type="text" name="q" placeholder="Buscar..." class="form-control">
+                <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+            </form>
+        </div>
+        <div class="agregar-cuenta">
+            <a href="{% url 'agregarClientes' %}" class="agregar-cuenta-btn"><i class="fas fa-plus"></i> Agregar Cliente</a>
+        </div>
+        <ul class="cuentas-list">
+            {% for cliente in clientes %}
+            <li class="cuentas-item">
+                <div class="cuentas-item-header">Cliente</div>
+                <div class="cuentas-item-content">
+                    <p>Usuario: {{ cliente.username }}</p>
+                    <p>Nombre: {{ cliente.first_name }}</p>
+                    <p>Apellido: {{ cliente.last_name }}</p>
+                    <p>Email: {{ cliente.email }}</p>
+                </div>
+                <div class="cuentas-item-actions">
+                    <a href="{% url 'modificarCliente' id=cliente.id %}" class="btn btn-primary">Modificar</a>
+                    <form action="{% url 'eliminarCliente' cliente.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
-
-    <!-- Botón para agregar productos -->
-    <div class="agregar-cuenta">
-        <a href="{% url 'agregarClientes' %}" class="agregar-cuenta-btn"><i class="fas fa-plus"></i> Agregar Cliente</a>
-    </div>
-
-    <ul class="cuentas-list">
-        {% for cliente in clientes %}
-        <li class="cuentas-item">
-            <div class="cuentas-item-header">Cliente</div>
-            <div class="cuentas-item-content">
-                <p>Usuario: {{ cliente.username }}</p>
-                <p>Nombre: {{ cliente.first_name }}</p>
-                <p>Apellido: {{ cliente.last_name }}</p>
-                <p>Email: {{ cliente.email }}</p>
-            </div>
-            <div class="cuentas-item-actions">
-                <a href="{% url 'modificarCliente' id=cliente.id %}" class="btn btn-primary">Modificar</a>
-                <a href="" class="btn btn-danger">Eliminar</a>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
 </div>
-{% endblock %}
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteForms = document.querySelectorAll('form[action*="eliminar"]');
+        deleteForms.forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                swal({
+                    title: "¿Estás seguro?",
+                    text: "Una vez eliminado, no podrás recuperar este cliente!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

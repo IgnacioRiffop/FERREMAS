@@ -149,11 +149,37 @@
             </div>
             <div class="cuentas-item-actions">
                 <a href="{% url 'modificarBodeguero' id=bodeguero.id %}" class="btn btn-primary">Modificar</a>
-                <a href="" class="btn btn-danger">Eliminar</a>
+                <form action="{% url 'eliminarBodeguero' bodeguero.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
             </div>
         </li>
         {% endfor %}
     </ul>
 </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteForms = document.querySelectorAll('form[action*="eliminar"]');
+        deleteForms.forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                swal({
+                    title: "¿Estás seguro?",
+                    text: "Una vez eliminado, no podrás recuperar este cliente!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
 {% endblock %}
 

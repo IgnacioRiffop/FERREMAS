@@ -1,0 +1,127 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+  <style>
+    /* Estilos para la tabla de pedidos */
+    .crud-pedidos {
+        margin-top: 20px;
+    }
+
+    .pedido-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .pedido-table th, .pedido-table td {
+        padding: 8px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .pedido-table th {
+        background-color: #f2f2f2;
+    }
+
+    /* Estilos para el botón de editar y guardar */
+    .btn-editar, .btn-guardar {
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .btn-editar:hover, .btn-guardar:hover {
+        background-color: #0056b3;
+    }
+
+    /* Estilos para los campos de entrada de texto */
+    .editable-input {
+        width: 80%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Estilos para el título */
+    h1 {
+        text-align: center;
+    }
+  </style>
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<h1>CRUD de Pedidos</h1>
+
+<!-- Visualización y Edición de Pedidos -->
+<div class="crud-pedidos">
+    <table class="pedido-table">
+        <thead>
+            <tr>
+                <th>ID Pedido</th>
+                <th>Cliente</th>
+                <th>Productos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" value="673" class="editable-input" disabled></td>
+                <td><input type="text" value="Ignacio Riffo" class="editable-input" disabled></td>
+                <td><input type="text" value="Pintura blanca, Tornillos, Destornillador" class="editable-input" disabled></td>
+                <td><a href="#" class="btn-editar">Editar</a> <a href="#" class="btn-guardar" style="display: none;">Guardar</a></td>
+            </tr>
+            <tr>
+                <td><input type="text" value="890" class="editable-input" disabled></td>
+                <td><input type="text" value="Lionel Messi" class="editable-input" disabled></td>
+                <td><input type="text" value="Cinta métrica, Llave inglesa, Clavos, Sierra eléctrica" class="editable-input" disabled></td>
+                <td><a href="#" class="btn-editar">Editar</a> <a href="#" class="btn-guardar" style="display: none;">Guardar</a></td>
+            </tr>
+            <tr>
+                <td><input type="text" value="678" class="editable-input" disabled></td>
+                <td><input type="text" value="Cristiano Ronaldo" class="editable-input" disabled></td>
+                <td><input type="text" value="Lija, Martillo, Brocas, Sierras manuales" class="editable-input" disabled></td>
+                <td><a href="#" class="btn-editar">Editar</a> <a href="#" class="btn-guardar" style="display: none;">Guardar</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.querySelectorAll('.btn-editar').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const row = btn.parentNode.parentNode;
+            row.querySelectorAll('input').forEach(input => {
+                input.removeAttribute('disabled');
+            });
+            row.querySelector('.btn-editar').style.display = 'none';
+            row.querySelector('.btn-guardar').style.display = 'inline-block';
+        });
+    });
+
+    document.querySelectorAll('.btn-guardar').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const row = btn.parentNode.parentNode;
+            row.querySelectorAll('input').forEach(input => {
+                input.setAttribute('disabled', 'disabled');
+            });
+            row.querySelector('.btn-editar').style.display = 'inline-block';
+            row.querySelector('.btn-guardar').style.display = 'none';
+            // Aquí puedes enviar los datos modificados al servidor si lo deseas
+            // Y manejar la lógica de guardar los cambios
+            Swal.fire({
+                icon: 'success',
+                title: '¡Cambios guardados!',
+                text: 'Los cambios han sido guardados correctamente.',
+            });
+        });
+    });
+  </script>
+{% endblock %}

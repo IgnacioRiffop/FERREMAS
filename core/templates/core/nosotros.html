@@ -1,33 +1,126 @@
 {% extends 'core/base.html' %}
-{% load static%}
+{% load static %}
 
 {% block css %}
-  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<style>
+    /* Estilos para los testimonios */
+    .testimonial-section {
+        background-color: #f8f9fa;
+        padding: 60px 0;
+        text-align: center;
+    }
+
+    .testimonial-heading {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 40px;
+    }
+
+    .testimonial {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .testimonial-text {
+        font-style: italic;
+        margin-bottom: 20px;
+    }
+
+    .client-name {
+        font-weight: bold;
+    }
+
+    /* Estilos para la tabla "Sobre Nosotros" */
+    .about-us-table {
+        width: 80%; /* Cambié el ancho de la tabla al 80% del contenedor */
+        margin: 0 auto; /* Centrar la tabla */
+    }
+
+    .about-us-table th {
+        text-align: left;
+        background-color: #0d6efd;
+        color: #fff;
+        padding: 15px; /* Aumenté el espacio interno de las celdas */
+    }
+
+    .about-us-table td {
+        padding: 15px; /* Aumenté el espacio interno de las celdas */
+    }
+</style>
 {% endblock %}
 
-<!-- INICIO CONTENIDO-->
+<!-- INICIO CONTENIDO -->
 {% block contenido %}
 
-<div class="container py-5">
+<div class="container-fluid py-5"> <!-- Ajuste el contenedor a container-fluid para hacerlo más grande -->
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10"> <!-- Amplié el ancho del contenedor a col-md-10 -->
             <div class="card border-primary shadow">
                 <div class="card-body">
+                    <!-- Agregar la imagen aquí con un borde negro -->
+                    <img src="{% static 'core/img/ferreteria2.jpg' %}" alt="Imagen de la empresa" width="200" height="200" style="float: left; margin-right: 20px; border-radius: 10px; border: 4px solid #0d6efd;">
+                    <!-- Fin de la imagen -->
                     <h1 class="h1 text-center text-primary mb-4"><strong>Sobre Nosotros</strong></h1>
-                    <p class="lead text-secondary">"FERREMAS" es una de estas distribuidoras, establecida en la comuna de Santiago , desde la década de los 80. Cuenta con 4
-                        sucursales en la región metropolitana y 3 sucursales en regiones con planes de expansión en todo Chile.
-                        En "FERREMAS", se puede encontrar una amplia gama de productos, desde herramientas manuales y eléctricas, pinturas,
-                        materiales eléctricos, hasta accesorios y artículos de seguridad. Trabajan con marcas reconocidas del sector como Bosch, Makita,
-                        Stanley y Sika, ofreciendo así diversidad y calidad en sus productos.</p>
+                    <table class="about-us-table">
+                        <tr>
+                            <th>Misión</th>
+                            <td>Proporcionar productos de alta calidad y servicios excepcionales para satisfacer las necesidades de nuestros clientes.</td>
+                        </tr>
+                        <tr>
+                            <th>Visión</th>
+                            <td>Ser líderes en el mercado nacional como distribuidores de herramientas y materiales de construcción.</td>
+                        </tr>
+                        <tr>
+                            <th>Valores</th>
+                            <td>Honestidad, calidad, compromiso y servicio al cliente.</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Más sobre nosotros -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <h2 class="h2 text-center text-primary mb-4">Descubre FERREMAS: Variedad, Calidad y Compromiso en Santiago y Más Allá</h2>
+            <p>FERREMAS es una de estas distribuidoras, establecida en la comuna de Santiago, desde la década de los 80. Cuenta con 4 sucursales en la región metropolitana y 3 sucursales en regiones con planes de expansión en todo Chile. En "FERREMAS", se puede encontrar una amplia gama de productos, desde herramientas manuales y eléctricas, pinturas, materiales eléctricos, hasta accesorios y artículos de seguridad. Trabajan con marcas reconocidas del sector como Bosch, Makita, Stanley y Sika, ofreciendo así.</p>
+        </div>
+    </div>
 </div>
+
+<!-- Comentarios de Clientes -->
+<section class="testimonial-section">
+    <div class="container">
+        <h2 class="testimonial-heading">Testimonios de Clientes</h2>
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="testimonial">
+                    <p class="testimonial-text">¡Excelente servicio! Compré varias herramientas aquí y todas funcionan de maravilla. Definitivamente volveré a comprar aquí en el futuro.</p>
+                    <p class="client-name">- Juan Pérez</p>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">Gran variedad de productos y el personal es muy amable y servicial. Siempre encuentro lo que necesito en "FERREMAS".</p>
+                    <p class="client-name">- María González</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Fin de Comentarios de Clientes -->
 
 {% endblock %}
 <!-- FIN CONTENIDO -->
+
 {% block js %}
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-Q0t7J/VC7IOGsm1Ox6v7gO4J5qoWw/fjZ3e39OgK63U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js" integrity="sha384-mQ2TqC+8lMCDe2cTCxFVRDJN6dNiOTWpgEZvgtBc2xnLO0RrCb/Ici12oWsOjnRX" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
+
 {% endblock %}
