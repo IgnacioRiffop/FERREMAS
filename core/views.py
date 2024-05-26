@@ -781,7 +781,7 @@ def agregarVendedor(request):
         formulario = RegistroForm(data=request.POST) # OBTIENE LA DATA DEL FORMULARIO
         if formulario.is_valid():
             formulario.save()
-            user = authenticate(username = formulario.cleaned_data["username"], password = formulario.cleaned_data["password1"])
+            user = User.objects.get(username=formulario.cleaned_data["username"])
             login(request, user)
             grupo = Group.objects.get(name='vendedor')
             user.groups.add(grupo)
@@ -799,7 +799,7 @@ def agregarContador(request):
         formulario = RegistroForm(data=request.POST) # OBTIENE LA DATA DEL FORMULARIO
         if formulario.is_valid():
             formulario.save()
-            user = authenticate(username = formulario.cleaned_data["username"], password = formulario.cleaned_data["password1"])
+            user = User.objects.get(username=formulario.cleaned_data["username"])
             login(request, user)
             grupo = Group.objects.get(name='contador')
             user.groups.add(grupo)
@@ -817,7 +817,7 @@ def agregarBodeguero(request):
         formulario = RegistroForm(data=request.POST) # OBTIENE LA DATA DEL FORMULARIO
         if formulario.is_valid():
             formulario.save()
-            user = authenticate(username = formulario.cleaned_data["username"], password = formulario.cleaned_data["password1"])
+            user = User.objects.get(username=formulario.cleaned_data["username"])
             login(request, user)
             grupo = Group.objects.get(name='bodeguero')
             user.groups.add(grupo)
@@ -835,8 +835,7 @@ def agregarClientes(request):
         formulario = RegistroForm(data=request.POST) # OBTIENE LA DATA DEL FORMULARIO
         if formulario.is_valid():
             formulario.save()
-            user = authenticate(username = formulario.cleaned_data["username"], password = formulario.cleaned_data["password1"])
-            login(request, user)
+            user = User.objects.get(username=formulario.cleaned_data["username"])
             grupo = Group.objects.get(name='cliente')
             user.groups.add(grupo)
             #redirigir al home

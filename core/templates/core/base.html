@@ -86,7 +86,6 @@
         {% endif %}
         {% if user.is_superuser %}
         <a class="nav-link {% if '/crudUsuarios' in request.path %}active{% endif %}" href="{% url 'crudUsuarios' %}">CRUD Usuarios</a>
-        <a class="nav-link {% if '/informes' in request.path %}active{% endif %}" href="{% url 'informes' %}">Informes</a>
         {% endif %}
         {% if 'contador' in user.groups.all|join:',' %}
         <a class="nav-link {% if '/crudPagos' in request.path %}active{% endif %}" href="{% url 'crudPagos' %}">crudPagos</a>

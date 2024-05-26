@@ -56,11 +56,3 @@ class MensajeContacto(models.Model):
 
     def __str__(self):
         return self.asunto
-    
-class cliente(models.Model):
-    rut = models.CharField(max_length=20)
-    nombre_cliente = models.CharField(max_length=100)
-    usuarios = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.cliente
