@@ -1,5 +1,7 @@
+from asyncio.log import logger
 from pyexpat.errors import messages
 from django.shortcuts import render, redirect,  get_object_or_404
+import openpyxl
 from .models import *
 from .forms import *
 from django.contrib.auth import authenticate, login
@@ -17,7 +19,7 @@ from .forms import CantidadForm
 import json
 from django.urls import reverse
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
@@ -26,6 +28,8 @@ import io
 import pandas as pd
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
+from django.db.models import Q
+import openpyxl
 from .models import Boleta
 from django.http import JsonResponse
 import logging
@@ -96,10 +100,187 @@ def crudContadores(request):
 def estadoPedido(request):
     return render(request,'core/estadoPedido.html') 
 
-@group_required('contador')
-def informes(request):
-    return render(request,'core/informes.html') 
 
+def informes(request):
+    # Genera la lista de años desde el año actual hasta 10 años atrás
+    anios = list(range(datetime.datetime.now().year, datetime.datetime.now().year - 10, -1))
+
+    # Lista de meses
+    meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+
+    data = {
+        'anios': anios,
+        'meses': meses
+    }
+    return render(request,'core/informes.html', data) 
+
+
+def generate_pdf(request):
+    if request.method == 'POST':
+        mes_nombre = request.POST.get('mes')
+        anio = int(request.POST.get('anio'))
+
+        # Mapeo de nombres de meses en español a números
+        meses = {
+            'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6,
+            'julio': 7, 'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12
+        }
+
+        # Convertir el nombre del mes a un número
+        mes = meses[mes_nombre.lower()]
+
+        # Filtrar las compras por mes y año
+        compras = Compra.objects.filter(
+            Q(fecha__year=anio) & Q(fecha__month=mes)
+        )
+
+        boletas_compras = list()
+        codigos_agregados = set()
+        for compra in compras:
+            boleta = Boleta.objects.get(codigo=compra.codigo)
+            if boleta.codigo not in codigos_agregados:
+                boletas_compras.append((boleta, compra))
+                codigos_agregados.add(boleta.codigo)
+
+
+        sales_data = []
+        total_sum = 0
+        for boleta, compra in boletas_compras:
+            sales_data.append({
+                "Código de Compra": boleta.codigo,
+                "Retiro en Sucursal": "" if compra.sucursal is None else compra.sucursal.nombre,
+                "Envio a domicilio": "No aplica" if compra.direccion is None else compra.direccion,
+                "Metodo de Pago": "Transferencia" if boleta.transferencia else "Paypal",
+                "Total": boleta.total
+            })
+            total_sum += boleta.total
+
+        # Agregar el total al final de sales_data
+        sales_data.append({
+            "Código de Compra": "",
+            "Retiro en Sucursal": "",
+            "Envio a domicilio": "",
+            "Metodo de Pago": "",
+            "Total": total_sum
+        })
+
+        # Crear el objeto PDF
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="Informe_Ventas_{mes_nombre}_{anio}.pdf"'
+        pdf = SimpleDocTemplate(response, pagesize=letter)
+        
+        # Crear la tabla para los datos de ventas
+        table_data = [["Código de Compra", "Retiro en Sucursal", "Envio a domicilio", "Metodo de Pago", "Total"],]
+        for sale in sales_data:
+            table_data.append([sale["Código de Compra"], sale["Retiro en Sucursal"], sale["Envio a domicilio"], sale["Metodo de Pago"], sale["Total"]])
+
+        table = Table(table_data)
+
+        # Estilo de la tabla
+        style = [('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black)]
+
+        table.setStyle(style)
+
+        # Construir el PDF y devolverlo como una respuesta HTTP
+        pdf.build([table])
+        return response
+
+def generate_excel(request):
+    if request.method == 'POST':
+        mes_nombre = request.POST.get('mes')
+        anio = int(request.POST.get('anio'))
+
+        # Mapeo de nombres de meses en español a números
+        meses = {
+            'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6,
+            'julio': 7, 'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12
+        }
+
+        # Convertir el nombre del mes a un número
+        mes = meses[mes_nombre.lower()]
+
+        # Filtrar las compras por mes y año
+        compras = Compra.objects.filter(
+            Q(fecha__year=anio) & Q(fecha__month=mes)
+        )
+
+        boletas_compras = list()
+        codigos_agregados = set()
+        for compra in compras:
+            boleta = Boleta.objects.get(codigo=compra.codigo)
+            if boleta.codigo not in codigos_agregados:
+                boletas_compras.append((boleta, compra))
+                codigos_agregados.add(boleta.codigo)
+
+
+        sales_data = []
+        total_sum = 0
+        for boleta, compra in boletas_compras:
+            sales_data.append({
+                "Código de Compra": boleta.codigo,
+                "Retiro en Sucursal": "" if compra.sucursal is None else compra.sucursal.nombre,
+                "Envio a domicilio": "No aplica" if compra.direccion is None else compra.direccion,
+                "Metodo de Pago": "Transferencia" if boleta.transferencia else "Paypal",
+                "Total": boleta.total
+            })
+            total_sum += boleta.total
+
+        # Agregar el total al final de sales_data
+        sales_data.append({
+            "Código de Compra": "",
+            "Retiro en Sucursal": "",
+            "Envio a domicilio": "",
+            "Metodo de Pago": "",
+            "Total": total_sum
+        })
+
+        # Crear un DataFrame de pandas con los datos de ventas
+        df = pd.DataFrame(sales_data)
+
+        # Crear un objeto BytesIO para almacenar el archivo Excel
+        excel_file = io.BytesIO()
+
+        # Escribir el DataFrame en el objeto BytesIO como un archivo Excel
+        df.to_excel(excel_file, index=False)
+
+        # Mover el puntero al inicio del archivo
+        excel_file.seek(0)
+
+        # Cargar el archivo de Excel con openpyxl
+        workbook = openpyxl.load_workbook(excel_file)
+
+        # Obtener la hoja activa
+        sheet = workbook.active
+
+        # Ajustar el texto de todas las celdas
+        for column in sheet.columns:
+            max_length = 0
+            column = [cell for cell in column]
+            for cell in column:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(cell.value)
+                except:
+                    pass
+            adjusted_width = (max_length + 2)
+            sheet.column_dimensions[column[0].column_letter].width = adjusted_width
+
+        # Guardar el archivo de Excel en un nuevo objeto BytesIO
+        excel_file_adjusted = io.BytesIO()
+        workbook.save(excel_file_adjusted)
+
+        # Configurar la respuesta HTTP para descargar el archivo Excel
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = f'attachment; filename="Informe_Ventas_{mes_nombre}_{anio}.xlsx"'
+        response.write(excel_file_adjusted.getvalue())
+
+        return response
 
 def registro(request):
     data = {
@@ -576,41 +757,6 @@ def peticion_patch(request, id_producto):
     
     return render(request, 'core/index.html')
 
-def generate_pdf(request):
-    # Aquí deberías obtener los datos reales de ventas de tu base de datos o cualquier otra fuente
-    # Por simplicidad, aquí se proporcionan datos de ejemplo
-    sales_data = [
-        {"producto": "Martillo", "cantidad": 10, "precio": "$15"},
-        {"producto": "Destornillador", "cantidad": 20, "precio": "$10"},
-        {"producto": "Sierra", "cantidad": 5, "precio": "$30"}
-    ]
-
-    # Crear el objeto PDF
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="informe_ventas.pdf"'
-    pdf = SimpleDocTemplate(response, pagesize=letter)
-    
-    # Crear la tabla para los datos de ventas
-    table_data = [["Producto", "Cantidad", "Precio"]]
-    for sale in sales_data:
-        table_data.append([sale["producto"], sale["cantidad"], sale["precio"]])
-
-    table = Table(table_data)
-
-    # Estilo de la tabla
-    style = [('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-             ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-             ('GRID', (0, 0), (-1, -1), 1, colors.black)]
-
-    table.setStyle(style)
-
-    # Construir el PDF y devolverlo como una respuesta HTTP
-    pdf.build([table])
-    return response
 
 def sales_report(request):
     # Lógica para obtener los datos de ventas y mostrarlos en una plantilla HTML
@@ -624,30 +770,6 @@ def sales_report(request):
     context = {"sales_data": sales_data}
     return render(request, 'sales_report.html', context)
 
-def generate_excel(request):
-    # Aquí deberías obtener los datos reales de ventas de tu base de datos o cualquier otra fuente
-    # Por simplicidad, aquí se proporcionan datos de ejemplo
-    sales_data = [
-        {"Mes": "Enero", "Año": 2024, "Pedidos": 10},
-        {"Mes": "Febrero", "Año": 2024, "Pedidos": 15},
-        {"Mes": "Marzo", "Año": 2024, "Pedidos": 20}
-    ]
-
-    # Crear un DataFrame de pandas con los datos de ventas
-    df = pd.DataFrame(sales_data)
-
-    # Crear un objeto BytesIO para almacenar el archivo Excel
-    excel_file = io.BytesIO()
-
-    # Escribir el DataFrame en el objeto BytesIO como un archivo Excel
-    df.to_excel(excel_file, index=False)
-
-    # Configurar la respuesta HTTP para descargar el archivo Excel
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="informe_ventas.xlsx"'
-    response.write(excel_file.getvalue())
-
-    return response
 
 
 def agregarVendedor(request):
