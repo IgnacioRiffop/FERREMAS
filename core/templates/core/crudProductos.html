@@ -41,6 +41,7 @@
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                       <a href="{% url 'verProducto' prod.id_producto %}" class="btn btn-lg btn-outline-dark">Ver Más</a>
+                      <a onclick="deleteProducto({{ prod.id_producto }})"  class="btn btn-lg btn-danger">Eliminar</a>
                     </div>
                     <small class="text-muted">Stock: {{ prod.stock }}</small>
                   </div>
@@ -60,4 +61,26 @@
 <!-- FIN CONTENIDO -->
 {% block js %}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    function deleteProducto(id){
+        //console.log("ID PRODUCTO: "+id);
+        Swal.fire({
+        title: 'Eliminar',
+        text: '¿Desea eliminar este Producto?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Eliminar'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            swal.fire('Eliminado!','Producto eliminado correctamente', 'success').then(function(){
+                window.location.href = "/deleteProducto/"+id;
+            })
+        }
+        })
+    }
+    </script>
 {% endblock %}

@@ -885,20 +885,13 @@ def peticion_put(request, id_producto):
     return render(request, 'core/index.html')
 
 
-def peticion_delete(request, id_producto):
+def deleteProducto(request, id_producto):
     url = f"http://127.0.0.1:5000/productos/{id_producto}"
     
     # Realiza la solicitud DELETE
     response = requests.delete(url)
     
-    if response.status_code == 200:
-        # Si la solicitud DELETE se realizó con éxito, muestra un mensaje de éxito
-        print("Producto eliminado correctamente")
-    else:
-        # Si la solicitud DELETE no se realizó con éxito, muestra un mensaje de error
-        print("Error al eliminar el producto")
-    
-    return render(request, 'core/index.html')
+    return redirect(to="crudProductos")
 
 
 def peticion_patch(request, id_producto):
