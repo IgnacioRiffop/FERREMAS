@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<div class="p-3 pb-md-4 mx-auto text-center">
+  <h1 class="display-4 fw-normal">Mis Compras</h1>
+  <p class="fs-5 text-muted">Encuentra todas tus compras aqui.</p>
+</div>
+
+<div class="p-3 pb-md-4 mx-auto text-center">
+  {% if not existe %}
+    <h5 class="text-muted">No hay ninguna compra realizada.</h5>
+  {% endif %}
+  {% for compra, producto in listadocp %}
+    <div class="card mb-3 w-100" style="max-width: 540px; margin: 0 auto;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="{% static 'core/img/'|add:producto.imagen %}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{producto.nombre}} x {{compra.carrito.cantidad}}</h5>
+            <p class="card-text">Compra: {{compra.codigo}}</p>
+            <p class="card-text"><small class="text-body-secondary">Fecha: {{compra.fecha}}</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  {% include 'core/paginator.html' %}
+</div>
+
+
+
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}

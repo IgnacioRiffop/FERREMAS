@@ -35,6 +35,7 @@ urlpatterns = [
     path('deleteProducto/<id_producto>', deleteProducto, name="deleteProducto"),
     path('peticion_patch/<id_producto>', peticion_patch, name="peticion_patch"),
     path('bodega', bodega, name="bodega"),
+    path('pedido/<codigo>', pedido, name="pedido"),
     path('aceptarPedido/<codigo>', aceptarPedido, name="aceptarPedido"),
     path('modificarPago/<codigo>', modificarPago, name="modificarPago"),
 

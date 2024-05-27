@@ -96,7 +96,7 @@
                 <td>${{ boleta.total }}</td>
                 <td>{{ compra.fecha }}</td>
                 <td>
-                    <a href="" class="btn btn-lg btn-outline-dark">Ver Más</a>
+                    <a href="{% url 'pedido' compra.codigo %}" class="btn btn-lg btn-outline-dark">Ver Más</a>
                 </td> 
             </tr>
             {% endfor %}
