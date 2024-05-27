@@ -40,7 +40,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 import random
 import os
-
+from django.core.files import File
 
 
 def group_required(*group_names):
@@ -767,9 +767,69 @@ def agregarProducto(request):
     return render(request,'core/agregarProducto.html', {'form': form})
 
 
-def modificarProducto(request):
-    return render(request,'core/modificarProducto.html')
+def modificarProducto(request,id_producto):
+    url = f"http://127.0.0.1:5000/productos/{id_producto}"
+    producto = requests.get(url).json()
 
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            imagen_file = request.FILES.get('imagen')
+            if imagen_file:
+                imagen_filename = imagen_file.name
+                # Usa os.path.join para construir la ruta del archivo
+                base_dir = os.path.dirname(os.path.abspath(__file__))  # obtén el directorio del archivo actual
+                imagen_path = os.path.join(base_dir, 'static', 'core', 'img', imagen_filename)
+                with open(imagen_path, 'wb+') as destination:
+                    for chunk in imagen_file.chunks():
+                        destination.write(chunk)
+            else:
+                imagen_filename = ''
+            
+            producto = {
+                "nombre": request.POST.get('nombre'),
+                "id_marca": request.POST.get('id_marca'),
+                "nombre_marca": "bosch",
+                "precio": request.POST.get('precio'),
+                "stock": request.POST.get('stock'),
+                "imagen": imagen_filename
+            }
+            
+            url = f"http://127.0.0.1:5000/productos/{id_producto}"
+            headers = {'Content-Type': 'application/json'}  # Especifica el tipo de contenido JSON
+            
+            # Convierte el diccionario producto_actualizado a JSON y realiza la solicitud PUT
+            response = requests.put(url, data=json.dumps(producto), headers=headers)
+            
+            # Aquí puedes manejar el resto de los datos del formulario
+            # Cuando hagas la solicitud a la API, usa imagen_filename en lugar de form.cleaned_data['imagen']
+    else:
+        data = {
+            'nombre': producto['nombre'],
+            'id_marca': producto['id_marca'],
+            'nombre_marca': producto.get('nombre_marca', ''),  # Usar get() en caso de que 'nombre_marca' no exista
+            'precio': producto['precio'],
+            'stock': producto['stock'],
+            # 'imagen': producto['imagen'],  # No puedes prellenar un ImageField con un valor de texto
+        }
+        
+        # Construye la ruta al archivo de la imagen
+        base_dir = os.path.dirname(os.path.abspath(__file__))  # obtén el directorio del archivo actual
+        imagen_path = os.path.join(base_dir, 'static', 'core', 'img', producto['imagen'])
+        
+        try:
+            # Intenta abrir el archivo de imagen y crear un objeto File
+            with open(imagen_path, 'rb') as f:
+                imagen_file = File(f)
+                imagen_file.name = producto['imagen']  # Establece el atributo 'name' del objeto File
+                data['imagen'] = imagen_file
+        except FileNotFoundError:
+            # Si el archivo de imagen no existe, deja data['imagen'] como None
+            data['imagen'] = None
+
+        # Pasa el diccionario de datos al constructor del formulario
+        form = ProductoForm(data)
+    return render(request,'core/modificarProducto.html', {'form': form})
 
 
 #views del API

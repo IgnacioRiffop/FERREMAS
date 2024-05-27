@@ -59,7 +59,7 @@
             <div class="col-12">
               <div class="col-12">
                 <p class="fs-6 my-1">Stock: {{ producto.stock }}</p>
-                <a href="" class="btn btn-success btn-lg mt-3">Modificar</a>
+                <a href="{% url 'modificarProducto' producto.id_producto %}" class="btn btn-success btn-lg mt-3">Modificar</a>
               </div>
             </div>
           </div>

@@ -65,7 +65,7 @@ urlpatterns = [
     #MODIFICAR
     path('modificarBodeguero/<int:id>/', views.modificarBodeguero, name='modificarBodeguero'),
     path('modificarContador/<int:id>/', views.modificarContador, name='modificarContador'),
-    path('modificarProducto', modificarProducto, name="modificarProducto"),
+    path('modificarProducto/<id_producto>', modificarProducto, name="modificarProducto"),
     path('modificarVendedor/<int:id>/', views.modificarVendedor, name='modificarVendedor'),
     path('modificarCliente/<int:id>/', views.modificarCliente, name='modificarCliente'),
     #ELIMINAR
