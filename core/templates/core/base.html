@@ -73,28 +73,30 @@
         </li>
         {% endif %}
         <a class="nav-link {% if '/nosotros' in request.path %}active{% endif %}" href="{% url 'nosotros' %}">Sobre nosotros</a>
-        <a class="nav-link {% if '/producto' in request.path %}active{% endif %}" href="{% url 'producto' %}">Productos</a>
         {% if user.is_authenticated %}
         {% if 'cliente' in user.groups.all|join:',' %}
           <a class="nav-link {% if '/carrito' in request.path %}active{% endif %}" href="{% url 'carrito' %}">Carrito <i class="fas fa-shopping-cart"></i></a>
           <a class="nav-link {% if '/carrito' in request.path %}active{% endif %}" href="{% url 'compras' %}">Mis Compras </a>
+          <a class="nav-link {% if '/producto' in request.path %}active{% endif %}" href="{% url 'producto' %}">Productos</a>
         {% endif %}
         <a class="nav-link {% if '/perfil' in request.path %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
         {% endif %}
         <a class="nav-link {% if '/contacto' in request.path %}active{% endif %}" href="{% url 'contacto' %}">Contacto</a>
         {% if 'vendedor' in user.groups.all|join:',' %}
         <a class="nav-link {% if '/bodega' in request.path %}active{% endif %}" href="{% url 'bodega' %}">Bodega</a>
+        <a class="nav-link {% if '/producto' in request.path %}active{% endif %}" href="{% url 'producto' %}">Productos</a>
         {% endif %}
         {% if user.is_superuser %}
-        <a class="nav-link {% if '/crudUsuarios' in request.path %}active{% endif %}" href="{% url 'crudUsuarios' %}">CRUD Usuarios</a>
+        <a class="nav-link {% if '/crudUsuarios' in request.path %}active{% endif %}" href="{% url 'crudUsuarios' %}">Administrar Usuarios</a>
         {% endif %}
         {% if 'contador' in user.groups.all|join:',' %}
-        <a class="nav-link {% if '/crudPagos' in request.path %}active{% endif %}" href="{% url 'crudPagos' %}">CRUD Pagos</a>
+        <a class="nav-link {% if '/crudPagos' in request.path %}active{% endif %}" href="{% url 'crudPagos' %}">Administrar Pagos</a>
         {% endif %}
         {% if user.is_superuser or 'contador' in user.groups.all|join:',' %}
         <a class="nav-link {% if '/informes' in request.path %}active{% endif %}" href="{% url 'informes' %}">Informes</a>
         {% endif %}
         {% if 'bodeguero' in user.groups.all|join:',' %}
+        <a class="nav-link {% if '/crudProductos' in request.path %}active{% endif %}" href="{% url 'crudProductos' %}">Administrar Productos</a>
         <a class="nav-link {% if '/pedidosBodeguero' in request.path %}active{% endif %}" href="{% url 'pedidosBodeguero' %}">Pedidos</a>
         <a class="nav-link {% if '/pedidos_tomados' in request.path %}active{% endif %}" href="{% url 'pedidos_tomados' %}">Historial Pedidos</a>
         {% endif %}

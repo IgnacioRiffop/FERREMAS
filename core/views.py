@@ -38,6 +38,8 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
+import random
+import os
 
 
 
@@ -442,6 +444,60 @@ def detalleProducto(request, id_producto):
 
     return render(request,'core/detalleProducto.html', data)
 
+def verProducto(request, id_producto):
+    # Obtener producto desde la API
+    url = f"http://127.0.0.1:5000/productos/{id_producto}"
+    producto = requests.get(url).json()
+
+    # Obtener el valor del USD
+    respuesta = requests.get('https://mindicador.cl/api/dolar').json()
+    valor_usd = respuesta['serie'][0]['valor']
+    producto['preciousd'] = round(producto['precio'] / valor_usd, 2)
+
+    # Obtener el cliente actual
+    try:
+        cliente = User.objects.get(username=request.user.username)
+    except User.DoesNotExist:
+        cliente = None
+
+    # Datos a pasar al contexto
+    data = {
+        'producto': producto,
+        'usuario': request.user.username,
+    }
+    
+
+    return render(request,'core/verProducto.html', data)
+
+
+
+def crudProductos(request):
+    url = "http://127.0.0.1:5000/productos"
+    productos = requests.get(url).json()
+
+    respuesta = requests.get('https://mindicador.cl/api/dolar').json()
+    valor_usd = respuesta['serie'][0]['valor']
+
+    for producto in productos:
+        producto['preciousd'] = round(producto['precio'] / valor_usd, 2)
+
+    page = request.GET.get('page', 1) # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
+    
+    try:
+        paginator = Paginator(productos, 9)
+        productos = paginator.page(page)
+    except:
+        raise Http404
+
+    data = {
+        'listado': productos,
+        'paginator': paginator,
+        'valorusd' : valor_usd
+    }
+    
+    # Renderiza el template 'productos.html' y pasa la lista de productos como contexto
+    return render(request, 'core/crudProductos.html', data)
+
 def carrito(request):
     cliente = User.objects.get(username=request.user.username)
     CarritoCliente = Carrito.objects.filter(cliente=cliente, vigente=True)
@@ -668,8 +724,47 @@ def asignarPedidos(request):
 
 #CRUD
 #AGREGAR
+def generate_random_id():
+    return random.randint(100, 1000000)
+
+
 def agregarProducto(request):
-    return render(request,'core/agregarProducto.html')
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            imagen_file = request.FILES.get('imagen')
+            if imagen_file:
+                imagen_filename = imagen_file.name
+                # Usa os.path.join para construir la ruta del archivo
+                base_dir = os.path.dirname(os.path.abspath(__file__))  # obtén el directorio del archivo actual
+                imagen_path = os.path.join(base_dir, 'static', 'core', 'img', imagen_filename)
+                with open(imagen_path, 'wb+') as destination:
+                    for chunk in imagen_file.chunks():
+                        destination.write(chunk)
+            else:
+                imagen_filename = ''
+            
+            producto = {
+                "id_producto": generate_random_id(),
+                "nombre": request.POST.get('nombre'),
+                "id_marca": request.POST.get('id_marca'),
+                "nombre_marca": "bosch",
+                "precio": request.POST.get('precio'),
+                "stock": request.POST.get('stock'),
+                "imagen": imagen_filename
+            }
+
+            url = "http://127.0.0.1:5000/productos"
+            headers = {'Content-Type': 'application/json'}  # Especifica el tipo de contenido JSON
+            
+            # Convierte el diccionario producto a JSON y realiza la solicitud POST
+            response = requests.post(url, data=json.dumps(producto), headers=headers)
+            
+            # Aquí puedes manejar el resto de los datos del formulario
+            # Cuando hagas la solicitud a la API, usa imagen_filename en lugar de form.cleaned_data['imagen']
+    else:
+        form = ProductoForm()
+    return render(request,'core/agregarProducto.html', {'form': form})
 
 
 def modificarProducto(request):

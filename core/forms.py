@@ -29,3 +29,11 @@ class PagoForm (ModelForm):
     class Meta:
         model = Boleta
         fields = ['codigo', 'total', 'transferencia', 'validacion', 'imagen']
+
+class ProductoForm(forms.Form):
+    nombre = forms.CharField(min_length=5, max_length=100)
+    id_marca = forms.IntegerField()
+    nombre_marca = forms.CharField(required=False)
+    precio = forms.IntegerField(min_value=1)
+    stock = forms.IntegerField(min_value=0)
+    imagen = forms.ImageField(required=False)

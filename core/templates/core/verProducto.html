@@ -1,0 +1,76 @@
+
+{% extends 'core/base.html' %}
+{% load static%}
+{% load crispy_forms_tags %}
+
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+
+<style>
+  .responsive{
+      width: 100%;
+      min-width: 500px;
+      max-width: 500px;
+      height: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  </style>
+
+
+<div class="text-start" style="margin-left: 300px;">
+  <h5 class="my-3 display-4">
+    <a href="{% url 'crudProductos' %}" class="btn btn-primary btn-lg">Volver</a>
+  </h5>
+</div>
+
+  <div class="text-center">
+    <h5 class="my-3 display-4">
+      ¡Aprovecha!<br />
+      <h1><span class="text-primary">¡En todas tus compras el envío es gratis!</span></h1>
+    </h5>
+  </div>
+
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="row producto">
+          <div class="card shadow-sm" style="width: auto;">
+            <img src="{% static 'core/img/'|add:producto.imagen %}" class="responsive">
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-sm-6 my-5">
+          <div class="col-6">
+            <h1>{{ producto.nombre }}</h1>
+            <br>
+            <p class="fs-4 fw-bold">Precio:</p>
+            <p class="fs-4 ">{{ producto.precio }} CLP</p>
+            <p class="fs-4 ">{{ producto.preciousd }} USD</p>
+          </div>
+          <div class="col-12">
+            <div class="col-12">
+              <div class="col-12">
+                <p class="fs-6 my-1">Stock: {{ producto.stock }}</p>
+                <a href="" class="btn btn-success btn-lg mt-3">Modificar</a>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+   </div>
+
+
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}

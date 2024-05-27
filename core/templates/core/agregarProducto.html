@@ -1,138 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Producto</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<style>
-    body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
+{% extends 'core/base.html' %}
+{% load static%}
+{% load crispy_forms_tags %}
 
-.container {
-    max-width: 500px;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative; /* Para posicionar los botones relativos a este contenedor */
-}   
+{% block css %}
+  
+{% endblock %}
 
-h2 {
-    margin-top: 0;
-    color: #333;
-    text-align: center;
-}
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<!-- Registro -->
+<br>
+<div class="container-fluid d-flex justify-content-center align-items-center" style="margin-bottom: 120px;">
+    <div class="p-5 rounded-5 text-dark shadow" style="width: 25rem; background-color: rgb(236, 236, 236);">
+        <form action="" enctype="multipart/form-data" method="post" class="mt-4 mb-4">
+            <div class="text-center fs-1 fw-bold">Agregar Producto</div>
+            {% csrf_token %}
+            {{ form | crispy }}
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #666;
-}
-
-input[type="text"],
-input[type="number"],
-textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: none;
-    background-color: #ddd; /* Cambia el color de fondo a gris */
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-textarea {
-    resize: vertical;
-}
-
-button {
-    background-color: #fff;
-    color: #000;
-    padding: 10px 20px;
-    border: 1px solid #000;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-button:hover {
-    background-color: #000;
-    color: #fff;
-}
-
-.bottom-right {
-    position: absolute;
-    bottom: 20px; /* Ajusta la distancia desde la parte inferior */
-    right: 20px; /* Ajusta la distancia desde la derecha */
-}
-
-.button-register {
-    background-color: #000;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 0 auto; 
-    
-}
-
-.button-register:hover {
-    background-color: #333;
-}
-.custom-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #000; /* Cambia el borde a negro */
-    background-color: #fff; /* Cambia el fondo a blanco */
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-.button-restablecer{
-    background-color: #000;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 0 auto; 
-    
-}
-.button-restablecer:hover {
-    background-color: #333;
-}
-
-
-
-</style>
-<body>
-    <div class="container">
-        <h2>Agregar Producto</h2>
-        <form id="productForm">
-            <label for="productName">NOMBRE</label>
-            <input type="text" id="productName" name="productName" required><br>
-
-            <label for="productDescription">DESCRIPCIÓN</label><br>
-            <textarea id="productDescription" name="productDescription" rows="4" cols="50" required></textarea><br>
-           
-            <label for="productPrice">PRECIO</label>
-            <input type="number" id="productPrice" name="productPrice" step="0.01" required><br>
-
-            <label for="productStock">STOCK</label>
-            <input type="number" id="productStock" name="productStock" required><br>
-
-            <button type="submit">Agregar</button>
+            <input type="submit" value="Agregar" class="btn btn-lg btn-outline-dark my-1 w-100 mt-3 fw-semibold shadow-sm">
         </form>
-        <button onclick="goBack()" class="bottom-right">Volver</button>
+
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
+</div>
+
+<!-- Fin Registro -->
+
+
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  
+{% endblock %}

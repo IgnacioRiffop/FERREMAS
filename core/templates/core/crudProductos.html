@@ -1,0 +1,63 @@
+
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block css %}
+  
+{% endblock %}
+
+<!-- INICIO CONTENIDO-->
+{% block contenido %}
+<style>
+.responsive{
+    width: 100%;
+    max-width: 225px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+
+<div class="p-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 fw-normal">Administrar Productos</h1>
+    <p class="fs-5 text-muted">Valor USD: {{ valorusd }}</p>
+    <a href="{% url 'agregarProducto' %}" class="btn btn-success btn-lg mt-3">Agregar Producto</a>
+  </div>
+  
+  <!-- Tienda -->
+  <div class="album py-1 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for prod in listado %}
+          {% if prod.stock > 0 %}
+            <div class="col">
+              <div class="card shadow-sm">
+                <img src="{% static 'core/img/'|add:prod.imagen %}" class="responsive" width="100%" height="225">
+                <div class="card-body">
+                  <p class="card-text">{{ prod.nombre }}</p>
+                  <p class="card-text fw-bold">${{ prod.precio }} CLP</p>
+                  <p class="card-text fw-bold">${{ prod.preciousd }} USD</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <a href="{% url 'verProducto' prod.id_producto %}" class="btn btn-lg btn-outline-dark">Ver Más</a>
+                    </div>
+                    <small class="text-muted">Stock: {{ prod.stock }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <br>
+      {% include 'core/paginator.html' %}
+    </div>
+  </div>
+  <!-- Fin Tienda-->
+  
+{% endblock %}
+<!-- FIN CONTENIDO -->
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}
