@@ -75,17 +75,29 @@
             <tr>
                 <th>Codigo del Pedido</th>
                 <th>Nombre Cliente</th>
-                <th>Subtotal</th>
+                <th>Metodo de Pago</th>
+                <th>Total</th>
                 <th>Fecha</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            {% for pedido in pedidos_aceptados %}
+            {% for boleta, compra in boleta_compras %}
             <tr>
-                <td>{{ pedido.codigo_pedido }}</td>
-                <td>{{ pedido.nombre_cliente }}</td>
-                <td>{{ pedido.subtotal }}</td>
-                <td>{{ pedido.fecha }}</td>
+                <td>{{ boleta.codigo }}</td>
+                <td>{{ compra.cliente.first_name }} {{ compra.cliente.last_name }}</td>
+                <td>
+                    {% if boleta.transferencia %}
+                        Transferencia
+                    {% else %}
+                        PayPal
+                    {% endif %}
+                </td>
+                <td>${{ boleta.total }}</td>
+                <td>{{ compra.fecha }}</td>
+                <td>
+                    <a href="" class="btn btn-lg btn-outline-dark">Ver Más</a>
+                </td> 
             </tr>
             {% endfor %}
         </tbody>

@@ -3,7 +3,7 @@
 
 {% block css %}
     <style>
-        .container {
+        .container1 {
             max-width: 800px;
             margin: 20px auto; /* Agregando margen superior e inferior */
             padding: 20px;
@@ -86,66 +86,42 @@
 {% block contenido %}
 <body>
 
-    <div class="container">
+    <div class="container1">
         <h1 class="titulo-pago">Pagos</h1>
-    
-        <div class="pago-item" id="pago-item-1">
-            <div class="pago-info">
-                <span class="pago-fecha"><strong>Fecha:</strong> 20/05/2024</span>
-                <span class="pago-monto"><strong>Monto:</strong> $50.000</span>
-                <span class="pago-metodo"><strong>Método de Pago:</strong> Transferencia</span>
+        {% for boleta, compra in boleta_compras %}
+            <div class="pago-item" id="pago-item-1">
+                <div class="pago-info">
+                    <span class="pago-fecha"><strong>Codigo:</strong> {{compra.codigo}}</span>
+                    <span class="pago-fecha"><strong>Fecha:</strong> {{compra.fecha}}</span>
+                    <span class="pago-monto"><strong>Nombre Cliente:</strong> {{compra.cliente.first_name}} {{compra.cliente.last_name}}</span>
+                    <span class="pago-monto"><strong>Monto:</strong> ${{boleta.total}}</span>
+                    <span class="pago-metodo"><strong>Método de Pago:</strong>
+                    {% if boleta.transferencia %}
+                        Transferencia
+                    {% else %}
+                        PayPal
+                    {% endif %}
+                    </span>
+                    <span class="pago-monto"><strong>Estado del Pago:</strong> 
+                    {% if boleta.validacion == True %}
+                        Aprobada
+                    {% else %}
+                        {% if boleta.imagen == "" %}
+                            Comprobante no enviado
+                        {% else %}
+                            En espera de revisión
+                        {% endif %}
+                    {% endif %}
+                    </span>
+                </div>
+                <a href="{% url 'modificarPago' boleta.codigo %}" class="btn btn-primary" >Modificar</a>
             </div>
-            <a href="#" class="btn-modificar" onclick="mostrarFormularioEdicion(1)">Modificar</a>
-            <div class="formulario-edicion" style="display: none;">
-                <input type="text" id="fecha-1" placeholder="Nueva fecha">
-                <input type="text" id="monto-1" placeholder="Nuevo monto">
-                <input type="text" id="metodo-1" placeholder="Nuevo método de pago">
-                <button onclick="guardarCambios(1)">Guardar</button>
-            </div>
-        </div>
-    
-        <div class="pago-item" id="pago-item-2">
-            <div class="pago-info">
-                <span class="pago-fecha"><strong>Fecha:</strong> 18/05/2024</span>
-                <span class="pago-monto"><strong>Monto:</strong> $30.000</span>
-                <span class="pago-metodo"><strong>Método de Pago:</strong> PayPal</span>
-            </div>
-            <a href="#" class="btn-modificar" onclick="mostrarFormularioEdicion(2)">Modificar</a>
-            <div class="formulario-edicion" style="display: none;">
-                <input type="text" id="fecha-2" placeholder="Nueva fecha">
-                <input type="text" id="monto-2" placeholder="Nuevo monto">
-                <input type="text" id="metodo-2" placeholder="Nuevo método de pago">
-                <button onclick="guardarCambios(2)">Guardar</button>
-            </div>
-        </div>
+        {% endfor %}
     
         <div class="no-pagos">No hay más pagos registrados.</div>
     </div>
     
     <script>
-        function mostrarFormularioEdicion(numeroPago) {
-            var formulario = document.getElementById('pago-item-' + numeroPago).getElementsByClassName('formulario-edicion')[0];
-            formulario.style.display = 'block';
-        }
-    
-        function guardarCambios(numeroPago) {
-            var nuevaFecha = document.getElementById('fecha-' + numeroPago).value;
-            var nuevoMonto = document.getElementById('monto-' + numeroPago).value;
-            var nuevoMetodo = document.getElementById('metodo-' + numeroPago).value;
-    
-            var pagoItem = document.getElementById('pago-item-' + numeroPago);
-            var pagoInfo = pagoItem.getElementsByClassName('pago-info')[0];
-            var fechaSpan = pagoInfo.getElementsByClassName('pago-fecha')[0];
-            var montoSpan = pagoInfo.getElementsByClassName('pago-monto')[0];
-            var metodoSpan = pagoInfo.getElementsByClassName('pago-metodo')[0];
-    
-            fechaSpan.innerHTML = "<strong>Fecha:</strong> " + nuevaFecha;
-            montoSpan.innerHTML = "<strong>Monto:</strong> " + nuevoMonto;
-            metodoSpan.innerHTML = "<strong>Método de Pago:</strong> " + nuevoMetodo;
-    
-            var formulario = document.getElementById('pago-item-' + numeroPago).getElementsByClassName('formulario-edicion')[0];
-            formulario.style.display = 'none';
-        }
     </script>
     
     </body>

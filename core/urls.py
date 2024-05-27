@@ -35,6 +35,9 @@ urlpatterns = [
     path('peticion_delete/<id_producto>', peticion_delete, name="peticion_delete"),
     path('peticion_patch/<id_producto>', peticion_patch, name="peticion_patch"),
     path('bodega', bodega, name="bodega"),
+    path('aceptarPedido/<codigo>', aceptarPedido, name="aceptarPedido"),
+    path('modificarPago/<codigo>', modificarPago, name="modificarPago"),
+
 
     path('datosTransferencia', datosTransferencia, name="datosTransferencia"),
     path('agregarCompra', agregarCompra, name="agregarCompra"),
@@ -49,7 +52,6 @@ urlpatterns = [
     path('pedidosBodeguero', pedidosBodeguero, name='pedidosBodeguero'),
     path('pedidos_tomados', pedidos_tomados, name='pedidos_tomados'),
     path('asignarPedidos', asignarPedidos, name='asignarPedidos'),
-    path('crear_pedido_aceptado/', views.crear_pedido_aceptado, name='crear_pedido_aceptado'),
     #CRUD
     #AGREGAR
     path('agregarBodeguero', agregarBodeguero, name="agregarBodeguero"),

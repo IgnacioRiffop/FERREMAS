@@ -38,7 +38,6 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
-from .models import PedidoAceptado
 
 
 
@@ -643,18 +642,26 @@ def crudPedidos(request):
 
 @group_required('bodeguero')
 def pedidosBodeguero(request):
-    return render(request,'core/pedidosBodeguero.html')
+    boletas_no_aceptadas = Boleta.objects.filter(aceptado=False, validacion=True)
+    return render(request, 'core/pedidosBodeguero.html', {'boletas': boletas_no_aceptadas})
+
+def aceptarPedido(request, codigo):
+    boleta = get_object_or_404(Boleta, codigo=codigo)
+    boleta.aceptado = True
+    boleta.bodeguero = request.user
+    boleta.save()
+    return redirect('pedidosBodeguero')
 
 @group_required('bodeguero')
 def pedidos_tomados(request):
-    pedidos_aceptados = PedidoAceptado.objects.all()
-    return render(request, 'core/pedidos_tomados.html', {'pedidos_aceptados': pedidos_aceptados})
+    boletas = Boleta.objects.filter(bodeguero=request.user)
+    boleta_compras = []
+    for boleta in boletas:
+        compra = Compra.objects.filter(codigo=boleta.codigo).first()
+        boleta_compras.append((boleta, compra))
+    return render(request, 'core/pedidos_tomados.html', {'boleta_compras': boleta_compras})
 
-def crear_pedido_aceptado(request):
-    # Aquí iría el código para crear un PedidoAceptado basado en la información en request.POST
-    # Por ejemplo:
-    pedido = PedidoAceptado.objects.create(codigo_pedido=request.POST['codigo'], nombre_cliente=request.POST['nombre'], subtotal=request.POST['subtotal'], fecha=request.POST['fecha'])
-    return JsonResponse({'pedido_id': pedido.id}) 
+
 
 def asignarPedidos(request):
     return render(request,'core/asignarPedidos.html')
@@ -782,7 +789,6 @@ def agregarVendedor(request):
         if formulario.is_valid():
             formulario.save()
             user = User.objects.get(username=formulario.cleaned_data["username"])
-            login(request, user)
             grupo = Group.objects.get(name='vendedor')
             user.groups.add(grupo)
             #redirigir al home
@@ -800,7 +806,6 @@ def agregarContador(request):
         if formulario.is_valid():
             formulario.save()
             user = User.objects.get(username=formulario.cleaned_data["username"])
-            login(request, user)
             grupo = Group.objects.get(name='contador')
             user.groups.add(grupo)
             #redirigir al home
@@ -907,7 +912,24 @@ def eliminarCliente(request, id):
 
 @group_required('contador')
 def crudPagos(request):
-    return render(request, 'core/crudPagos.html') 
+    boletas = Boleta.objects.all()
+    boleta_compras = []
+    for boleta in boletas:
+        compra = Compra.objects.filter(codigo=boleta.codigo).first()
+        boleta_compras.append((boleta, compra))
+    return render(request, 'core/crudPagos.html', {'boleta_compras': boleta_compras})	 
+
+def modificarPago(request,codigo):
+    pago = get_object_or_404(Boleta, codigo=codigo)
+
+    if request.method == 'POST':
+        form = PagoForm(request.POST, instance=pago)
+        if form.is_valid():
+            form.save()
+            return redirect('crudPagos')
+    else:
+        form = PagoForm(instance=pago)
+    return render(request, 'core/modificarPago.html', {'form': form})	 
 
 
 

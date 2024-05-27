@@ -74,30 +74,26 @@
         <thead>
             <tr>
                 <th>Codigo del Pedido</th>
-                <th>Nombre Cliente</th>
-                <th>Subtotal</th>
+                <th>Metodo de pago</th>
+                <th>Total</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
+            {% for boleta in boletas %}
             <tr>
-                <td>0987965</td>
-                <td>Fabian Galvez</td>
-                <td>$107.000</td>
-                <td><button class="aceptar-btn" onclick="aceptarPedido('0987965')">Aceptar</button></td> 
+                <td>{{ boleta.codigo }}</td>
+                <td>
+                    {% if boleta.transferencia %}
+                        Transferencia
+                    {% else %}
+                        PayPal
+                    {% endif %}
+                </td>
+                <td>${{boleta.total }}</td>
+                <td><button class="aceptar-btn" onclick="aceptarPedido('{{ boleta.codigo }}')">Aceptar</button></td> 
             </tr>
-            <tr>
-                <td>0345878</td>
-                <td>Daniel Riffo</td>
-                <td>$97.978</td>
-                <td><button class="aceptar-btn" onclick="aceptarPedido('0345878')">Aceptar</button></td> 
-            </tr>
-            <tr>
-                <td>0567897</td>
-                <td>Francisco Bravo</td>
-                <td>$89.970</td>
-                <td><button class="aceptar-btn" onclick="aceptarPedido('0567897')">Aceptar</button></td> 
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
@@ -109,31 +105,20 @@
 <script src="{% static 'core/js/mensajeProducto.js' %}"></script>
 
 <script>
-function aceptarPedido(codigoPedido) {
-    // Agrega una alerta o un console.log para verificar si la función se está llamando
-    alert('Función aceptarPedido llamada con código de pedido: ' + codigoPedido);
-    console.log('Función aceptarPedido llamada con código de pedido: ' + codigoPedido);
-
-    // Tu llamada AJAX aquí
-    $.ajax({
-        url: '/ruta/a/tu/api',  // Reemplaza esto con la URL de tu API
-        type: 'POST',  // Reemplaza esto con el tipo de solicitud que necesitas
-        data: {
-            'codigoPedido': codigoPedido
-        },
-        success: function(response) {
-            // Aquí puedes manejar la respuesta de tu API
-            console.log(response);
-        },
-        error: function(xhr, textStatus, error) {
-            Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-                text: 'Hubo un error al guardar el pedido aceptado. Por favor, inténtalo de nuevo.',
-                confirmButtonColor: '#d33'
-            });
+function aceptarPedido(codigo) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¿Estás seguro de que quieres aceptar el pedido " + codigo + "?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "aceptarPedido/"+codigo;
         }
-    });
+    })
 }
 </script>
 {% endblock %}
