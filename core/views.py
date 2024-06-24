@@ -498,6 +498,7 @@ def crudProductos(request):
     # Renderiza el template 'productos.html' y pasa la lista de productos como contexto
     return render(request, 'core/crudProductos.html', data)
 
+@login_required
 def carrito(request):
     cliente = User.objects.get(username=request.user.username)
     CarritoCliente = Carrito.objects.filter(cliente=cliente, vigente=True)
