@@ -76,7 +76,7 @@
         {% if user.is_authenticated %}
         {% if 'cliente' in user.groups.all|join:',' %}
           <a class="nav-link {% if '/carrito' in request.path %}active{% endif %}" href="{% url 'carrito' %}">Carrito <i class="fas fa-shopping-cart"></i></a>
-          <a class="nav-link {% if '/carrito' in request.path %}active{% endif %}" href="{% url 'compras' %}">Mis Compras </a>
+          <a class="nav-link {% if '/compras' in request.path %}active{% endif %}" href="{% url 'compras' %}">Mis Compras </a>
           <a class="nav-link {% if '/producto' in request.path %}active{% endif %}" href="{% url 'producto' %}">Productos</a>
         {% endif %}
         <a class="nav-link {% if '/perfil' in request.path %}active{% endif %}" href="{% url 'perfil' %}">Perfil</a>
