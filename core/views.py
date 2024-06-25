@@ -722,6 +722,7 @@ def misPedidos(request):
 def bodega(request):
     return render(request,'core/bodega.html')
 
+@group_required('cliente')
 def formularioDespacho(request):
     return render(request,'core/formularioDespacho.html')
 
@@ -750,7 +751,7 @@ def pedidos_tomados(request):
     return render(request, 'core/pedidos_tomados.html', {'boleta_compras': boleta_compras})
 
 
-
+@group_required('vendedor')
 def asignarPedidos(request):
     return render(request,'core/asignarPedidos.html')
 
