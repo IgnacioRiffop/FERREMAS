@@ -42,7 +42,11 @@
       <div class="col-sm-6">
         <div class="row producto">
           <div class="card shadow-sm" style="width: auto;">
-            <img src="{% static 'core/img/'|add:producto.imagen %}" class="responsive">
+            {% if producto.imagen %}
+            <img src="{% static 'core/img/'|add:producto.imagen %}" class="responsive" width="100%" height="225">
+            {% else %}
+            <img src="{% static 'core/img/nofoto.jpg' %}" class="responsive" width="100%" height="225">
+            {% endif %}
           </div>
         </div>
       </div>
