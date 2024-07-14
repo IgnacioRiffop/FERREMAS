@@ -38,7 +38,7 @@ class UserForm(forms.ModelForm):
 class PagoForm (ModelForm):
     class Meta:
         model = Boleta
-        fields = ['codigo', 'total', 'transferencia', 'validacion', 'imagen']
+        fields = ['total', 'transferencia', 'validacion', 'imagen']
 
 class ProductoForm(forms.Form):
     nombre = forms.CharField(min_length=5, max_length=100)
