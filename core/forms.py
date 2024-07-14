@@ -38,12 +38,12 @@ class UserForm(forms.ModelForm):
 class PagoForm (ModelForm):
     class Meta:
         model = Boleta
-        fields = ['total', 'transferencia', 'validacion', 'imagen']
+        fields = ['transferencia', 'validacion', 'imagen']
 
 class ProductoForm(forms.Form):
     nombre = forms.CharField(min_length=5, max_length=100)
     id_marca = forms.IntegerField()
-    nombre_marca = forms.CharField(required=False)
+    nombre_marca = forms.CharField(required=False, widget=forms.HiddenInput())
     precio = forms.IntegerField(min_value=1)
     stock = forms.IntegerField(min_value=0)
     imagen = forms.ImageField(required=False)
