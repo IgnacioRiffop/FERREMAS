@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-05-2024 a las 06:58:05
+-- Tiempo de generación: 15-07-2024 a las 01:59:16
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 7.4.28
 
@@ -283,15 +283,15 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$216000$cLI6y2EcehAT$gfbnyWVa1p4MjPrwxaJiqLAWQ2/VbbUsWjHvoGkYnvk=', '2024-05-27 01:15:37.485315', 1, 'admin', 'ignacio', 'riffo', 'ig.riffo@duocuc.cl', 1, 1, '2024-05-07 20:30:16.000000'),
-(2, 'pbkdf2_sha256$216000$31qf8qRXrSfC$rJ4ywWiRWUeYi01YKtH0WgtbGyQNSzl512MnFXPtaqw=', '2024-05-27 00:50:52.814577', 0, 'nacho', 'Ignacio', 'Riffo', 'ignacio.drp@gmail.com', 0, 1, '2024-05-07 23:50:38.353010'),
+(1, 'pbkdf2_sha256$216000$cLI6y2EcehAT$gfbnyWVa1p4MjPrwxaJiqLAWQ2/VbbUsWjHvoGkYnvk=', '2024-07-14 23:52:27.232822', 1, 'admin', 'ignacio', 'riffo', 'ig.riffo@duocuc.cl', 1, 1, '2024-05-07 20:30:16.000000'),
+(2, 'pbkdf2_sha256$216000$31qf8qRXrSfC$rJ4ywWiRWUeYi01YKtH0WgtbGyQNSzl512MnFXPtaqw=', '2024-07-14 16:34:52.688508', 0, 'nacho', 'Ignacio', 'Riffo', 'ignacio.drp@gmail.com', 0, 1, '2024-05-07 23:50:38.353010'),
 (3, 'pbkdf2_sha256$216000$8u5eBqitcfEm$Iw+MnPcow5VWFLMKtCe7FcG/3LKIrNLy2WHr5iyvvtU=', NULL, 0, 'david', '', '', 'david@gmail.com', 0, 1, '2024-05-08 18:26:54.000000'),
 (4, 'pbkdf2_sha256$216000$yHf8vfe91XWI$ydxZPUb/qfk+qjyNMOUEXgf3p4lc3S6d5eajiGkaV+w=', '2024-05-24 17:11:36.935677', 0, 'paola', 'paola', 'uruutia', 'paola@gmail.com', 0, 1, '2024-05-24 17:11:36.734769'),
 (5, 'pbkdf2_sha256$216000$1vSgD1Ep321R$fveVnzOMwHne6s58Htx971KPiilOijTFA//V1YC7lSw=', '2024-05-24 19:12:53.611473', 0, 'fabian', 'fabian andres', 'bravo rivas', 'fabian@gmail.com', 0, 1, '2024-05-24 19:12:53.417485'),
 (6, 'pbkdf2_sha256$216000$8SNJlFTNXKBH$LBHv3kll92DRgLCKRyBWClXSF+yAAKxG+V1/9TWidHw=', '2024-05-27 01:15:56.130688', 0, 'daniel', 'daniel', 'galvez', 'daniel@gmail.com', 0, 1, '2024-05-24 19:19:27.675685'),
 (7, 'pbkdf2_sha256$216000$Rp2yfEfLfwny$eBK8afDWG4+2VXpB8A1PhepxPuPDLBvP1Q2m9pB6qsY=', '2024-05-24 19:20:17.673285', 0, 'joaquin', 'joaquin', 'lopez', 'joaquin@gmail.com', 0, 1, '2024-05-24 19:20:17.470271'),
-(8, 'pbkdf2_sha256$216000$SaCWQ8IA0j0q$ffYtj4dFSVjgT2IlrBotPPMTkfYVhkXYtCheUBWOmJA=', '2024-05-27 01:17:05.532068', 0, 'bodeguero', 'francisco', 'vera', 'fvera@gmail.com', 0, 1, '2024-05-26 22:53:03.417948'),
-(9, 'pbkdf2_sha256$216000$iBXyYeCFcBFl$Zl/o5ezzLGPTvKnr9i9TvBIXmxLWhr5ykcjaH3iqp74=', '2024-05-27 00:52:36.289479', 0, 'contador', 'david', 'espinosa', 'da@gmail.com', 0, 1, '2024-05-27 00:30:43.504543');
+(8, 'pbkdf2_sha256$216000$SaCWQ8IA0j0q$ffYtj4dFSVjgT2IlrBotPPMTkfYVhkXYtCheUBWOmJA=', '2024-07-14 16:59:52.643596', 0, 'bodeguero', 'francisco', 'vera', 'fvera@gmail.com', 0, 1, '2024-05-26 22:53:03.417948'),
+(9, 'pbkdf2_sha256$216000$iBXyYeCFcBFl$Zl/o5ezzLGPTvKnr9i9TvBIXmxLWhr5ykcjaH3iqp74=', '2024-07-14 16:43:01.198769', 0, 'contador', 'david', 'espinosa', 'da@gmail.com', 0, 1, '2024-05-27 00:30:43.504543');
 
 -- --------------------------------------------------------
 
@@ -357,12 +357,14 @@ CREATE TABLE `core_boleta` (
 --
 
 INSERT INTO `core_boleta` (`id`, `codigo`, `total`, `imagen`, `transferencia`, `validacion`, `aceptado`, `bodeguero_id`) VALUES
-(6, '35312', 2480, '', 1, 0, 0, NULL),
+(6, '35312', 12345, 'IMG_2554_L7pMJD4.PNG', 1, 1, 0, NULL),
 (8, 'b4e2d', 3870, 'IMG_2554.PNG', 1, 1, 1, 8),
 (9, 'e2a3a', 5170, '', 0, 1, 1, 8),
 (10, '4b0c9', 5990, 'IMG_2554_oJhDHq0.PNG', 1, 0, 0, NULL),
 (11, '59ea4', 1980, '', 1, 0, 0, NULL),
-(12, '85973', 1990, '', 0, 1, 0, NULL);
+(12, '85973', 1990, '', 0, 1, 1, 8),
+(13, 'cbb4f', 10930, 'CP36.png', 1, 0, 0, NULL),
+(14, 'eab57', 14990, '', 0, 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -392,7 +394,10 @@ INSERT INTO `core_carrito` (`id`, `producto`, `cantidad`, `vigente`, `cliente_id
 (37, 1, 1, 0, 2),
 (38, 7, 1, 0, 2),
 (39, 2, 2, 0, 2),
-(40, 1, 1, 0, 2);
+(40, 1, 1, 0, 2),
+(48, 1, 4, 0, 2),
+(49, 2, 3, 0, 2),
+(50, 4, 1, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -424,7 +429,10 @@ INSERT INTO `core_compra` (`id`, `codigo`, `retiro`, `direccion`, `fecha`, `carr
 (19, 'e2a3a', 0, 'av las nieves 02196', '2024-05-23', 37, 2, NULL),
 (20, '4b0c9', 1, '', '2024-05-23', 38, 2, 4),
 (21, '59ea4', 0, 'av las nieves 02196', '2024-05-23', 39, 2, NULL),
-(22, '85973', 1, '', '2024-05-23', 40, 2, 3);
+(22, '85973', 1, '', '2024-05-23', 40, 2, 3),
+(23, 'cbb4f', 0, 'Av las nieves 02196', '2024-06-19', 48, 2, NULL),
+(24, 'cbb4f', 0, 'Av las nieves 02196', '2024-06-19', 49, 2, NULL),
+(25, 'eab57', 1, '', '2024-06-19', 50, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -450,7 +458,10 @@ INSERT INTO `core_mensajecontacto` (`id`, `nombre`, `correo`, `telefono`, `asunt
 (1, 'ignacio', 'ignacio.drp@gmail.com', '968372903', 'Presupuesto martillo', 'hgola mundo'),
 (2, 'ignacio', 'ignacio.drp@gmail.com', '968372903', 'Presupuesto martillo', 'hola mundo'),
 (3, 'ignacio', 'ignacio.drp@gmail.com', '968372903', 'Presupuesto martillo', 'jhbkhbkbjbkjbjbjkbjkbjk'),
-(4, 'ignacio', 'ignacio.drp@gmail.com', '968372903', 'Presupuesto martillo', 'jfsajkjsadksdak');
+(4, 'ignacio', 'ignacio.drp@gmail.com', '968372903', 'Presupuesto martillo', 'jfsajkjsadksdak'),
+(5, 'ignacio david riffo peña', 'ignacio.drp@gmail.com', '968372903', 'Presupuesto martillo', 'Caso de prueba 41'),
+(6, 'ignacio david riffo peña', 'ignacio.drp@gmail.com', '968372903', 'Presupuesto martillo', 'Caso de prueba 41'),
+(7, 'ignacio david riffo peña', 'ignacio.drp@gmail.com', '968372903', 'Presupuesto martillo', 'Caso de prueba 41');
 
 -- --------------------------------------------------------
 
@@ -608,6 +619,7 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('1124t96bnjn6ifpkk6xsegh6ducw4619', '.eJxVjEEOwiAQRe_C2pBSCgMu3XsGwgyMVA0kpV0Z765NutDtf-_9lwhxW0vYel7CnMRZjOL0u2GkR647SPdYb01Sq-syo9wVedAury3l5-Vw_w5K7OVbA3oiqy1PNNHogI3TlIwyDCoxaK_ZM-sIDj068moAa73KFtkBDizeH-otOAc:1sLtud:YAiTRxRvppD320X5U_rbVb5srA4SLAIPD3obzT2oWLU', '2024-07-09 00:19:55.067825'),
 ('hmbw4yh80wrc9dnhi9pbs3g0qo7dmg2m', '.eJxVjEsOwjAMBe-SNYpM66Q1S_Y9Q-S4NimgVupnhbg7VOoCtm9m3ssl3taStkXnNPTu4lp3-t0yy0PHHfR3Hm-Tl2lc5yH7XfEHXXw39fq8Hu7fQeGlfGsiQqNKgpIxKMQKLaO0TZOlqWuIAmpKEDUgnc2w4owEFOo2BGZ07w_ipDeU:1sBOz3:yPN-PRsztEE74WT8v3yHUaM7F-5D0xzuknHxQUq9GV0', '2024-06-10 01:17:05.540073'),
 ('qx4uw2dskpmjqu1tw14vqvhpo3fgkpv3', 'e30:1s4l4h:aGhLIYcNQK5Yc8sM41e2judc0DxIu5ysY1A8tNkv_xQ', '2024-05-22 17:27:27.336051');
 
@@ -767,31 +779,31 @@ ALTER TABLE `auth_user_user_permissions`
 -- AUTO_INCREMENT de la tabla `core_boleta`
 --
 ALTER TABLE `core_boleta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `core_carrito`
 --
 ALTER TABLE `core_carrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `core_compra`
 --
 ALTER TABLE `core_compra`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `core_mensajecontacto`
 --
 ALTER TABLE `core_mensajecontacto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `core_sucursal`
 --
 ALTER TABLE `core_sucursal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `django_admin_log`
